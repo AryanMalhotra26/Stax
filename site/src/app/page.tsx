@@ -1,5 +1,8 @@
 import dynamic from "next/dynamic";
 import { Nav } from "@/components/chrome/Nav";
+import { SmoothScroll } from "@/components/motion/SmoothScroll";
+import { ScrollSpine } from "@/components/motion/ScrollSpine";
+import { Bridge } from "@/components/motion/Bridge";
 import { Footer } from "@/components/chrome/Footer";
 import { Hero } from "@/components/sections/Hero";
 import { ProofStrip } from "@/components/sections/ProofStrip";
@@ -32,14 +35,18 @@ const AmenityPan = dynamic(() =>
 export default function HomePage() {
   return (
     <>
+      <SmoothScroll />
+      <ScrollSpine />
       <Nav variant="overlay" />
       <main id="main">
         <Hero />
         <ProofStrip />
         <Positioning />
         <PlanPreview />
+        <Bridge slug="exterior-garden" from="paper" to="charcoal" />
         <AmenityPan />
         <Neighbourhood />
+        <Bridge slug="exterior-evening" from="charcoal" to="bone" />
         <GalleryTeaser />
         <Assurance />
         <FaqSection tone="paper" />

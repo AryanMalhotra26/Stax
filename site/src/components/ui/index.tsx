@@ -1,5 +1,6 @@
 import Link from "next/link";
 import type { ComponentProps, ReactNode } from "react";
+import { SplitWords } from "@/components/motion/SplitWords";
 
 /* -------------------------------------------------------------------------
    Button
@@ -114,6 +115,7 @@ export function SectionHead({
   const dark = tone === "dark";
   return (
     <div
+      id={headingId}
       className={`border-t pt-5 md:pt-6 ${dark ? "border-white/15" : "border-ink/15"} ${className}`}
     >
       <div className="flex items-baseline gap-4">
@@ -134,11 +136,8 @@ export function SectionHead({
       </div>
 
       <div className="mt-5 flex flex-wrap items-end justify-between gap-x-8 gap-y-4">
-        <h2
-          id={headingId}
-          className={`text-h2 max-w-2xl text-balance ${dark ? "text-white" : ""}`}
-        >
-          {heading}
+        <h2 className={`text-h2 max-w-2xl text-balance ${dark ? "text-white" : ""}`}>
+          {typeof heading === "string" ? <SplitWords text={heading} /> : heading}
         </h2>
         {action}
       </div>

@@ -1,17 +1,33 @@
 "use client";
 
-import { animate, motion, useReducedMotion } from "motion/react";
-import { useEffect, useRef, type ReactNode } from "react";
+import { useEffect, useRef, type ElementType, type ReactNode } from "react";
+import { animate, useReducedMotion } from "motion/react";
 
 /**
- * Section reveal (motion inventory #2). `whileInView` with `once: true` —
- * Motion rather than ScrollTrigger, because pulling ScrollTrigger in for a
- * fade costs more JS than the fade is worth (§4).
+ * Section reveal — scroll-linked, not triggered.
+ *
+ * This used to be a Motion `whileInView` with `once: true`: an animation that
+ * fires when an element crosses a threshold and then plays on its own clock.
+ * That is what makes a long page feel like a stack of separate blocks — each
+ * section announces itself independently of the one before it.
+ *
+ * It is now driven by `animation-timeline: view()` (see `.sd-rise` in
+ * globals.css), so the movement is tied to scroll position: content assembles
+ * as you descend and comes apart if you go back, and every element on the page
+ * shares one timing model rather than firing at each other.
+ *
+ * Doing this in CSS rather than GSAP is not just a nicety. A statically
+ * imported GSAP gets hoisted by Turbopack into a chunk shared by *every*
+ * route — measured at +43KB on the ad landing pages, which never use it. The
+ * native timeline costs nothing and behaves identically.
+ *
+ * `delay` shifts the element's animation range rather than postponing a timer,
+ * so staggered siblings still stagger.
  */
 export function Reveal({
   children,
   delay = 0,
-  y = 24,
+  y = 26,
   className = "",
   as = "div",
 }: {
@@ -19,36 +35,32 @@ export function Reveal({
   delay?: number;
   y?: number;
   className?: string;
-  as?: "div" | "section" | "li" | "article";
+  as?: ElementType;
 }) {
-  const reduce = useReducedMotion();
-  const Component = motion[as];
-
-  if (reduce) {
-    const Plain = as;
-    return <Plain className={className}>{children}</Plain>;
-  }
+  const Tag = as as ElementType;
 
   return (
-    <Component
-      className={className}
-      initial={{ opacity: 0, y }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, amount: 0.3 }}
-      transition={{ duration: 0.7, delay, ease: [0.16, 1, 0.3, 1] }}
+    <Tag
+      className={`sd-rise ${className}`}
+      style={
+        {
+          "--rise-delay": `${Math.round(delay * 100)}`,
+          "--rise-y": `${y}px`,
+        } as React.CSSProperties
+      }
     >
       {children}
-    </Component>
+    </Tag>
   );
 }
 
 /**
  * Stat counter (motion inventory #4). Counts once on enter, then stops.
  *
- * The tween writes straight to `textContent` via a ref rather than through
- * React state — a state update per frame at 60fps for four counters at once
- * is a measurable INP cost for an effect that is pure decoration. Tabular
- * numerals keep the width fixed so the proof strip never reflows mid-count.
+ * Deliberately still triggered rather than scrubbed: a counter that runs
+ * backwards when you scroll up reads as a bug, not a flourish. The tween
+ * writes straight to `textContent` via a ref, so several counters at 60fps
+ * cost no React renders.
  */
 export function CountUp({
   to,
@@ -68,8 +80,6 @@ export function CountUp({
     const el = ref.current;
     let controls: { stop: () => void } | null = null;
 
-    // Reset to zero only once we know we can animate — SSR keeps the real
-    // value so it is correct with JS off or on reduced motion.
     el.textContent = "0";
 
     const observer = new IntersectionObserver(
@@ -96,14 +106,10 @@ export function CountUp({
     return () => {
       observer.disconnect();
       controls?.stop();
-      // Restore the true value if we're torn down mid-count — otherwise a
-      // navigation away at the wrong moment leaves a stale "0" in the DOM.
       if (!done.current) el.textContent = to.toLocaleString();
     };
   }, [to, duration, reduce]);
 
-  // Server-rendered with the final value, so it is correct with JS disabled
-  // and for anyone on reduced motion.
   return (
     <span ref={ref} className={`tnum ${className}`}>
       {to.toLocaleString()}

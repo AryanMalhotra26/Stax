@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Nav } from "@/components/chrome/Nav";
+import { SmoothScroll } from "@/components/motion/SmoothScroll";
 import { Footer } from "@/components/chrome/Footer";
 import { Render } from "@/components/ui/Render";
 import { Eyebrow } from "@/components/ui";
@@ -27,6 +28,7 @@ export const metadata: Metadata = {
 export default function ResidencesPage() {
   return (
     <>
+      <SmoothScroll />
       <Nav variant="overlay" />
       <main id="main">
         <section className="relative h-[46vh] min-h-[22rem] flex items-end overflow-hidden bg-charcoal">
