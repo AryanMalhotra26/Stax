@@ -10,8 +10,8 @@
 
 @theme {
   /* --- brand core --- */
-  --color-bone: #ffffff;
-  --color-paper: #f7f7f7;
+  --color-bone: #fdfcfb;
+  --color-paper: #f6f2ee;
   --color-grey: #e5e6e6;
   --color-grey-mid: #c9caca;
   --color-charcoal: #3e3d3d;
@@ -71,6 +71,15 @@
   --text-poster--line-height: 0.84;
   --text-poster--letter-spacing: -0.045em;
   --text-poster--font-weight: 700;
+
+  /* Hero display. to-top.ch sets its headline at 157px on a 1440 viewport —
+     ~11vw — with -0.04em tracking and 1.0 leading. Stax's previous hero
+     topped out at 9rem, which is why it read as a large label rather than as
+     the artwork. This is that scale in the Jost cut. */
+  --text-mega: clamp(3.25rem, 11vw, 10.5rem);
+  --text-mega--line-height: 0.86;
+  --text-mega--letter-spacing: -0.05em;
+  --text-mega--font-weight: 700;
 
   --text-stat: clamp(2.25rem, 4.6vw, 3.75rem);
   --text-stat--line-height: 0.9;
@@ -247,18 +256,22 @@
    ========================================================================== */
 
 @utility section-y {
-  padding-block: 3.25rem;
+  padding-block: 5rem;
 
   @media (width >= 48rem) {
-    padding-block: 4.5rem;
+    padding-block: 7.5rem;
+  }
+
+  @media (width >= 64rem) {
+    padding-block: 9rem;
   }
 }
 
 @utility section-y-sm {
-  padding-block: 2.5rem;
+  padding-block: 3.5rem;
 
   @media (width >= 48rem) {
-    padding-block: 3.25rem;
+    padding-block: 5rem;
   }
 }
 
@@ -606,4 +619,50 @@
     transparent 14px,
     transparent 24px
   );
+}
+
+
+/* ==========================================================================
+   Ghost numeral.
+
+   to-top.ch sets the index of each numbered block at 432px in the display
+   face at 5-20% white, sitting behind the content as a watermark. It is the
+   single loudest thing in their layout and costs one element.
+
+   Stax carried the same information at 11px in an eyebrow, which is why the
+   sections read as a document rather than as a designed page. Same device
+   here in Jost, clamped so it scales with the viewport instead of overflowing
+   a phone.
+   ========================================================================== */
+
+@utility ghost-num {
+  position: absolute;
+  z-index: 0;
+  font-size: clamp(9rem, 22vw, 27rem);
+  font-weight: 700;
+  line-height: 0.72;
+  letter-spacing: -0.06em;
+  font-variant-numeric: tabular-nums;
+  pointer-events: none;
+  user-select: none;
+}
+
+/* ==========================================================================
+   Generous block padding.
+
+   Their content containers run 80px of padding at 1248px wide. Stax was
+   using 20-24px, which is what makes a block read as a card in a CMS rather
+   than as a composed panel.
+   ========================================================================== */
+
+@utility block-pad {
+  padding: 1.75rem;
+
+  @media (width >= 48rem) {
+    padding: 3rem;
+  }
+
+  @media (width >= 64rem) {
+    padding: 4.5rem;
+  }
 }

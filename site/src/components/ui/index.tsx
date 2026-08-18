@@ -116,30 +116,40 @@ export function SectionHead({
   return (
     <div
       id={headingId}
-      className={`border-t pt-5 md:pt-6 ${dark ? "border-white/15" : "border-ink/15"} ${className}`}
+      className={`relative overflow-hidden border-t pt-5 md:pt-6 ${dark ? "border-white/15" : "border-ink/15"} ${className}`}
     >
-      <div className="flex items-baseline gap-4">
-        <span
-          className={`text-eyebrow tnum ${dark ? "text-white/35" : "text-ink-faint"}`}
-          aria-hidden="true"
-        >
-          {index}
-        </span>
-        <span className="stax-mark text-brick" aria-hidden="true">
-          <i />
-          <i />
-          <i />
-        </span>
-        <span className={`text-eyebrow uppercase ${dark ? "text-white/55" : "text-ink-soft"}`}>
-          {eyebrow}
-        </span>
-      </div>
+      {/* Ghost numeral. to-top.ch sets its block index at 432px in the display
+          face at 5-20% opacity, behind the content. Stax was carrying the same
+          information at 11px, which is why these sections read as a document
+          rather than a designed page. Bleeds off the right edge on purpose —
+          the crop is what stops it looking like a placed graphic. */}
+      <span
+        aria-hidden="true"
+        className={`ghost-num top-1/2 -right-4 -translate-y-1/2 md:-right-6 ${
+          dark ? "text-white/8" : "text-ink/6"
+        }`}
+      >
+        {index}
+      </span>
 
-      <div className="mt-5 flex flex-wrap items-end justify-between gap-x-8 gap-y-4">
-        <h2 className={`text-h2 max-w-2xl text-balance ${dark ? "text-white" : ""}`}>
-          {typeof heading === "string" ? <SplitWords text={heading} /> : heading}
-        </h2>
-        {action}
+      <div className="relative z-10">
+        <div className="flex items-baseline gap-4">
+          <span className="stax-mark text-brick" aria-hidden="true">
+            <i />
+            <i />
+            <i />
+          </span>
+          <span className={`text-eyebrow uppercase ${dark ? "text-white/55" : "text-ink-soft"}`}>
+            {eyebrow}
+          </span>
+        </div>
+
+        <div className="mt-6 flex flex-wrap items-end justify-between gap-x-8 gap-y-5 md:mt-8">
+          <h2 className={`text-h2 max-w-2xl text-balance ${dark ? "text-white" : ""}`}>
+            {typeof heading === "string" ? <SplitWords text={heading} /> : heading}
+          </h2>
+          {action}
+        </div>
       </div>
     </div>
   );

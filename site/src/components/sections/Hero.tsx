@@ -7,26 +7,28 @@ import { SITE } from "@/lib/site";
 /**
  * Home hero. [LCP]
  *
- * Image-led, not block-led. The render occupies the full frame and the type
- * sits on it — the pattern every well-made development site uses (ERA
- * Residence, Base31, Scape). An earlier version put the headline on a
- * half-screen brick slab; a large flat field of a mid-saturation red flattens
- * the render and reads cheap, so the accent is now a thin band and a button
- * rather than a wall.
+ * Recomposed to to-top.ch's structure, which is the part of that page doing
+ * the most work and the part this hero previously ignored.
  *
- * Depth comes from to-top.ch's layered-plate treatment. They separate a
- * mountain range into six images and scrub each at a different `yPercent`;
- * there is one render here rather than a plate stack, so the same differential
- * is applied to the elements that already sit at different z-heights. Each
- * declares itself with `data-px` and ParallaxHero reads them — the render lags
- * behind the page, the type leads it, and the cue sinks hardest.
+ * Their hero is *not* a photograph with type laid over it. It is a flat field
+ * of brand colour carrying a very large centred headline, with the illustrated
+ * range entering as a band across the lower third — 157px display type at
+ * -0.04em on 1440, then the image below it. The type owns the screen and the
+ * image supports it.
  *
- * The render and scrim are oversized and offset so the translation never
- * exposes an edge, at both amplitude tiers: 12% overhang against 5.4% of
- * travel on a phone, 20% against 16.8% on desktop.
+ * The previous version here was a full-bleed render with a headline in the
+ * bottom-left corner and a ticker under it: the default treatment on every
+ * property site, which is exactly why it read as generic. This inverts it.
+ * The render becomes a band the type sits above rather than a backdrop the
+ * type fights, and the headline moves to `--text-mega` (~11vw, matching their
+ * ratio) so it is the artwork rather than a caption set large.
  *
- * Entrance is still a CSS keyframe with a 60ms stagger and the LCP image never
- * animates on load — the parallax only responds to scroll (§6.2 rule 1).
+ * The band's top edge dissolves into the charcoal field, so the building
+ * emerges from the colour the way their range does rather than starting at a
+ * hard seam.
+ *
+ * Depth still comes from ParallaxHero via `data-px`. Entrance is a CSS
+ * keyframe and the LCP image never animates on load (§6.2 rule 1).
  */
 
 const TICKER = [
@@ -49,65 +51,56 @@ export function Hero() {
       data-px-root
       className="relative flex min-h-dvh flex-col overflow-hidden bg-charcoal"
     >
-      <div data-px="render" className="absolute -inset-y-[12%] inset-x-0 md:-inset-y-[20%]">
-        <Render
-          media={media("exterior-lawn")}
-          sizes="100vw"
-          priority
-          className="absolute inset-0 block"
-          imgClassName="h-full w-full object-cover"
-        />
-      </div>
-
-      {/* Weighted to the bottom third so the sky and the building stay open. */}
-      <div
-        data-px="scrim"
-        className="absolute -inset-y-[12%] inset-x-0 bg-linear-to-t md:-inset-y-[20%] from-black/88 via-black/58 to-black/12 md:via-black/38 md:to-transparent"
-        aria-hidden="true"
-      />
-
-      <div className="container-stax relative flex flex-1 flex-col justify-end pt-28 pb-12 md:pb-16">
-        <p
-          data-px="badge"
-          data-px-fade
-          className="animate-rise stagger-1 mb-7 inline-flex w-fit items-center gap-2.5 bg-brick px-3.5 py-2 text-eyebrow uppercase whitespace-nowrap text-white"
-        >
-          <span className="h-1.5 w-1.5 shrink-0 bg-white" aria-hidden="true" />
-          Now registering · {SITE.facts.occupancyShort}
-        </p>
-
-        <h1
-          data-px="headline"
-          data-px-fade
-          aria-label={`${LINE_1} ${LINE_2}`}
-          className="animate-rise stagger-2 text-poster uppercase text-white"
-        >
-          <span className="block">
-            <SplitLetters text={LINE_1} />
-          </span>
-          <span className="block">
-            <SplitLetters text={LINE_2} startIndex={LINE_1.length} />
-          </span>
-        </h1>
-
-        <div className="mt-8 flex flex-col gap-8 lg:flex-row lg:items-end lg:justify-between lg:gap-12">
+      {/* ---- Type field ---------------------------------------------- */}
+      <div className="relative z-10 flex flex-1 items-center">
+        <div className="container-stax w-full py-14 text-center md:py-16">
           <p
+            data-px="badge"
+            data-px-fade
+            className="animate-rise stagger-1 mb-7 inline-flex items-center gap-2.5 bg-brick px-3.5 py-2 text-eyebrow uppercase whitespace-nowrap text-white"
+          >
+            <span className="h-1.5 w-1.5 shrink-0 bg-white" aria-hidden="true" />
+            Now registering · {SITE.facts.occupancyShort}
+          </p>
+
+          <h1
+            data-px="headline"
+            data-px-fade
+            aria-label={`${LINE_1} ${LINE_2}`}
+            className="animate-rise stagger-2 text-mega uppercase text-white"
+          >
+            <span className="block">
+              <SplitLetters text={LINE_1} />
+            </span>
+            <span className="block text-white/45">
+              <SplitLetters text={LINE_2} startIndex={LINE_1.length} />
+            </span>
+          </h1>
+
+          <div
             data-px="lede"
             data-px-fade
-            className="animate-rise stagger-3 max-w-lg text-lead text-white/80"
+            className="animate-rise stagger-3 mx-auto mt-8 max-w-xl"
           >
-            Brand-new rentals near Brock University — furnished, connected by a
-            complimentary shuttle, and built for the way students actually live.
-          </p>
+            <span
+              className="mx-auto mb-6 block h-px w-16 bg-brick"
+              aria-hidden="true"
+            />
+            <p className="text-lead text-white/70">
+              Brand-new rentals near Brock University — furnished, connected by
+              a complimentary shuttle, and built for the way students actually
+              live.
+            </p>
+          </div>
 
           <div
             data-px="cta"
             data-px-fade
-            className="animate-rise stagger-4 flex shrink-0 flex-col gap-3 sm:flex-row"
+            className="animate-rise stagger-4 mt-9 flex flex-col justify-center gap-3 sm:flex-row"
           >
             <Link
               href="/register"
-              className="group flex min-h-14 items-center justify-center gap-3 bg-brick px-7 text-[0.9375rem] font-bold uppercase tracking-wide text-white transition-colors duration-200 hover:bg-white hover:text-brick"
+              className="group flex min-h-14 items-center justify-center gap-3 bg-brick px-8 text-[0.9375rem] font-bold uppercase tracking-wide text-white transition-colors duration-200 hover:bg-white hover:text-brick"
             >
               Register your interest
               <svg
@@ -121,7 +114,7 @@ export function Hero() {
             </Link>
             <Link
               href="/residences"
-              className="flex min-h-14 items-center justify-center border border-white/45 px-7 text-[0.9375rem] font-bold uppercase tracking-wide text-white backdrop-blur-[2px] transition-colors duration-200 hover:bg-white hover:text-ink"
+              className="flex min-h-14 items-center justify-center border border-white/40 px-8 text-[0.9375rem] font-bold uppercase tracking-wide text-white transition-colors duration-200 hover:bg-white hover:text-ink"
             >
               Floor plans
             </Link>
@@ -129,27 +122,49 @@ export function Hero() {
         </div>
       </div>
 
-      {/* Scroll cue. Square rather than the reference's circle — the wordmark
-          is stacked blocks, so a circle would be the one round thing here. */}
-      <a
-        href="#main-story"
-        data-px="cue"
-        aria-label="Scroll to content"
-        className="hero-cue absolute right-5 bottom-24 z-10 hidden h-20 w-20 place-items-center border border-white/35 bg-black/25 text-white backdrop-blur-[2px] md:grid xl:right-8"
-      >
-        <svg
-          viewBox="0 0 12 26"
-          aria-hidden="true"
-          className="hero-cue-arrow h-6 w-3 fill-none stroke-current"
-          strokeWidth={1.5}
+      {/* ---- Render band --------------------------------------------- */}
+      <div className="relative h-[27vh] min-h-48 w-full shrink-0 overflow-hidden md:h-[32vh]">
+        <div
+          data-px="render"
+          className="absolute -inset-y-[12%] inset-x-0 md:-inset-y-[20%]"
         >
-          <path d="M6 0 V22 M1.5 17 L6 22 L10.5 17" />
-        </svg>
-      </a>
+          <Render
+            media={media("exterior-lawn")}
+            sizes="100vw"
+            priority
+            className="absolute inset-0 block"
+            imgClassName="h-full w-full object-cover"
+          />
+        </div>
+
+        {/* Dissolves the band's top edge into the field above, so the
+            building emerges from the colour instead of butting against it. */}
+        <div
+          data-px="scrim"
+          className="absolute inset-0 bg-linear-to-b from-charcoal via-charcoal/25 to-transparent"
+          aria-hidden="true"
+        />
+
+        <a
+          href="#main-story"
+          data-px="cue"
+          aria-label="Scroll to content"
+          className="hero-cue absolute top-6 left-1/2 z-10 hidden h-16 w-16 -translate-x-1/2 place-items-center border border-white/35 bg-charcoal/60 text-white backdrop-blur-[2px] md:grid"
+        >
+          <svg
+            viewBox="0 0 12 26"
+            aria-hidden="true"
+            className="hero-cue-arrow h-5 w-3 fill-none stroke-current"
+            strokeWidth={1.5}
+          >
+            <path d="M6 0 V22 M1.5 17 L6 22 L10.5 17" />
+          </svg>
+        </a>
+      </div>
 
       {/* The accent as a thin band rather than a wall — the one place brick
           runs edge to edge. Seam-free loop, no JS. */}
-      <div className="relative overflow-hidden bg-brick py-3.5">
+      <div className="relative shrink-0 overflow-hidden bg-brick py-3.5">
         <div className="ticker-track" aria-hidden="true">
           {[0, 1].map((copy) => (
             <div key={copy} className="flex shrink-0">
