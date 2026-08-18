@@ -53,11 +53,11 @@ export function Hero() {
     >
       {/* ---- Type field ---------------------------------------------- */}
       <div className="relative z-10 flex flex-1 items-center">
-        <div className="container-stax w-full py-14 text-center md:py-16">
+        <div className="container-stax w-full pt-28 pb-12 text-center md:pt-32 md:pb-16">
           <p
             data-px="badge"
             data-px-fade
-            className="animate-rise stagger-1 mb-7 inline-flex items-center gap-2.5 bg-brick px-3.5 py-2 text-eyebrow uppercase whitespace-nowrap text-white"
+            className="animate-rise stagger-1 mb-7 inline-flex max-w-full items-center gap-2 bg-brick px-3 py-1.5 text-[0.625rem] tracking-[0.14em] uppercase text-white md:gap-2.5 md:px-3.5 md:py-2 md:text-eyebrow"
           >
             <span className="h-1.5 w-1.5 shrink-0 bg-white" aria-hidden="true" />
             Now registering · {SITE.facts.occupancyShort}
@@ -72,7 +72,7 @@ export function Hero() {
             <span className="block">
               <SplitLetters text={LINE_1} />
             </span>
-            <span className="block text-white/45">
+            <span className="block text-white/55">
               <SplitLetters text={LINE_2} startIndex={LINE_1.length} />
             </span>
           </h1>

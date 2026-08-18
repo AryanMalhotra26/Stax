@@ -68,7 +68,11 @@ export function AmenityPan() {
     >
       <div
         ref={track}
-        className="flex gap-5 md:gap-0 md:h-dvh md:items-center px-5 md:px-0 py-16 md:py-0 overflow-x-auto md:overflow-visible snap-x snap-mandatory md:snap-none [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+        // scroll-pl matches the track padding. Without it, snap-mandatory
+        // aligns the first panel to the container edge rather than to the
+        // padding edge, so on a phone the heading sits flush at x=0 with no
+        // gutter and reads as clipped.
+        className="flex snap-x snap-mandatory scroll-pl-5 items-start gap-5 overflow-x-auto px-5 py-12 [scrollbar-width:none] md:h-dvh md:snap-none md:items-center md:gap-0 md:overflow-visible md:scroll-pl-0 md:px-0 md:py-0 [&::-webkit-scrollbar]:hidden"
       >
         {/* Intro panel — carries the heading so the pan starts with context */}
         <div className="shrink-0 w-[80vw] sm:w-[60vw] md:w-[42vw] lg:w-[34vw] snap-start md:px-14 lg:px-20 flex flex-col justify-center">

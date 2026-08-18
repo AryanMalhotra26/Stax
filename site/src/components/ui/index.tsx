@@ -119,13 +119,18 @@ export function SectionHead({
       className={`relative overflow-hidden border-t pt-5 md:pt-6 ${dark ? "border-white/15" : "border-ink/15"} ${className}`}
     >
       {/* Ghost numeral. to-top.ch sets its block index at 432px in the display
-          face at 5-20% opacity, behind the content. Stax was carrying the same
-          information at 11px, which is why these sections read as a document
-          rather than a designed page. Bleeds off the right edge on purpose —
-          the crop is what stops it looking like a placed graphic. */}
+          face at 5-20% opacity, behind the content, bled off the edge — the
+          crop is what stops it reading as a placed graphic.
+
+          Desktop only, and that is a layout constraint rather than a
+          preference: a watermark needs horizontal room the heading is not
+          using, and on a 375px column the heading wraps full-width straight
+          through it, which made the type unreadable. Below `md` the same
+          index becomes a large inline numeral in the eyebrow row instead —
+          the hierarchy survives, the collision does not. */}
       <span
         aria-hidden="true"
-        className={`ghost-num top-1/2 -right-4 -translate-y-1/2 md:-right-6 ${
+        className={`ghost-num top-1/2 hidden -translate-y-1/2 md:block md:-right-6 ${
           dark ? "text-white/8" : "text-ink/6"
         }`}
       >
@@ -133,7 +138,15 @@ export function SectionHead({
       </span>
 
       <div className="relative z-10">
-        <div className="flex items-baseline gap-4">
+        <div className="flex items-baseline gap-3 md:gap-4">
+          <span
+            aria-hidden="true"
+            className={`text-[2rem] leading-none font-bold tracking-tight tnum md:hidden ${
+              dark ? "text-white/25" : "text-ink/20"
+            }`}
+          >
+            {index}
+          </span>
           <span className="stax-mark text-brick" aria-hidden="true">
             <i />
             <i />

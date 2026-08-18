@@ -76,7 +76,7 @@
      ~11vw — with -0.04em tracking and 1.0 leading. Stax's previous hero
      topped out at 9rem, which is why it read as a large label rather than as
      the artwork. This is that scale in the Jost cut. */
-  --text-mega: clamp(3.25rem, 11vw, 10.5rem);
+  --text-mega: clamp(2.55rem, 11vw, 10.5rem);
   --text-mega--line-height: 0.86;
   --text-mega--letter-spacing: -0.05em;
   --text-mega--font-weight: 700;
@@ -638,7 +638,7 @@
 @utility ghost-num {
   position: absolute;
   z-index: 0;
-  font-size: clamp(9rem, 22vw, 27rem);
+  font-size: clamp(5.5rem, 22vw, 27rem);
   font-weight: 700;
   line-height: 0.72;
   letter-spacing: -0.06em;
