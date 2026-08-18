@@ -30,9 +30,10 @@ export function SmoothScroll() {
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
 
     const lenis = new Lenis({
-      // ~1s to settle. Long enough to read as eased, short enough that the
-      // page still feels responsive to a flick.
-      duration: 1.05,
+      // to-top.ch runs 2.3, which is a very heavy, almost cinematic settle —
+      // too slow here, where the page has a conversion job and a flick needs
+      // to feel answered. 1.5 takes most of that weight without the lag.
+      duration: 1.5,
       easing: (t: number) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
       smoothWheel: true,
       // Never on touch: it fights the platform's own momentum scrolling and

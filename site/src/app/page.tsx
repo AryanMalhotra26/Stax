@@ -25,6 +25,15 @@ const AmenityPan = dynamic(() =>
 );
 
 /**
+ * Hero depth. Dynamic for the same reason as the pan: a statically imported
+ * GSAP gets hoisted by Turbopack into a chunk shared by every route, and the
+ * ad landing pages must never pay for it.
+ */
+const ParallaxHero = dynamic(() =>
+  import("@/components/motion/ParallaxHero").then((m) => m.ParallaxHero),
+);
+
+/**
  * Home (§3.1).
  *
  * Layout-family rhythm, section by section: hero → stat row → split →
@@ -39,6 +48,7 @@ export default function HomePage() {
       <Nav variant="overlay" />
       <main id="main" className="relative">
         <Trail />
+        <ParallaxHero />
         <Hero />
         <ProofStrip />
         <Positioning />

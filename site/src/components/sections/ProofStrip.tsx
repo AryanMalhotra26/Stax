@@ -7,7 +7,7 @@ import { SITE } from "@/lib/site";
  */
 export function ProofStrip() {
   return (
-    <section aria-label="Key facts" className="bg-bone border-b border-line">
+    <section id="main-story" aria-label="Key facts" className="bg-bone border-b border-line">
       <div className="container-stax section-y-sm">
         <dl className="grid grid-cols-2 md:grid-cols-4 gap-x-6 gap-y-12">
           <Fact value={<CountUp to={SITE.facts.units} />} label="Suites" />

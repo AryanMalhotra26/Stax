@@ -2,6 +2,7 @@ import Link from "next/link";
 import { Render } from "@/components/ui/Render";
 import { SectionHead } from "@/components/ui";
 import { Reveal } from "@/components/motion/Reveal";
+import { CursorLens } from "@/components/motion/CursorLens";
 import { media } from "@/content/generated/media";
 
 /**
@@ -50,7 +51,11 @@ export function GalleryTeaser() {
           }
         />
 
+        {/* One follower for the whole grid, as to-top.ch does per
+            `.cursor-area` — a label chasing the pointer makes an image block
+            read as enterable rather than decorative. */}
         <Reveal delay={0.08}>
+          <CursorLens label="View gallery">
           <div className="mt-9 grid grid-cols-4 md:grid-cols-6 gap-2.5 md:gap-3.5 md:auto-rows-[8.5rem] lg:auto-rows-[9.25rem]">
             {TILES.map((tile) => (
               <Link
@@ -67,6 +72,7 @@ export function GalleryTeaser() {
               </Link>
             ))}
           </div>
+          </CursorLens>
         </Reveal>
       </div>
     </section>

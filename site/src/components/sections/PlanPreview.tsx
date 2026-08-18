@@ -12,6 +12,15 @@ import { FLOOR_PLANS, sqftRange } from "@/content/floorPlans";
  * Card hover is CSS only: scale on the image, 2px lift on the card (motion
  * inventory #5). Affordance, nothing more.
  */
+/**
+ * to-top.ch alternates the background of its four numbered service blocks
+ * (`.service-content-container` plus `.yellow` / `.mint-green` /
+ * `.light-mint-green`) so four identical rows stop reading as a table. Same
+ * rhythm here, stepped along the neutral ramp — the brick accent stays the
+ * only saturated thing on the page.
+ */
+const TONES = ["tonal-a", "tonal-b", "tonal-c", "tonal-d"] as const;
+
 export function PlanPreview() {
   return (
     <section className="bg-paper">
@@ -48,23 +57,35 @@ export function PlanPreview() {
                   </div>
                 </div>
 
-                <div className="mt-5 flex items-baseline justify-between gap-3">
-                  <h3 className="text-h3">{plan.name}</h3>
-                  <span className="text-sm text-ink-faint tnum whitespace-nowrap">
-                    {sqftRange(plan)} sq ft
-                  </span>
+                <div className={`${TONES[i % TONES.length]} p-5 md:p-6`}>
+                  <div className="mb-4 flex items-center gap-3 border-b border-ink/12 pb-3">
+                    <span className="text-eyebrow tnum text-ink-faint">
+                      {String(i + 1).padStart(2, "0")}
+                    </span>
+                    <span
+                      className="h-1.5 w-1.5 shrink-0 bg-brick"
+                      aria-hidden="true"
+                    />
+                  </div>
+
+                  <div className="flex items-baseline justify-between gap-3">
+                    <h3 className="text-h3">{plan.name}</h3>
+                    <span className="text-sm text-ink-faint tnum whitespace-nowrap">
+                      {sqftRange(plan)} sq ft
+                    </span>
+                  </div>
+
+                  <p className="mt-2 text-sm text-ink-soft tnum">
+                    {plan.bathrooms} bath · {plan.bedsPerUnit}{" "}
+                    {plan.bedsPerUnit === 1 ? "bed" : "beds"}
+                  </p>
+
+                  <p className="mt-4 text-sm font-semibold text-brick">
+                    {plan.startingRent
+                      ? `From $${plan.startingRent.toLocaleString()}/mo`
+                      : "Pricing Spring 2027"}
+                  </p>
                 </div>
-
-                <p className="mt-2 text-sm text-ink-soft tnum">
-                  {plan.bathrooms} bath · {plan.bedsPerUnit}{" "}
-                  {plan.bedsPerUnit === 1 ? "bed" : "beds"}
-                </p>
-
-                <p className="mt-4 text-sm font-semibold text-brick">
-                  {plan.startingRent
-                    ? `From $${plan.startingRent.toLocaleString()}/mo`
-                    : "Pricing Spring 2027"}
-                </p>
               </Link>
             </Reveal>
           ))}

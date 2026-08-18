@@ -500,3 +500,110 @@
 .lightbox-lock {
   overflow: hidden;
 }
+
+/* ==========================================================================
+   Per-letter display reveal — the cascade from to-top.ch, without its cost.
+
+   The reference splits every heading with GSAP SplitText and drives each
+   letter from a scrubbed ScrollTrigger. This is the same motion (rise out of
+   the line box, staggered by index) on the native scroll timeline: no JS, no
+   observer, and it runs on the compositor. Reserved for display-scale
+   headings — see SplitLetters.
+   ========================================================================== */
+
+.sd-letter {
+  display: inline-block;
+  overflow: clip;
+  /* Descenders would be sheared by the clip without this pad/pull pair. */
+  padding-bottom: 0.14em;
+  margin-bottom: -0.14em;
+}
+
+.sd-letter > span {
+  display: inline-block;
+  will-change: transform;
+}
+
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .sd-letter > span {
+      animation: word-rise linear both;
+      animation-timeline: view();
+      /* Tighter per-index offset than the word cascade — there are far more
+         letters than words, so the same step would run the tail of a long
+         heading past the end of its own range. */
+      animation-range: entry calc(3% + var(--i, 0) * 0.5%) cover
+        calc(30% + var(--i, 0) * 0.5%);
+    }
+  }
+}
+
+/* ==========================================================================
+   Hero scroll cue — the rotating circular mark.
+
+   to-top.ch parks a circle at the base of its hero, sets it to rotate(15deg)
+   and eases to 8deg on hover, then parallaxes it harder than anything else on
+   the page (yPercent 125) so it sinks as you leave. Same idea in the Stax
+   language: a square, because the wordmark is stacked blocks and a circle
+   would be the one round thing on the site.
+   ========================================================================== */
+
+.hero-cue {
+  transform: rotate(15deg);
+  transition: transform 0.8s var(--ease-out-expo);
+}
+
+.hero-cue:hover,
+.hero-cue:focus-visible {
+  transform: rotate(8deg);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-cue,
+  .hero-cue:hover {
+    transform: none;
+    transition: none;
+  }
+}
+
+@keyframes cue-bob {
+  from { transform: translateY(0); }
+  to   { transform: translateY(6px); }
+}
+
+.hero-cue-arrow {
+  animation: cue-bob 1.6s var(--ease-in-out-quart) infinite alternate;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-cue-arrow { animation: none; }
+}
+
+/* ==========================================================================
+   Tonal blocks.
+
+   The reference threads its four service blocks with one dashed amber line
+   and alternates the block background behind it — `.service-content-container`
+   plus `.yellow` / `.mint-green` / `.light-mint-green`. The alternation is
+   what stops four identical rows reading as a table.
+
+   Here the same rhythm runs on the neutral ramp, so the brick accent stays
+   the only saturated thing on the page.
+   ========================================================================== */
+
+@utility tonal-a { background-color: var(--color-bone); }
+@utility tonal-b { background-color: var(--color-paper); }
+@utility tonal-c { background-color: color-mix(in srgb, var(--color-grey) 45%, var(--color-paper)); }
+@utility tonal-d { background-color: color-mix(in srgb, var(--color-grey) 80%, var(--color-bone)); }
+
+/* Dashed connector, matching the trail language: the same 14/10 rhythm as
+   .trail-line so a block connector and the page trail read as one system. */
+.tonal-connector {
+  background-image: repeating-linear-gradient(
+    to bottom,
+    var(--color-brick) 0,
+    var(--color-brick) 14px,
+    transparent 14px,
+    transparent 24px
+  );
+}
