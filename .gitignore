@@ -1,0 +1,32 @@
+# Dependencies / build output
+node_modules/
+.next/
+out/
+*.tsbuildinfo
+next-env.d.ts
+
+# Local dev lead sink (see site/src/lib/leads.ts)
+.leads/
+
+# Secrets
+.env
+.env.local
+.env*.local
+
+# OS
+.DS_Store
+
+# ---------------------------------------------------------------------------
+# Source renders — 108MB of 8000-10000px originals.
+#
+# Deliberately excluded: the derived AVIF/WebP variants the site actually
+# serves are committed under site/public/renders (7.5MB) and site/public/team,
+# so the build and the deploy work without them. Keeping the originals out
+# keeps clones fast.
+#
+# They are only needed to re-run `npm run images` after adding or replacing a
+# render. If you want them versioned, use Git LFS:
+#   git lfs install && git lfs track "Images/*.jpg" && git add .gitattributes
+# then delete the line below.
+# ---------------------------------------------------------------------------
+Images/

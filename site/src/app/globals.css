@@ -1,0 +1,502 @@
+@import "tailwindcss";
+
+/* ==========================================================================
+   Stax design tokens
+   Palette is locked to the brand sheet: Light Grey #E5E6E6, Charcoal Grey
+   #3E3D3D, Brick Red #B8433D. One accent, held across the whole site (§6.5).
+   Radius is 0 everywhere — the logo is built from hard-edged stacked blocks
+   and the buildings are orthogonal. Rounding it would fight both.
+   ========================================================================== */
+
+@theme {
+  /* --- brand core --- */
+  --color-bone: #ffffff;
+  --color-paper: #f7f7f7;
+  --color-grey: #e5e6e6;
+  --color-grey-mid: #c9caca;
+  --color-charcoal: #3e3d3d;
+  --color-brick: #b8433d;
+
+  /* --- derived neutrals (charcoal ramp) --- */
+  --color-ink: #262525;
+  --color-ink-soft: #565454;
+  --color-ink-faint: #8a8787;
+  --color-line: #dcdddd;
+  --color-line-dark: #545252;
+
+  /* --- derived accent --- */
+  --color-brick-dark: #9c352f;
+  --color-brick-tint: #f6eceb;
+
+  /* --- type --- */
+  --font-display: var(--font-jost), "Futura", "Century Gothic", system-ui, sans-serif;
+  --font-sans: var(--font-jost), "Futura", "Century Gothic", system-ui, sans-serif;
+
+  /* Display scale — clamped so it never needs a breakpoint override.
+     Tight negative tracking is what makes a geometric sans read as a
+     display face rather than as body copy set large. */
+  --text-display: clamp(2.75rem, 7.2vw, 6.5rem);
+  --text-display--line-height: 0.94;
+  --text-display--letter-spacing: -0.035em;
+  --text-display--font-weight: 700;
+
+  --text-h1: clamp(2.25rem, 5vw, 4.25rem);
+  --text-h1--line-height: 0.98;
+  --text-h1--letter-spacing: -0.03em;
+  --text-h1--font-weight: 700;
+
+  --text-h2: clamp(1.75rem, 3.4vw, 2.875rem);
+  --text-h2--line-height: 1.04;
+  --text-h2--letter-spacing: -0.025em;
+  --text-h2--font-weight: 700;
+
+  --text-h3: clamp(1.25rem, 1.9vw, 1.625rem);
+  --text-h3--line-height: 1.15;
+  --text-h3--letter-spacing: -0.015em;
+  --text-h3--font-weight: 600;
+
+  --text-lead: clamp(1.0625rem, 1.45vw, 1.3125rem);
+  --text-lead--line-height: 1.5;
+  --text-lead--letter-spacing: -0.011em;
+
+  /* Eyebrow / label — the one place letter-spacing goes positive */
+  --text-eyebrow: 0.6875rem;
+  --text-eyebrow--line-height: 1;
+  --text-eyebrow--letter-spacing: 0.18em;
+  --text-eyebrow--font-weight: 600;
+
+  /* Poster scale — the hero headline is the artwork, not a label on it.
+     0.84 leading stacks the lines into a solid block of colour. */
+  --text-poster: clamp(2.9rem, 9.6vw, 9rem);
+  --text-poster--line-height: 0.84;
+  --text-poster--letter-spacing: -0.045em;
+  --text-poster--font-weight: 700;
+
+  --text-stat: clamp(2.25rem, 4.6vw, 3.75rem);
+  --text-stat--line-height: 0.9;
+  --text-stat--letter-spacing: -0.04em;
+  --text-stat--font-weight: 700;
+
+  /* --- motion --- */
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in-out-quart: cubic-bezier(0.76, 0, 0.24, 1);
+
+  /* --- layout --- */
+  --spacing-gutter: 1.5rem;
+  --radius-none: 0px;
+}
+
+/* ==========================================================================
+   Base
+   ========================================================================== */
+
+@layer base {
+  * {
+    border-color: var(--color-line);
+  }
+
+  html {
+    -webkit-text-size-adjust: 100%;
+    scroll-behavior: smooth;
+  }
+
+  /* Anchor jumps clear the fixed nav */
+  [id] {
+    scroll-margin-top: 6rem;
+  }
+
+  body {
+    background: var(--color-bone);
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+    font-synthesis-weight: none;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    overflow-x: hidden;
+  }
+
+  /* Prices, square footage, bed counts. Stops filter changes reflowing
+     card widths as digits swap (§6.5). */
+  .tnum,
+  table,
+  [data-numeric] {
+    font-variant-numeric: tabular-nums;
+    font-feature-settings: "tnum";
+  }
+
+  ::selection {
+    background: var(--color-brick);
+    color: #fff;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-brick);
+    outline-offset: 3px;
+  }
+
+  /* Hide focus rings for mouse users but never for keyboard */
+  :focus:not(:focus-visible) {
+    outline: none;
+  }
+}
+
+/* ==========================================================================
+   Hero entrance — CSS only, no JS. The LCP element itself never animates;
+   only the text around it does (§6.2 rule 1).
+   ========================================================================== */
+
+@keyframes stax-rise {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes stax-fade {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* Clip-reveal used for the one split headline on the site */
+@keyframes stax-line-reveal {
+  from {
+    transform: translateY(105%);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+
+.animate-rise {
+  animation: stax-rise 0.6s var(--ease-out-expo) both;
+}
+
+.animate-fade {
+  animation: stax-fade 0.8s var(--ease-out-expo) both;
+}
+
+/* 60ms stagger, applied by index */
+.stagger-1 { animation-delay: 0.06s; }
+.stagger-2 { animation-delay: 0.12s; }
+.stagger-3 { animation-delay: 0.18s; }
+.stagger-4 { animation-delay: 0.24s; }
+.stagger-5 { animation-delay: 0.30s; }
+.stagger-6 { animation-delay: 0.36s; }
+
+/* ==========================================================================
+   Utilities
+   ========================================================================== */
+
+@utility container-stax {
+  width: 100%;
+  max-width: 90rem;
+  margin-inline: auto;
+  padding-inline: 1.25rem;
+
+  @media (width >= 48rem) {
+    padding-inline: 2.5rem;
+  }
+
+  @media (width >= 90rem) {
+    padding-inline: 4rem;
+  }
+}
+
+/* The stacked-block motif from the logo, used as a section marker.
+   Three squares, descending opacity — reads as the "x" of the wordmark. */
+@utility stax-mark {
+  display: inline-flex;
+  gap: 3px;
+
+  & > i {
+    width: 7px;
+    height: 7px;
+    background: currentColor;
+    display: block;
+  }
+
+  & > i:nth-child(2) { opacity: 0.55; }
+  & > i:nth-child(3) { opacity: 0.25; }
+}
+
+/* Full-bleed escape from a container */
+@utility bleed {
+  width: 100vw;
+  margin-inline: calc(50% - 50vw);
+}
+
+/* Hairline rule that matches the section-marker language */
+@utility rule-t {
+  border-top: 1px solid var(--color-line);
+}
+
+/* ==========================================================================
+   Section rhythm
+   One scale, applied everywhere, so density is a single decision rather than
+   a per-section guess. Previously most sections carried 128px top and bottom
+   — 256px of padding against a 900px viewport, which is why nothing fitted on
+   one screen.
+   ========================================================================== */
+
+@utility section-y {
+  padding-block: 3.25rem;
+
+  @media (width >= 48rem) {
+    padding-block: 4.5rem;
+  }
+}
+
+@utility section-y-sm {
+  padding-block: 2.5rem;
+
+  @media (width >= 48rem) {
+    padding-block: 3.25rem;
+  }
+}
+
+/* ==========================================================================
+   Structure
+   ========================================================================== */
+
+/* Hairline column rules running the full height of a light section. Gives the
+   white areas an underlying grid to sit on so they read as composed rather
+   than as text dropped on a blank page. Purely decorative, zero DOM. */
+@utility grid-rules {
+  position: relative;
+
+  &::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    /* Two columns on a phone, four from tablet up — four 94px columns on a
+       375px screen reads as noise rather than structure. */
+    background-image: repeating-linear-gradient(
+      to right,
+      transparent 0,
+      transparent calc(50% - 1px),
+      var(--color-line) calc(50% - 1px),
+      var(--color-line) 50%
+    );
+    opacity: 0.55;
+
+    @media (width >= 48rem) {
+      background-image: repeating-linear-gradient(
+        to right,
+        transparent 0,
+        transparent calc(25% - 1px),
+        var(--color-line) calc(25% - 1px),
+        var(--color-line) 25%
+      );
+    }
+  }
+}
+
+@utility grid-rules-dark {
+  position: relative;
+
+  &::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background-image: repeating-linear-gradient(
+      to right,
+      transparent 0,
+      transparent calc(50% - 1px),
+      rgb(255 255 255 / 0.08) calc(50% - 1px),
+      rgb(255 255 255 / 0.08) 50%
+    );
+
+    @media (width >= 48rem) {
+      background-image: repeating-linear-gradient(
+        to right,
+        transparent 0,
+        transparent calc(25% - 1px),
+        rgb(255 255 255 / 0.08) calc(25% - 1px),
+        rgb(255 255 255 / 0.08) 25%
+      );
+    }
+  }
+}
+
+/* ==========================================================================
+   Scroll-driven animation
+   Uses native `animation-timeline`, so these run on the compositor with no
+   JS, no IntersectionObserver and no per-frame React work. Browsers without
+   support simply render the final state — the @supports guard means the
+   content is never hidden waiting for an animation that cannot run.
+   ========================================================================== */
+
+@keyframes reveal-mask {
+  from {
+    clip-path: inset(18% 0 0 0);
+    transform: scale(1.06);
+    opacity: 0;
+  }
+  to {
+    clip-path: inset(0 0 0 0);
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes reveal-rise {
+  from {
+    opacity: 0;
+    transform: translateY(22px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes drift {
+  from { transform: translateY(-3.5%); }
+  to   { transform: translateY(3.5%); }
+}
+
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    /* Image frames wipe up as they enter — reads as the photograph arriving
+       rather than a box fading in. */
+    .sd-mask {
+      animation: reveal-mask linear both;
+      animation-timeline: view();
+      animation-range: entry 5% cover 32%;
+    }
+
+    .sd-rise {
+      animation: reveal-rise linear both;
+      animation-timeline: view();
+      animation-range: entry 0% cover 26%;
+    }
+
+    /* Slow vertical drift inside an overflow-hidden frame. The image is
+       oversized by 108% so the travel never exposes an edge. */
+    .sd-drift {
+      animation: drift linear both;
+      animation-timeline: view();
+      animation-range: cover 0% cover 100%;
+      will-change: transform;
+    }
+  }
+}
+
+/* ==========================================================================
+   Poster utilities
+   ========================================================================== */
+
+/* A hard-edged panel that bleeds off the left viewport edge. The crop is the
+   point: type running off the page is what makes it read as a printed poster
+   rather than a centred web hero. */
+@utility panel-bleed-l {
+  margin-left: calc(50% - 50vw);
+  padding-left: calc(50vw - 50% + 1.25rem);
+
+  @media (width >= 48rem) {
+    padding-left: calc(50vw - 50% + 2.5rem);
+  }
+
+  @media (width >= 90rem) {
+    padding-left: calc(50vw - 50% + 4rem);
+  }
+}
+
+/* Offset block shadow — no blur, pure geometry. Used on selected pills and
+   the submit button so state changes feel physical. */
+@utility shadow-block {
+  box-shadow: 5px 5px 0 0 var(--color-ink);
+}
+
+@utility shadow-block-brick {
+  box-shadow: 5px 5px 0 0 var(--color-brick);
+}
+
+@utility shadow-block-white {
+  box-shadow: 5px 5px 0 0 #fff;
+}
+
+/* Ticker for the hero stat bar. Duplicated content + 50% translate = a seam
+   free loop with no JS. */
+@keyframes stax-ticker {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+
+.ticker-track {
+  display: flex;
+  width: max-content;
+  animation: stax-ticker 42s linear infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ticker-track {
+    animation: none;
+  }
+}
+
+/* ==========================================================================
+   Reduced motion — bail out entirely rather than shortening (§6.2 rule 4).
+   The JS side checks useReducedMotion() and skips the effect body; this
+   catches everything CSS-driven.
+   ========================================================================== */
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  .animate-rise,
+  .animate-fade {
+    animation: none;
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* ==========================================================================
+   Route transitions — native CSS, ~0 JS (motion inventory #10).
+   ========================================================================== */
+
+@view-transition {
+  navigation: auto;
+}
+
+::view-transition-old(root) {
+  animation: stax-fade 0.18s var(--ease-out-expo) reverse both;
+}
+
+::view-transition-new(root) {
+  animation: stax-fade 0.28s var(--ease-out-expo) both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  ::view-transition-old(root),
+  ::view-transition-new(root) {
+    animation: none;
+  }
+}
+
+/* Lightbox lock — set by the Flip gallery while an image is open */
+.lightbox-lock {
+  overflow: hidden;
+}
