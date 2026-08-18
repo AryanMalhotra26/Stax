@@ -21,8 +21,9 @@ import { SITE } from "@/lib/site";
  * declares itself with `data-px` and ParallaxHero reads them — the render lags
  * behind the page, the type leads it, and the cue sinks hardest.
  *
- * The render and scrim are deliberately oversized and offset (`-inset-y-[20%]`)
- * so a 12% translation never exposes an edge.
+ * The render and scrim are oversized and offset so the translation never
+ * exposes an edge, at both amplitude tiers: 12% overhang against 5.4% of
+ * travel on a phone, 20% against 16.8% on desktop.
  *
  * Entrance is still a CSS keyframe with a 60ms stagger and the LCP image never
  * animates on load — the parallax only responds to scroll (§6.2 rule 1).
@@ -48,7 +49,7 @@ export function Hero() {
       data-px-root
       className="relative flex min-h-dvh flex-col overflow-hidden bg-charcoal"
     >
-      <div data-px="render" className="absolute -inset-y-[20%] inset-x-0">
+      <div data-px="render" className="absolute -inset-y-[12%] inset-x-0 md:-inset-y-[20%]">
         <Render
           media={media("exterior-lawn")}
           sizes="100vw"
@@ -61,7 +62,7 @@ export function Hero() {
       {/* Weighted to the bottom third so the sky and the building stay open. */}
       <div
         data-px="scrim"
-        className="absolute -inset-y-[20%] inset-x-0 bg-linear-to-t from-black/88 via-black/58 to-black/12 md:via-black/38 md:to-transparent"
+        className="absolute -inset-y-[12%] inset-x-0 bg-linear-to-t md:-inset-y-[20%] from-black/88 via-black/58 to-black/12 md:via-black/38 md:to-transparent"
         aria-hidden="true"
       />
 

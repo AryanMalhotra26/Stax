@@ -44,13 +44,35 @@ const LAYERS: { attr: string; yPercent: number }[] = [
   { attr: "cue", yPercent: 64 },
 ];
 
+/**
+ * Phones get the same effect at 45% amplitude rather than no effect at all.
+ *
+ * The reference switches everything off below 990px, which is the wrong call
+ * on a student-housing site where most of the traffic is a phone — and it is
+ * not a performance argument either, since these are compositor transforms.
+ * What does not survive a small screen is the *travel*: 38% of a headline is
+ * most of a phone viewport, so the type would leave before it was read.
+ * Reducing the amplitude keeps the depth and loses the overshoot.
+ *
+ * Kept in step with the markup: the render wrapper is oversized to 12% below
+ * `md` and 20% at and above it, and each tier's travel is checked against its
+ * own overhang so no edge is exposed at either size.
+ */
+const MOBILE_SCALE = 0.45;
+
 export function ParallaxHero() {
   useEffect(() => {
     const mm = gsap.matchMedia();
 
     mm.add(
       {
+        // `isMobile` is not redundant. gsap.matchMedia only invokes the
+        // callback when at least one of its conditions matches, so a phone
+        // with motion enabled — isDesktop false, reduce false — would never
+        // run it at all. This guarantees exactly one size condition is always
+        // true, and it is how the tier is chosen below.
         isDesktop: "(min-width: 768px)",
+        isMobile: "(max-width: 767.98px)",
         reduce: "(prefers-reduced-motion: reduce)",
       },
       (ctx) => {
@@ -58,9 +80,10 @@ export function ParallaxHero() {
           isDesktop: boolean;
           reduce: boolean;
         };
-        // Pinning depth onto a phone fights the platform's own scroll, and a
-        // reduced-motion visitor asked for none of this.
-        if (!isDesktop || reduce) return;
+        // A reduced-motion visitor asked for none of this. Everyone else gets
+        // it, phone included — only the amplitude changes.
+        if (reduce) return;
+        const scale = isDesktop ? 1 : MOBILE_SCALE;
 
         const section = document.querySelector<HTMLElement>("[data-px-root]");
         if (!section) return;
@@ -82,7 +105,7 @@ export function ParallaxHero() {
           );
           if (!el) continue;
           el.style.willChange = "transform";
-          tl.to(el, { yPercent: layer.yPercent, ease: "none" }, 0);
+          tl.to(el, { yPercent: layer.yPercent * scale, ease: "none" }, 0);
         }
 
         // Second timeline on its own range: the foreground dims as it leaves
