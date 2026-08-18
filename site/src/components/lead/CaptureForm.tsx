@@ -7,6 +7,13 @@ import { captureAttribution, track } from "@/lib/attribution";
 import { useReducedMotion } from "@/lib/useReducedMotion";
 
 /**
+ * A static export (GitHub Pages) has no server, so /api/lead does not exist.
+ * Rather than let the submit fail silently — the worst possible outcome on the
+ * one element the site exists for — the form says so and offers email instead.
+ */
+const STATIC_DEMO = process.env.NEXT_PUBLIC_STATIC_DEMO === "1";
+
+/**
  * The two-field capture form (§7.1), poster treatment.
  *
  * Still two fields, because 1–3 consistently outperforms longer and every
@@ -68,6 +75,13 @@ export function CaptureForm({
     if (!moveIn) return setError("Pick when you're looking to move in.");
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
       setEmailError("That email doesn't look right");
+      return;
+    }
+
+    if (STATIC_DEMO) {
+      setError(
+        "This is a static preview — registration isn't wired up here. Email leasing@staxliving.ca and we'll add you to the list.",
+      );
       return;
     }
 

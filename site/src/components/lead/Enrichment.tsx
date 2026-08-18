@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { useSearchParams } from "next/navigation";
 import { Button, Input, Label, PillGroup } from "@/components/ui";
 import { BEDROOM_OPTIONS, BUDGET_OPTIONS, RENTER_TYPE_OPTIONS } from "@/lib/site";
 import { track } from "@/lib/attribution";
@@ -15,8 +16,11 @@ import { useReducedMotion } from "@/lib/useReducedMotion";
  * than someone who abandoned a six-field form.
  */
 
-export function Enrichment({ leadId }: { leadId: string | null }) {
+export function Enrichment() {
   const reduce = useReducedMotion();
+  // Read from the URL rather than a server prop so /thank-you stays
+  // prerenderable — a server-side searchParams read forces it dynamic.
+  const leadId = useSearchParams().get("id");
 
   const [bedrooms, setBedrooms] = useState<string | null>(null);
   const [budget, setBudget] = useState<string | null>(null);

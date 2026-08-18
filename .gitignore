@@ -30,3 +30,6 @@ next-env.d.ts
 # then delete the line below.
 # ---------------------------------------------------------------------------
 Images/
+
+# Static export output
+out/

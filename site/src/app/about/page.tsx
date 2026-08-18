@@ -17,6 +17,7 @@ import {
   DEVELOPER,
   type TeamMember,
 } from "@/content/about";
+import { asset } from "@/lib/asset";
 import { organisationJsonLd } from "@/lib/jsonld";
 import { SITE } from "@/lib/site";
 
@@ -276,16 +277,16 @@ function TeamCard({ member }: { member: TeamMember }) {
           <picture className="block w-full h-full">
             <source
               type="image/avif"
-              srcSet={`${shot.variants.avif["400"]} 400w, ${shot.variants.avif["800"]} 800w`}
+              srcSet={`${asset(shot.variants.avif["400"])} 400w, ${asset(shot.variants.avif["800"])} 800w`}
               sizes="(max-width: 1023px) 50vw, 30vw"
             />
             <source
               type="image/webp"
-              srcSet={`${shot.variants.webp["400"]} 400w, ${shot.variants.webp["800"]} 800w`}
+              srcSet={`${asset(shot.variants.webp["400"])} 400w, ${asset(shot.variants.webp["800"])} 800w`}
               sizes="(max-width: 1023px) 50vw, 30vw"
             />
             <img
-              src={shot.variants.webp["800"]}
+              src={asset(shot.variants.webp["800"])}
               alt={`${member.name}, ${member.role}, Sphere Developments`}
               width={800}
               height={1000}

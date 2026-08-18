@@ -1,0 +1,72 @@
+# Static preview of the Stax site on GitHub Pages.
+#
+# IMPORTANT: this is a visual preview, not the real deployment. GitHub Pages
+# serves static files only, so /api/lead cannot exist here and the capture form
+# is disabled (NEXT_PUBLIC_STATIC_DEMO=1 makes it say so rather than fail
+# silently). The production target is Cloudflare Workers — see
+# BUILD-PLAN.md §0.2 for why Vercel Hobby is not an option for this project.
+name: Deploy preview to GitHub Pages
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# Never run two deploys at once; don't cancel one that's mid-flight.
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: site
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: site/package-lock.json
+
+      - run: npm ci
+
+      # `output: export` refuses to build alongside route handlers. The lead
+      # API is meaningless without a server anyway, so it is dropped from this
+      # build only — the working tree and every other deployment keep it.
+      - name: Remove server-only routes for static export
+        run: rm -rf src/app/api
+
+      - name: Build static export
+        env:
+          STATIC_EXPORT: "1"
+          NEXT_PUBLIC_BASE_PATH: /Stax
+          NEXT_PUBLIC_STATIC_DEMO: "1"
+        run: npm run build
+
+      # Pages runs the output through Jekyll otherwise, which strips
+      # underscore-prefixed paths — i.e. all of /_next.
+      - name: Disable Jekyll processing
+        run: touch out/.nojekyll
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: site/out
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4

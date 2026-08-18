@@ -1,4 +1,5 @@
 import type { Media } from "@/content/generated/media";
+import { asset } from "@/lib/asset";
 
 type Props = {
   media: Media;
@@ -37,10 +38,10 @@ export function Render({
     .sort((a, b) => a - b);
 
   const srcset = (format: "avif" | "webp") =>
-    widths.map((w) => `${media.variants[format][String(w)]} ${w}w`).join(", ");
+    widths.map((w) => `${asset(media.variants[format][String(w)])} ${w}w`).join(", ");
 
   const largest = widths[widths.length - 1];
-  const fallback = media.variants.webp[String(largest)];
+  const fallback = asset(media.variants.webp[String(largest)]);
 
   return (
     <picture className={className}>

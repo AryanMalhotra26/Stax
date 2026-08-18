@@ -1,6 +1,10 @@
 import type { MetadataRoute } from "next";
 import { SITE } from "@/lib/site";
 
+// Required by `output: export`; a no-op for the server build, where
+// these are already generated at build time.
+export const dynamic = "force-static";
+
 /**
  * Public routes only. /l/* is excluded deliberately — ad landing pages are
  * noindex and listing them would compete with / for the brand query.

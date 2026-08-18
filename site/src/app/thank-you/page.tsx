@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { Logo } from "@/components/brand/Logo";
+import { Suspense } from "react";
 import { Enrichment } from "@/components/lead/Enrichment";
 import { Render } from "@/components/ui/Render";
 import { Eyebrow, ButtonLink } from "@/components/ui";
@@ -17,10 +18,7 @@ export const metadata: Metadata = {
  * intent real estate on the site — the visitor has already said yes once, and
  * people who have committed once answer more, not less.
  */
-export default async function ThankYouPage(props: PageProps<"/thank-you">) {
-  const { id } = await props.searchParams;
-  const leadId = typeof id === "string" ? id : null;
-
+export default function ThankYouPage() {
   return (
     <main id="main" className="min-h-dvh grid lg:grid-cols-[1fr_44%]">
       <div className="px-5 py-10 md:px-12 md:py-14 lg:py-20 max-w-2xl w-full mx-auto lg:mx-0 lg:ml-auto lg:pr-16">
@@ -40,7 +38,9 @@ export default async function ThankYouPage(props: PageProps<"/thank-you">) {
         </div>
 
         <div className="mt-12">
-          <Enrichment leadId={leadId} />
+          <Suspense fallback={null}>
+            <Enrichment />
+          </Suspense>
         </div>
 
         <div className="mt-10 border-t border-line pt-8">
