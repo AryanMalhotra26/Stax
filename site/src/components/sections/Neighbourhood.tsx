@@ -20,7 +20,7 @@ export function Neighbourhood() {
   const featured = LANDMARKS.filter((l) => l.featured);
 
   return (
-    <section className="grid-rules-dark bg-charcoal text-grey">
+    <section className="bg-charcoal text-grey">
       <div className="container-stax section-y relative">
         <SectionHead
           index="03"

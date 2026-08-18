@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Nav } from "@/components/chrome/Nav";
+import { Trail } from "@/components/motion/Trail";
 import { Footer } from "@/components/chrome/Footer";
 import { Render } from "@/components/ui/Render";
 import { Eyebrow } from "@/components/ui";
@@ -38,7 +39,8 @@ export default function AboutPage() {
   return (
     <>
       <Nav />
-      <main id="main">
+      <main id="main" className="relative">
+        <Trail />
         {/* Story */}
         <section className="bg-bone">
           <div className="container-stax pt-28 md:pt-36 pb-10 md:pb-14">

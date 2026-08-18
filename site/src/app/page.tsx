@@ -1,7 +1,7 @@
 import dynamic from "next/dynamic";
 import { Nav } from "@/components/chrome/Nav";
 import { SmoothScroll } from "@/components/motion/SmoothScroll";
-import { ScrollSpine } from "@/components/motion/ScrollSpine";
+import { Trail } from "@/components/motion/Trail";
 import { Bridge } from "@/components/motion/Bridge";
 import { Footer } from "@/components/chrome/Footer";
 import { Hero } from "@/components/sections/Hero";
@@ -36,9 +36,9 @@ export default function HomePage() {
   return (
     <>
       <SmoothScroll />
-      <ScrollSpine />
       <Nav variant="overlay" />
-      <main id="main">
+      <main id="main" className="relative">
+        <Trail />
         <Hero />
         <ProofStrip />
         <Positioning />

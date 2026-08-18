@@ -31,7 +31,7 @@ const COMMITMENTS = [
 
 export function Assurance() {
   return (
-    <section className="grid-rules bg-paper">
+    <section className="bg-paper">
       <div className="container-stax section-y">
         <SectionHead
           index="05"

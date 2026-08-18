@@ -13,7 +13,7 @@ import { SITE } from "@/lib/site";
  */
 export function Positioning() {
   return (
-    <section className="grid-rules bg-bone">
+    <section className="bg-bone">
       <div className="container-stax section-y relative">
         <SectionHead
           index="01"

@@ -34,7 +34,7 @@ const TILES = [
 
 export function GalleryTeaser() {
   return (
-    <section className="grid-rules bg-bone">
+    <section className="bg-bone">
       <div className="container-stax section-y">
         <SectionHead
           index="04"

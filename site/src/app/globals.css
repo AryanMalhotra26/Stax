@@ -266,66 +266,17 @@
    Structure
    ========================================================================== */
 
-/* Hairline column rules running the full height of a light section. Gives the
-   white areas an underlying grid to sit on so they read as composed rather
-   than as text dropped on a blank page. Purely decorative, zero DOM. */
-@utility grid-rules {
-  position: relative;
-
-  &::before {
-    content: "";
-    position: absolute;
-    inset: 0;
-    pointer-events: none;
-    /* Two columns on a phone, four from tablet up — four 94px columns on a
-       375px screen reads as noise rather than structure. */
-    background-image: repeating-linear-gradient(
-      to right,
-      transparent 0,
-      transparent calc(50% - 1px),
-      var(--color-line) calc(50% - 1px),
-      var(--color-line) 50%
-    );
-    opacity: 0.55;
-
-    @media (width >= 48rem) {
-      background-image: repeating-linear-gradient(
-        to right,
-        transparent 0,
-        transparent calc(25% - 1px),
-        var(--color-line) calc(25% - 1px),
-        var(--color-line) 25%
-      );
-    }
-  }
-}
-
-@utility grid-rules-dark {
-  position: relative;
-
-  &::before {
-    content: "";
-    position: absolute;
-    inset: 0;
-    pointer-events: none;
-    background-image: repeating-linear-gradient(
-      to right,
-      transparent 0,
-      transparent calc(50% - 1px),
-      rgb(255 255 255 / 0.08) calc(50% - 1px),
-      rgb(255 255 255 / 0.08) 50%
-    );
-
-    @media (width >= 48rem) {
-      background-image: repeating-linear-gradient(
-        to right,
-        transparent 0,
-        transparent calc(25% - 1px),
-        rgb(255 255 255 / 0.08) calc(25% - 1px),
-        rgb(255 255 255 / 0.08) 25%
-      );
-    }
-  }
+/* The dashed route. A repeating gradient rather than an SVG stroke: no extra
+   DOM, and it scales to any page height without a viewBox. Dash 14 / gap 10
+   at 3px reads at the same density as to-top's 20/14 at 4px. */
+.trail-line {
+  background-image: repeating-linear-gradient(
+    to bottom,
+    var(--color-brick) 0,
+    var(--color-brick) 14px,
+    transparent 14px,
+    transparent 24px
+  );
 }
 
 /* ==========================================================================

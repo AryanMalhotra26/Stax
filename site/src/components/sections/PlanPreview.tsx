@@ -14,7 +14,7 @@ import { FLOOR_PLANS, sqftRange } from "@/content/floorPlans";
  */
 export function PlanPreview() {
   return (
-    <section className="grid-rules bg-paper">
+    <section className="bg-paper">
       <div className="container-stax section-y">
         <SectionHead
           index="02"

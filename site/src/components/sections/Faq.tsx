@@ -41,7 +41,7 @@ export function FaqSection({
   return (
     <section
       id="faq"
-      className={`grid-rules ${tone === "paper" ? "bg-paper" : "bg-bone"}`}
+      className={tone === "paper" ? "bg-paper" : "bg-bone"}
       aria-labelledby="faq-heading"
     >
       <div className="container-stax section-y">
