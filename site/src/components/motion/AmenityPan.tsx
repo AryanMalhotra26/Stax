@@ -17,9 +17,21 @@ gsap.registerPlugin(ScrollTrigger);
  * through the building. That is the sentence that justifies the animation —
  * without one it would be deleted (rule 6).
  *
- * Below `md` this degrades to a native horizontal scroll-snap strip. Pinning
- * on a phone fights the browser's own scroll and reads as jank on mid-range
- * Android, which is a large share of this audience.
+ * This used to pin on desktop only and hand phones a native scroll-snap
+ * strip, on the argument that pinning fights the platform's own scroll. The
+ * jank that argument is about is real but it is specific: it comes from the
+ * URL bar showing and hiding, which changes viewport height mid-pin and makes
+ * ScrollTrigger recalculate under the visitor. Two things remove it —
+ * `ignoreMobileResize`, which stops a refresh firing on a height-only change,
+ * and sizing the section in `svh` rather than `dvh`, which is the unit that
+ * does not move when the bar does.
+ *
+ * With those in place the phone gets the same walk as the desktop.
+ *
+ * The strip is still the fallback, not a dead branch: it is what renders
+ * under `prefers-reduced-motion` and if the effect never runs, so the section
+ * stays swipeable with no JavaScript at all. The pan switches the overflow
+ * off through `gsap.set`, which `mm.revert()` restores.
  */
 export function AmenityPan() {
   const wrap = useRef<HTMLDivElement>(null);
@@ -29,12 +41,21 @@ export function AmenityPan() {
   useEffect(() => {
     if (reduce || !wrap.current || !track.current) return;
 
+    // The URL bar changing height must not trigger a refresh mid-pin. This is
+    // the single setting that makes pinning viable on a phone.
+    ScrollTrigger.config({ ignoreMobileResize: true });
+
     const mm = gsap.matchMedia();
 
-    mm.add("(min-width: 768px)", () => {
+    mm.add("all", () => {
       const el = track.current;
       const container = wrap.current;
       if (!el || !container) return;
+
+      // Native horizontal scrolling would compete with the pan for the same
+      // gesture, so it is switched off while the pan owns the track. Set
+      // through gsap so mm.revert() puts the swipe strip back.
+      gsap.set(el, { overflowX: "hidden", scrollSnapType: "none" });
 
       const distance = () => el.scrollWidth - window.innerWidth;
 
@@ -64,7 +85,7 @@ export function AmenityPan() {
     <section
       ref={wrap}
       aria-labelledby="amenities-heading"
-      className="relative overflow-hidden bg-charcoal text-grey md:h-dvh"
+      className="relative h-[100svh] overflow-hidden bg-charcoal text-grey md:h-dvh"
     >
       <div
         ref={track}
@@ -72,10 +93,10 @@ export function AmenityPan() {
         // aligns the first panel to the container edge rather than to the
         // padding edge, so on a phone the heading sits flush at x=0 with no
         // gutter and reads as clipped.
-        className="flex snap-x snap-mandatory scroll-pl-5 items-start gap-5 overflow-x-auto px-5 py-12 [scrollbar-width:none] md:h-dvh md:snap-none md:items-center md:gap-0 md:overflow-visible md:scroll-pl-0 md:px-0 md:py-0 [&::-webkit-scrollbar]:hidden"
+        className="flex h-full snap-x snap-mandatory scroll-pl-5 items-center gap-5 overflow-x-auto px-5 [scrollbar-width:none] md:h-dvh md:snap-none md:gap-0 md:overflow-visible md:scroll-pl-0 md:px-0 [&::-webkit-scrollbar]:hidden"
       >
         {/* Intro panel — carries the heading so the pan starts with context */}
-        <div className="shrink-0 w-[80vw] sm:w-[60vw] md:w-[42vw] lg:w-[34vw] snap-start md:px-14 lg:px-20 flex flex-col justify-center">
+        <div className="flex h-[76svh] w-[80vw] shrink-0 snap-start flex-col justify-center sm:w-[60vw] md:h-auto md:w-[42vw] md:px-14 lg:w-[34vw] lg:px-20">
           <Eyebrow className="text-brick">What&rsquo;s included</Eyebrow>
           <h2 id="amenities-heading" className="text-h2 mt-6 text-balance">
             The parts that decide whether a year goes well.
@@ -98,9 +119,9 @@ export function AmenityPan() {
             // Fixed height so every card's image top and caption baseline line
             // up across the pan — `items-center` alone centres each card by
             // its own height, which makes shorter captions drift.
-            className="shrink-0 w-[80vw] sm:w-[56vw] md:w-[34vw] lg:w-[27vw] snap-start md:px-4 lg:px-5 md:h-[72vh] md:flex md:flex-col"
+            className="flex h-[76svh] w-[80vw] shrink-0 snap-start flex-col sm:w-[56vw] md:h-[72vh] md:w-[34vw] md:px-4 lg:w-[27vw] lg:px-5"
           >
-            <div className="relative aspect-4/5 md:aspect-auto md:flex-1 md:min-h-0 overflow-hidden bg-black/20">
+            <div className="relative min-h-0 flex-1 overflow-hidden bg-black/20">
               <Render
                 media={amenity.media}
                 sizes="(max-width: 767px) 80vw, (max-width: 1023px) 34vw, 27vw"
@@ -111,8 +132,8 @@ export function AmenityPan() {
                 {String(i + 1).padStart(2, "0")}
               </span>
             </div>
-            <h3 className="text-h3 mt-6 md:shrink-0">{amenity.title}</h3>
-            <p className="mt-3 text-grey/60 leading-relaxed md:shrink-0 md:h-24">
+            <h3 className="text-h3 mt-5 shrink-0 md:mt-6">{amenity.title}</h3>
+            <p className="mt-3 shrink-0 leading-relaxed text-grey/60 md:h-24">
               {amenity.line}
             </p>
           </article>
