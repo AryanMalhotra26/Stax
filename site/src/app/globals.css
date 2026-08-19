@@ -1060,20 +1060,8 @@
 /* ---- pan mode ---------------------------------------------------------- */
 
 .walk[data-walk="pan"] {
-  /* The section's height IS the length of the walk: the sticky viewport
-     inside it holds still until the section has been scrolled through.
-     `--walk-scroll` is written by AmenityPan from the measured track width. */
-  height: calc(100svh + var(--walk-scroll, 0px));
-  padding-block: 0;
-  /* Deliberately NOT `hidden`. A clip here would fight the sticky child, and
-     clipping is the viewport's job. */
-  overflow: visible;
-}
-
-.walk[data-walk="pan"] .walk-viewport {
-  position: sticky;
-  top: 0;
   height: 100svh;
+  padding-block: 0;
   overflow: hidden;
 }
 
