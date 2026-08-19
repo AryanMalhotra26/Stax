@@ -92,7 +92,14 @@ export function AmenityPan() {
       // How far the track has to move for the last card to clear the right
       // edge. Never capped: capping this is capping how much of the content
       // is reachable, and the final card would simply never arrive.
-      const travel = () => el.scrollWidth - window.innerWidth;
+      //
+      // Measured against the track's OWN width, not `window.innerWidth`.
+      // They are not the same number: innerWidth includes the vertical
+      // scrollbar, so on any platform drawing a classic scrollbar the track
+      // was told it had ~15px more room than it does and stopped that far
+      // short of the last card — and under any device emulation the two
+      // diverge completely.
+      const travel = () => Math.max(0, el.scrollWidth - el.clientWidth);
 
       // How much page scroll that costs the reader — and this IS capped, at
       // two viewport heights. Horizontal pins are the one place readers most
@@ -140,6 +147,40 @@ export function AmenityPan() {
     return () => mm.revert();
   }, [reduce]);
 
+  /**
+   * Wake the track's images before the walk starts.
+   *
+   * Cards three through seven sit outside the viewport horizontally and only
+   * arrive because a transform drags them in. The browser's lazy-loading
+   * heuristics are driven by scroll intersection and do not anticipate that,
+   * so the far cards began fetching only at the moment they became visible —
+   * which, mid-pan, reads as a section that never finished loading. Half a
+   * card of grey where a kitchen should be is the exact symptom.
+   *
+   * They stay `loading="lazy"` in the markup, so a visitor who never reaches
+   * this section never pays for them. This just moves the trigger from "is
+   * on screen" to "is one screen away", which is what lazy loading is
+   * supposed to mean here.
+   */
+  useEffect(() => {
+    const container = wrap.current;
+    if (!container) return;
+
+    const io = new IntersectionObserver(
+      ([entry]) => {
+        if (!entry.isIntersecting) return;
+        io.disconnect();
+        for (const img of container.querySelectorAll("img[loading=lazy]")) {
+          img.setAttribute("loading", "eager");
+        }
+      },
+      { rootMargin: "150% 0px" },
+    );
+
+    io.observe(container);
+    return () => io.disconnect();
+  }, []);
+
   return (
     <section
       ref={wrap}
@@ -164,7 +205,23 @@ export function AmenityPan() {
           // aligns the first panel to the container edge rather than to the
           // padding edge, so on a phone the heading sits flush at x=0 with no
           // gutter and reads as clipped.
-          className="flex h-full snap-x snap-mandatory scroll-pl-5 items-center gap-5 overflow-x-auto px-5 [scrollbar-width:none] md:snap-none md:gap-7 md:overflow-visible md:scroll-pl-0 md:px-0 [&::-webkit-scrollbar]:hidden"
+          // `overflow-x: auto` at EVERY breakpoint, not just on phones.
+          //
+          // This used to be `md:overflow-visible`, which quietly made the
+          // desktop fallback a dead end: the section clips its own overflow,
+          // so with the track set to `visible` and the pan not running, cards
+          // three through seven were painted outside the clip and completely
+          // unreachable — you saw two cards and half of a third and there was
+          // no gesture that would get you any further. The pan not running is
+          // not a hypothetical: it is exactly what happens under
+          // `prefers-reduced-motion`, and what would happen if the GSAP chunk
+          // ever failed to load.
+          //
+          // Scrollable is the correct resting state. When the pan takes over
+          // it sets `overflow-x: hidden` through gsap, and `mm.revert()` puts
+          // the swipe strip back — so the two never fight for the gesture and
+          // the content is reachable in both worlds.
+          className="flex h-full snap-x snap-mandatory scroll-pl-5 items-center gap-5 overflow-x-auto px-5 [scrollbar-width:none] md:snap-none md:gap-7 md:scroll-pl-0 md:px-0 [&::-webkit-scrollbar]:hidden"
         >
           {/* Intro panel — carries the heading so the pan starts with context */}
           <div className="flex h-[74svh] w-[80vw] shrink-0 snap-start flex-col justify-center sm:w-[60vw] md:h-auto md:w-[42vw] md:px-14 lg:w-[32vw] lg:px-20">

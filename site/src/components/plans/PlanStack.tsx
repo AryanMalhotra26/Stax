@@ -52,6 +52,16 @@ export function PlanStack({
         () => {
           const cards = gsap.utils.toArray<HTMLElement>("[data-plan-card]", el);
 
+          // Every card starts from an explicit `brightness(1)`.
+          //
+          // Without it the cards sit at `filter: none`, and interpolating a
+          // filter list out of `none` treats every missing function as its
+          // ZERO value rather than its identity — so `brightness` animated
+          // from 0, and each card went fully black at the start of its scrub
+          // before brightening to 0.82. Naming the resting state makes the
+          // tween 1 → 0.82, which is what it always meant.
+          gsap.set(cards, { filter: "brightness(1)" });
+
           cards.forEach((card, i) => {
             // The front card never shrinks. Nothing lands on top of it.
             if (i === cards.length - 1) return;

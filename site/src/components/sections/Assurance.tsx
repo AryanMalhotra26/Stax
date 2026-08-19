@@ -76,16 +76,23 @@ export function Assurance() {
               >
                 <Art className="pointer-events-none absolute -right-8 -bottom-10 h-[55%] w-auto text-ink opacity-7" />
 
-                {/* The numeral bleeds off the top-left corner — the same crop
-                    rule as the section ghost numerals, one tier down. */}
+                {/* Sits inside the card, not bled off it.
+                
+                    The ghost numerals at section level are cropped on
+                    purpose — that is what makes them read as texture. At card
+                    level the same move just looks broken: the card clips its
+                    own overflow, so a numeral hung off the corner loses its
+                    top half and reads as a rendering fault rather than a
+                    device. Small type earns its crop only when there is
+                    enough of it left to name. */}
                 <span
                   aria-hidden="true"
-                  className="pointer-events-none absolute -top-6 -left-2 font-display text-[7rem] leading-none text-amber/40 select-none"
+                  className="pointer-events-none absolute top-0 left-0 font-display text-[5.5rem] leading-[0.9] text-amber/40 select-none"
                 >
                   {String(i + 1).padStart(2, "0")}
                 </span>
 
-                <div className="relative z-2 pt-14">
+                <div className="relative z-2 pt-20">
                   <h3 className="text-h3">{title}</h3>
                   <p className="mt-3.5 leading-relaxed text-ink-soft">{body}</p>
                 </div>
