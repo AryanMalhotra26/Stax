@@ -84,6 +84,12 @@ export function AmenityPan() {
       const container = wrap.current;
       if (!el || !container) return;
 
+      // Promote the section to the horizontal layout. Doing it here rather
+      // than in the markup means the vertical list is what a visitor gets
+      // whenever this callback does not run — reduced motion, no JavaScript,
+      // or a GSAP chunk that failed to arrive.
+      container.dataset.walk = "pan";
+
       // Native horizontal scrolling would compete with the pan for the same
       // gesture, so it is switched off while the pan owns the track. Set
       // through gsap so mm.revert() puts the swipe strip back.
@@ -101,13 +107,23 @@ export function AmenityPan() {
       // diverge completely.
       const travel = () => Math.max(0, el.scrollWidth - el.clientWidth);
 
-      // How much page scroll that costs the reader — and this IS capped, at
-      // two viewport heights. Horizontal pins are the one place readers most
-      // often feel trapped, and an uncapped one grows with the card count
-      // until the section is a tunnel. Past the cap the track simply pans
-      // faster per pixel scrolled, which nobody notices; an unreachable
-      // seventh card is noticed immediately.
-      const scrollLength = () => Math.min(travel(), window.innerHeight * 2);
+      // How much page scroll that costs the reader.
+      //
+      // This wants to be slightly LONGER than the travel, not shorter. A
+      // two-viewport cap squeezed 2010px of track into 1800px of scroll, so
+      // the track had to move 1.12px for every pixel scrolled — and with a
+      // full second of scrub lag on top, a normal flick of the wheel outran
+      // it completely: the pin ended, the section scrolled away, and the
+      // tween was still easing toward card three somewhere off-screen. You
+      // saw two cards and then the neighbourhood.
+      //
+      // At 1.15x the track always has slack behind the scroll, so it arrives
+      // rather than chases. The ceiling stays at the 2.5 viewport heights the
+      // brief asks for — horizontal pins are the one place readers most often
+      // feel trapped, and an uncapped one grows with the card count until the
+      // section is a tunnel.
+      const scrollLength = () =>
+        Math.min(travel() * 1.15, window.innerHeight * 2.5);
 
       gsap.to(el, {
         x: () => -travel(),
@@ -118,7 +134,11 @@ export function AmenityPan() {
           // starting anywhere else shows a half-slid track
           end: () => `+=${scrollLength()}`,
           pin: true,
-          scrub: 1,
+          // Half a second, not a full one. Scrub is catch-up time, and every
+          // millisecond of it is time the track spends behind the reader's
+          // wheel — on a pinned section that is time they can spend scrolling
+          // straight past the thing they are waiting to see.
+          scrub: 0.5,
           invalidateOnRefresh: true, // survives resize + orientation change
           anticipatePin: 1,
           onUpdate: (self) => {
@@ -139,6 +159,14 @@ export function AmenityPan() {
           },
         },
       });
+
+      // matchMedia teardown. Returning the layout to `list` matters: if the
+      // viewport crosses a condition boundary and this context is reverted,
+      // the track goes back to being a plain swipe strip and the section has
+      // to go back to being a shape that suits one.
+      return () => {
+        container.dataset.walk = "list";
+      };
     });
 
     // Without this you leak triggers across soft navigations — App Router
@@ -186,7 +214,11 @@ export function AmenityPan() {
       ref={wrap}
       aria-labelledby="amenities-heading"
       data-trail="inside"
-      className="relative h-[100svh] overflow-hidden bg-espresso text-grey md:h-dvh"
+      // Ships as `list` and is upgraded to `pan` by the effect above, only
+      // once the pan is genuinely running. See the .walk block in globals.css
+      // for why the vertical layout is the default rather than the fallback.
+      data-walk="list"
+      className="walk bg-espresso text-grey"
       style={{
         backgroundImage: [
           "linear-gradient(to bottom, var(--color-paper), transparent 18%)",
@@ -201,30 +233,10 @@ export function AmenityPan() {
       <MagneticLabel label="Walk through" className="h-full">
         <div
           ref={track}
-          // scroll-pl matches the track padding. Without it, snap-mandatory
-          // aligns the first panel to the container edge rather than to the
-          // padding edge, so on a phone the heading sits flush at x=0 with no
-          // gutter and reads as clipped.
-          // `overflow-x: auto` at EVERY breakpoint, not just on phones.
-          //
-          // This used to be `md:overflow-visible`, which quietly made the
-          // desktop fallback a dead end: the section clips its own overflow,
-          // so with the track set to `visible` and the pan not running, cards
-          // three through seven were painted outside the clip and completely
-          // unreachable — you saw two cards and half of a third and there was
-          // no gesture that would get you any further. The pan not running is
-          // not a hypothetical: it is exactly what happens under
-          // `prefers-reduced-motion`, and what would happen if the GSAP chunk
-          // ever failed to load.
-          //
-          // Scrollable is the correct resting state. When the pan takes over
-          // it sets `overflow-x: hidden` through gsap, and `mm.revert()` puts
-          // the swipe strip back — so the two never fight for the gesture and
-          // the content is reachable in both worlds.
-          className="flex h-full snap-x snap-mandatory scroll-pl-5 items-center gap-5 overflow-x-auto px-5 [scrollbar-width:none] md:snap-none md:gap-7 md:scroll-pl-0 md:px-0 [&::-webkit-scrollbar]:hidden"
+          className="walk-track"
         >
           {/* Intro panel — carries the heading so the pan starts with context */}
-          <div className="flex h-[74svh] w-[80vw] shrink-0 snap-start flex-col justify-center sm:w-[60vw] md:h-auto md:w-[42vw] md:px-14 lg:w-[32vw] lg:px-20">
+          <div className="walk-intro flex flex-col">
             <Eyebrow className="text-brick">What&rsquo;s included</Eyebrow>
             <h2 id="amenities-heading" className="mt-6 text-h2 text-balance">
               The parts that decide whether a year goes well.
@@ -234,8 +246,11 @@ export function AmenityPan() {
               notice, every week, for eight months.
             </p>
 
+            {/* Pan furniture. In the vertical list there is nothing to walk
+                through sideways, and an instruction for a gesture that does
+                not exist is worse than no instruction. */}
             <p
-              className="hand mt-10 hidden items-center gap-3 text-hand text-amber md:flex"
+              className="walk-cue hand mt-10 items-center gap-3 text-hand text-amber"
               style={{ ["--hand-tilt" as string]: "-4deg" }}
             >
               scroll to walk through
@@ -251,7 +266,7 @@ export function AmenityPan() {
                 // Fixed height so every card's image top and caption baseline
                 // line up across the pan — `items-center` alone centres each
                 // card by its own height, which makes shorter captions drift.
-                className={`card flex h-[74svh] w-[80vw] shrink-0 snap-start flex-col p-4 sm:w-[56vw] md:h-[70vh] md:w-[34vw] md:p-5 lg:w-[26vw] ${SURFACES[i % SURFACES.length]}`}
+                className={`card walk-card p-4 md:p-5 ${SURFACES[i % SURFACES.length]}`}
                 style={{ ["--tilt" as string]: i % 2 ? "1.5deg" : "-1.5deg" }}
               >
                 <Art className="pointer-events-none absolute -right-10 -bottom-12 h-[58%] w-auto opacity-8" />
@@ -279,14 +294,14 @@ export function AmenityPan() {
           })}
 
           {/* Trailing spacer so the last card clears the right edge */}
-          <div className="w-5 shrink-0 md:w-[10vw]" aria-hidden="true" />
+          <div className="walk-tail" aria-hidden="true" />
         </div>
       </MagneticLabel>
 
       {/* ---- Progress rail --------------------------------------------
           The one piece of information a pinned section owes the reader: how
           much of it is left. */}
-      <div className="pointer-events-none absolute inset-x-0 bottom-6 z-10 hidden md:block">
+      <div className="walk-rail pointer-events-none absolute inset-x-0 bottom-6 z-10">
         <div className="container-stax flex items-center gap-5">
           <div className="h-px flex-1 overflow-hidden bg-sand/20">
             <span
