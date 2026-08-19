@@ -34,14 +34,39 @@ gsap.registerPlugin(ScrollTrigger);
  * only ever moves it in response to scroll, after first paint (§6.2 rule 1).
  */
 
-const LAYERS: { attr: string; yPercent: number }[] = [
-  { attr: "render", yPercent: 12 },
-  { attr: "scrim", yPercent: 8 },
-  { attr: "badge", yPercent: -22 },
-  { attr: "headline", yPercent: -38 },
-  { attr: "lede", yPercent: -28 },
-  { attr: "cta", yPercent: -18 },
-  { attr: "cue", yPercent: 64 },
+/**
+ * Travel is a fraction of the HERO's height, not of each plate's own height.
+ *
+ * The reference expresses these as `yPercent`, which is a percentage of the
+ * element being moved — fine there, because its mountain plates are thin
+ * ridge strips. Applied to plates that fill the viewport it means a "40%"
+ * layer travels 40% of a full screen and tears itself off its own container,
+ * so the numbers have to be re-expressed against a common reference. The
+ * ratios below are the reference's; the units are the hero's.
+ *
+ * Sign convention: POSITIVE LAGS (pushes back), NEGATIVE LEADS (pulls
+ * forward). Everything in the environment lags; everything in the copy leads.
+ * That opposition is what creates depth — parallax where all the plates move
+ * the same way still reads flat.
+ */
+const LAYERS: { attr: string; factor: number }[] = [
+  // The environment, back to front.
+  { attr: "sky", factor: 0 },
+  { attr: "sun", factor: 0.04 },
+  { attr: "blocks", factor: 0.13 },
+  { attr: "near", factor: 0.3 },
+  { attr: "scrim", factor: 0.05 },
+
+  // Counter-motion.
+  { attr: "badge", factor: -0.17 },
+  { attr: "headline", factor: -0.13 },
+  { attr: "hand", factor: -0.11 },
+  { attr: "lede", factor: -0.09 },
+  { attr: "cta", factor: -0.06 },
+
+  // Faster than the nearest plate in the scene, so the one glowing object
+  // sinks decisively as you leave.
+  { attr: "sun-circle", factor: 0.42 },
 ];
 
 /**
@@ -96,6 +121,7 @@ export function ParallaxHero() {
             // Matches the reference's 1.2 — heavy enough to read as weight
             // rather than as the layers snapping to the scrollbar.
             scrub: 1.2,
+            invalidateOnRefresh: true,
           },
         });
 
@@ -103,9 +129,19 @@ export function ParallaxHero() {
           const el = section.querySelector<HTMLElement>(
             `[data-px="${layer.attr}"]`,
           );
-          if (!el) continue;
+          if (!el || layer.factor === 0) continue;
           el.style.willChange = "transform";
-          tl.to(el, { yPercent: layer.yPercent * scale, ease: "none" }, 0);
+          tl.to(
+            el,
+            {
+              // Resolved as a function so a resize or an orientation change
+              // recomputes the travel against the new hero height rather
+              // than keeping a stale pixel value.
+              y: () => section.offsetHeight * layer.factor * scale,
+              ease: "none",
+            },
+            0,
+          );
         }
 
         // Second timeline on its own range: the foreground dims as it leaves

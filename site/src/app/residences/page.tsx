@@ -30,10 +30,10 @@ export default function ResidencesPage() {
   return (
     <>
       <SmoothScroll />
-      <Nav variant="overlay" />
+      <Nav />
       <main id="main" className="relative">
         <Trail />
-        <section className="relative h-[46vh] min-h-[22rem] flex items-end overflow-hidden bg-charcoal">
+        <section className="relative h-[46vh] min-h-[22rem] flex items-end overflow-hidden bg-espresso">
           <Render
             media={media("exterior-lawn")}
             sizes="100vw"
@@ -46,11 +46,11 @@ export default function ResidencesPage() {
             aria-hidden="true"
           />
           <div className="container-stax relative pb-12 pt-28">
-            <Eyebrow className="text-white/60">Residences</Eyebrow>
-            <h1 className="text-h1 text-white mt-5 max-w-3xl text-balance">
+            <Eyebrow className="text-grey/60">Residences</Eyebrow>
+            <h1 className="text-h1 text-bone mt-5 max-w-3xl text-balance">
               Four layouts across {SITE.facts.blocks} blocks.
             </h1>
-            <p className="text-lead text-white/75 mt-5 max-w-xl">
+            <p className="text-lead text-grey/75 mt-5 max-w-xl">
               {SITE.facts.units} suites, {SITE.facts.beds} beds. Every one
               furnished, with internet included.
             </p>

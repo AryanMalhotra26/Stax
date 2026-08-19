@@ -15,24 +15,25 @@
  * assistive tech reads the sentence normally. No aria juggling required.
  */
 export function SplitWords({ text }: { text: string }) {
-  const words = text.split(/(\s+)/);
-  let i = -1;
+  // Indices are resolved up front rather than with a counter mutated during
+  // render. React Compiler is enabled on this project, and a variable
+  // reassigned mid-render is exactly the pattern it cannot safely memoize.
+  let cursor = 0;
+  const chunks = text.split(/(\s+)/).map((chunk) =>
+    /^\s+$/.test(chunk) ? { space: chunk, i: -1 } : { space: null, word: chunk, i: cursor++ },
+  );
 
   return (
     <>
-      {words.map((chunk, idx) => {
-        if (/^\s+$/.test(chunk)) return chunk;
-        i += 1;
-        return (
-          <span
-            key={idx}
-            className="sd-word"
-            style={{ ["--i" as string]: i }}
-          >
-            <span>{chunk}</span>
+      {chunks.map((chunk, idx) =>
+        chunk.space !== null ? (
+          chunk.space
+        ) : (
+          <span key={idx} className="sd-word" style={{ ["--i" as string]: chunk.i }}>
+            <span>{chunk.word}</span>
           </span>
-        );
-      })}
+        ),
+      )}
     </>
   );
 }

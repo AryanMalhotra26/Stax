@@ -34,7 +34,7 @@ export default function NotFound() {
         <p className="text-sm text-ink-faint">Stax — St. Catharines, Ontario</p>
       </div>
 
-      <div className="relative hidden lg:block bg-charcoal">
+      <div className="relative hidden lg:block bg-espresso">
         <Render
           media={media("exterior-garden")}
           sizes="50vw"

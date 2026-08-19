@@ -1,11 +1,11 @@
 import dynamic from "next/dynamic";
 import { Nav } from "@/components/chrome/Nav";
 import { SmoothScroll } from "@/components/motion/SmoothScroll";
+import { Curtain } from "@/components/motion/Curtain";
 import { Trail } from "@/components/motion/Trail";
 import { Bridge } from "@/components/motion/Bridge";
 import { Footer } from "@/components/chrome/Footer";
 import { Hero } from "@/components/sections/Hero";
-import { ProofStrip } from "@/components/sections/ProofStrip";
 import { Positioning } from "@/components/sections/Positioning";
 import { PlanPreview } from "@/components/sections/PlanPreview";
 import { Neighbourhood } from "@/components/sections/Neighbourhood";
@@ -45,18 +45,18 @@ export default function HomePage() {
   return (
     <>
       <SmoothScroll />
-      <Nav variant="overlay" />
+      <Curtain />
+      <Nav />
       <main id="main" className="relative">
         <Trail />
         <ParallaxHero />
         <Hero />
-        <ProofStrip />
         <Positioning />
         <PlanPreview />
-        <Bridge slug="exterior-garden" from="paper" to="charcoal" />
+        <Bridge slug="exterior-garden" from="paper" to="espresso" />
         <AmenityPan />
         <Neighbourhood />
-        <Bridge slug="exterior-evening" from="charcoal" to="bone" />
+        <Bridge slug="exterior-evening" from="espresso" to="night" />
         <GalleryTeaser />
         <Assurance />
         <FaqSection tone="paper" />

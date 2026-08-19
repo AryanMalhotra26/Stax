@@ -21,15 +21,17 @@ export function Bridge({
 }: {
   slug: string;
   /** Background of the section above — the top of the band fades into it. */
-  from: "bone" | "paper" | "charcoal";
+  from: "bone" | "paper" | "espresso" | "night" | "linen";
   /** Background of the section below. */
-  to: "bone" | "paper" | "charcoal";
+  to: "bone" | "paper" | "espresso" | "night" | "linen";
   className?: string;
 }) {
   const stop = {
     bone: "var(--color-bone)",
     paper: "var(--color-paper)",
-    charcoal: "var(--color-charcoal)",
+    linen: "var(--color-linen)",
+    espresso: "var(--color-espresso)",
+    night: "var(--color-night)",
   };
 
   return (

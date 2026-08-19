@@ -3,33 +3,36 @@
 import { useEffect, useRef, type ReactNode } from "react";
 
 /**
- * Cursor-following label over an image area.
+ * The magnetic label (§5.4.5, and the reference's `.cursor-area` device).
  *
- * to-top.ch attaches one of these to every `.cursor-area`: a play button that
- * chases the pointer on a manual rAF lerp at 0.1, so the follower is always
- * easing toward the cursor rather than pinned to it. The lag is what makes it
- * feel weighted instead of glued.
+ * A circle that follows the pointer inside a defined area on a manual rAF
+ * lerp — always easing *toward* the cursor rather than pinned to it. The lag
+ * is the whole effect: it makes the label feel weighted instead of glued, and
+ * it makes an image area read as enterable rather than decorative.
  *
- * Same technique here, with three fixes over the source:
- *  - the source starts its rAF loop unconditionally and never cancels it, so
- *    every area leaks a permanent frame loop; this one starts on enter and
- *    cancels on leave and unmount.
- *  - it also reads `getBoundingClientRect()` once at init, so the follower
- *    starts in the wrong place after any reflow; this measures on enter.
- *  - it runs on touch, where there is no cursor. This is pointer-gated.
+ * Three fixes over the source:
+ *  - it starts its rAF loop unconditionally and never cancels, so every area
+ *    leaks a permanent frame loop; this starts on enter and cancels on leave
+ *    and unmount.
+ *  - it reads `getBoundingClientRect()` once at init, so the follower starts
+ *    in the wrong place after any reflow; this measures on enter.
+ *  - it runs on touch, where there is no cursor at all. This is pointer-gated,
+ *    and gated on reduced motion too.
  *
  * Purely decorative: the follower is aria-hidden and the wrapper keeps
  * whatever semantics the caller gave it.
  */
-
-export function CursorLens({
+export function MagneticLabel({
   label,
   children,
   className = "",
+  tone = "amber",
 }: {
   label: string;
   children: ReactNode;
   className?: string;
+  /** Amber emits, brick is built — pick by what the area is (§3.1). */
+  tone?: "amber" | "brick";
 }) {
   const area = useRef<HTMLDivElement>(null);
   const dot = useRef<HTMLSpanElement>(null);
@@ -48,7 +51,10 @@ export function CursorLens({
     }
 
     let frame = 0;
-    let targetX = 0, targetY = 0, x = 0, y = 0;
+    let targetX = 0,
+      targetY = 0,
+      x = 0,
+      y = 0;
     const EASE = 0.1; // same coefficient as the reference
 
     const tick = () => {
@@ -100,7 +106,11 @@ export function CursorLens({
       <span
         ref={dot}
         aria-hidden="true"
-        className="pointer-events-none absolute top-0 left-0 z-20 flex h-24 w-24 items-center justify-center bg-brick text-center text-eyebrow uppercase text-white opacity-0 transition-opacity duration-300 will-change-transform"
+        className={`pointer-events-none absolute top-0 left-0 z-20 grid h-[10ch] w-[10ch] place-items-center rounded-full text-center text-eyebrow uppercase opacity-0 transition-opacity duration-300 will-change-transform ${
+          tone === "amber"
+            ? "bg-amber text-night shadow-glow"
+            : "bg-brick text-bone"
+        }`}
       >
         {label}
       </span>

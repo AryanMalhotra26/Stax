@@ -2,97 +2,164 @@
 
 /* ==========================================================================
    Stax design tokens
-   Palette is locked to the brand sheet: Light Grey #E5E6E6, Charcoal Grey
-   #3E3D3D, Brick Red #B8433D. One accent, held across the whole site (§6.5).
-   Radius is 0 everywhere — the logo is built from hard-edged stacked blocks
-   and the buildings are orthogonal. Rounding it would fight both.
+
+   The spine is "arriving home at golden hour" (§2): the page runs one
+   continuous journey from outside, daylight, public → inside, lamplit, yours.
+   Every token below serves that, and anything that does not is cut.
+
+   Two rules govern the whole palette and neither may be broken:
+
+     1. AMBER IS LIGHT. BRICK IS MATERIAL.
+        Amber only ever appears as something *emitting* — a glow, a lit
+        window, the sun-circle, a hover flare, the active state of a control.
+        It never fills a large flat shape. Brick only ever appears as
+        something *built* — eyebrow squares, the map marker, primary button
+        fill, the trail. It never glows. The moment amber starts filling
+        panels or brick starts glowing there are two competing accents and the
+        page has lost its light source.
+
+     2. THE SURFACES ARE WARM, NOT NEUTRAL.
+        The old base dark was #3E3D3D, which is not a colour — it is the
+        absence of a decision, and it read as "the dark part of a slide deck".
+        The ladder below is warm at every step and ordered outside → inside,
+        so surface luminance carries the narrative for free.
    ========================================================================== */
 
 @theme {
-  /* --- brand core --- */
-  --color-bone: #fdfcfb;
-  --color-paper: #f6f2ee;
-  --color-grey: #e5e6e6;
-  --color-grey-mid: #c9caca;
-  --color-charcoal: #3e3d3d;
-  --color-brick: #b8433d;
+  /* --- surface ladder — warm, ordered outside→inside ------------------ */
+  --color-night: #171210;      /* deepest. Page-load curtain + Register.   */
+  --color-espresso: #1e1917;   /* base dark — replaces espresso #3E3D3D    */
+  --color-bark: #2c2422;       /* elevated dark surface / card tier 1      */
+  --color-clay: #4a3b34;       /* card tier 2                              */
+  --color-taupe: #6e5c52;      /* card tier 3                              */
+  --color-stone: #9c877a;      /* card tier 4 — lightest dark card         */
+  --color-sand: #d9c8b4;       /* warm mid-light, dividers on dark         */
+  --color-linen: #efe6da;      /* light card surface                       */
+  --color-paper: #f6f2ee;      /* [KEEP]                                   */
+  --color-bone: #fdfcfb;       /* [KEEP]                                   */
 
-  /* --- derived neutrals (charcoal ramp) --- */
-  --color-ink: #262525;
-  --color-ink-soft: #565454;
-  --color-ink-faint: #8a8787;
-  --color-line: #dcdddd;
-  --color-line-dark: #545252;
+  /* --- light — one source. Amber emits; brick is built. ---------------- */
+  --color-amber: #e8a33d;      /* lamplight. Glows, sun-circle, accents.   */
+  --color-amber-hot: #ffb84d;  /* HOVER ONLY. Never a resting state.       */
+  --color-brick: #b8433d;      /* [KEEP] structural/brand                  */
+  --color-brick-dark: #9c352f; /* [KEEP]                                   */
 
-  /* --- derived accent --- */
-  --color-brick-dark: #9c352f;
-  --color-brick-tint: #f6eceb;
+  /* --- ink — warmed off neutral to match the surfaces ------------------ */
+  --color-ink: #241d1a;
+  --color-ink-soft: #5a4a43;
+  --color-ink-faint: #8d7a70;
+  --color-line: #e2dad1;
+  --color-line-dark: #4a3b34;
+  --color-grey: #ede6de;       /* text on dark                             */
 
-  /* --- type --- */
-  --font-display: var(--font-jost), "Futura", "Century Gothic", system-ui, sans-serif;
-  --font-sans: var(--font-jost), "Futura", "Century Gothic", system-ui, sans-serif;
+  /* --- type: three voices, three jobs (§3.2) --------------------------- */
+  --font-display: var(--font-instrument), Georgia, "Times New Roman", serif;
+  --font-sans: var(--font-jost), Futura, "Century Gothic", system-ui, sans-serif;
+  --font-hand: var(--font-caveat), "Comic Sans MS", cursive;
 
-  /* Display scale — clamped so it never needs a breakpoint override.
-     Tight negative tracking is what makes a geometric sans read as a
-     display face rather than as body copy set large. */
-  --text-display: clamp(2.75rem, 7.2vw, 6.5rem);
-  --text-display--line-height: 0.94;
-  --text-display--letter-spacing: -0.035em;
-  --text-display--font-weight: 700;
+  /* Display — Instrument Serif. Ceiling raised hard: the reference whispers
+     at twice the size and wins, and a serif at 14rem is the single change
+     that moves the perceived tier of the whole project. A serif also needs
+     less negative tracking than the geometric sans it replaces. */
+  --text-mega: clamp(3rem, 12vw, 14rem);
+  --text-mega--line-height: 0.86;
+  --text-mega--letter-spacing: -0.035em;
+  --text-mega--font-weight: 400;
 
-  --text-h1: clamp(2.25rem, 5vw, 4.25rem);
+  --text-h1: clamp(2.5rem, 6vw, 5.5rem);
   --text-h1--line-height: 0.98;
-  --text-h1--letter-spacing: -0.03em;
-  --text-h1--font-weight: 700;
+  --text-h1--letter-spacing: -0.02em;
+  --text-h1--font-weight: 400;
 
-  --text-h2: clamp(1.75rem, 3.4vw, 2.875rem);
+  --text-h2: clamp(1.875rem, 4vw, 3.5rem);
   --text-h2--line-height: 1.04;
-  --text-h2--letter-spacing: -0.025em;
-  --text-h2--font-weight: 700;
+  --text-h2--letter-spacing: -0.018em;
+  --text-h2--font-weight: 400;
 
-  --text-h3: clamp(1.25rem, 1.9vw, 1.625rem);
+  --text-h3: clamp(1.375rem, 2.1vw, 1.875rem);
   --text-h3--line-height: 1.15;
-  --text-h3--letter-spacing: -0.015em;
-  --text-h3--font-weight: 600;
+  --text-h3--letter-spacing: -0.012em;
+  --text-h3--font-weight: 400;
 
+  /* Annotation — Caveat. Always rotated, always lowercase, always in a
+     margin. See `.hand` in the components layer. */
+  --text-hand: clamp(1.5rem, 2.6vw, 2.75rem);
+  --text-hand--line-height: 1.15;
+  --text-hand--letter-spacing: -0.01em;
+  --text-hand--font-weight: 600;
+
+  --text-hand-sm: clamp(1.05rem, 1.4vw, 1.35rem);
+  --text-hand-sm--line-height: 1.2;
+  --text-hand-sm--font-weight: 600;
+
+  /* Stats — display serif, not the UI sans. */
+  --text-stat: clamp(2.75rem, 5.4vw, 5rem);
+  --text-stat--line-height: 0.9;
+  --text-stat--letter-spacing: -0.03em;
+  --text-stat--font-weight: 400;
+
+  /* Body — [KEEP] unchanged. */
   --text-lead: clamp(1.0625rem, 1.45vw, 1.3125rem);
   --text-lead--line-height: 1.5;
   --text-lead--letter-spacing: -0.011em;
 
-  /* Eyebrow / label — the one place letter-spacing goes positive */
+  /* Eyebrow / label — the one place letter-spacing goes positive. [KEEP] */
   --text-eyebrow: 0.6875rem;
   --text-eyebrow--line-height: 1;
   --text-eyebrow--letter-spacing: 0.18em;
   --text-eyebrow--font-weight: 600;
 
-  /* Poster scale — the hero headline is the artwork, not a label on it.
-     0.84 leading stacks the lines into a solid block of colour. */
-  --text-poster: clamp(2.9rem, 9.6vw, 9rem);
-  --text-poster--line-height: 0.84;
-  --text-poster--letter-spacing: -0.045em;
-  --text-poster--font-weight: 700;
+  /* --- radius. Previously an empty set across the entire computed-style
+     census: nothing was soft, nothing was elevated, nothing had a light
+     source. The page was a flat plane with content printed on it. ------- */
+  --radius-xs: 4px;      /* inputs, small chips                           */
+  --radius-sm: 10px;     /* images inside cards, map tiles                */
+  --radius-md: 20px;     /* all cards, panels, image bands                */
+  --radius-lg: 28px;     /* the big sticky floor-plan cards               */
+  --radius-full: 999px;  /* buttons, pills, badges, circles               */
 
-  /* Hero display. to-top.ch sets its headline at 157px on a 1440 viewport —
-     ~11vw — with -0.04em tracking and 1.0 leading. Stax's previous hero
-     topped out at 9rem, which is why it read as a large label rather than as
-     the artwork. This is that scale in the Jost cut. */
-  --text-mega: clamp(2.55rem, 11vw, 10.5rem);
-  --text-mega--line-height: 0.86;
-  --text-mega--letter-spacing: -0.05em;
-  --text-mega--font-weight: 700;
+  /* --- shadow. Exactly three elevations exist on this site, plus one for
+     floating chrome. No others, ever (§3.3).
 
-  --text-stat: clamp(2.25rem, 4.6vw, 3.75rem);
-  --text-stat--line-height: 0.9;
-  --text-stat--letter-spacing: -0.04em;
-  --text-stat--font-weight: 700;
+     The two amber shadows are *parameterised* rather than duplicated. The
+     spec calls for the glow at 35%, 30% and 25% in different places, and for
+     the flare at 55% and 40% — writing those as five separate values would
+     put five shadows in the codebase and lose the rule. Instead the strength
+     is a custom property: a component that wants a softer lamp sets
+     `--glow-strength` and still uses `shadow-glow`, so there is one
+     definition of what a glow *is* and callers only choose how bright.
+     ------------------------------------------------------------------- */
+  --shadow-card: 14px 14px 28px 0 rgb(23 18 16 / 0.18);       /* offset, physical */
+  --shadow-card-hover: 20px 20px 40px 0 rgb(23 18 16 / 0.24);
+  --shadow-glow: 0 12px 60px 0 rgb(232 163 61 / var(--glow-strength, 0.35));
+  --shadow-flare: 0 0 150px 10px rgb(255 184 77 / var(--flare-strength, 0.55));
+  --shadow-lift: 0 24px 50px 5px rgb(23 18 16 / 0.4);         /* chrome only */
+
+  /* Not an elevation: the 2px amber rule an input draws under itself on
+     focus (§5.9). It is a hairline that happens to be cheapest as a shadow —
+     there is no blur, no offset and nothing is lifted. */
+  --shadow-focus-rule: 0 2px 0 0 var(--color-amber);
 
   /* --- motion --- */
   --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
   --ease-in-out-quart: cubic-bezier(0.76, 0, 0.24, 1);
+  --ease-out-soft: cubic-bezier(0.22, 0.61, 0.36, 1);
+
+  --dur-micro: 150ms;
+  --dur-fast: 300ms;
+  --dur-base: 600ms;
+  --dur-slow: 800ms;
+  --dur-curtain: 1100ms;
+
+  /* Kills Tailwind's default cubic-bezier(.4,0,.2,1) — the generic Material
+     curve, which a census found on 68 elements and which is why every
+     micro-interaction felt identical and slightly rubbery. Anything that does
+     not name a curve now inherits the good one. */
+  --default-transition-timing-function: var(--ease-out-expo);
+  --default-transition-duration: 300ms;
 
   /* --- layout --- */
   --spacing-gutter: 1.5rem;
-  --radius-none: 0px;
 }
 
 /* ==========================================================================
@@ -106,12 +173,29 @@
 
   html {
     -webkit-text-size-adjust: 100%;
-    scroll-behavior: smooth;
+    /* Deliberately NOT `scroll-behavior: smooth`. Lenis owns smooth scrolling
+       on this site, and the two fight: a native smooth jump runs on the
+       browser's own clock while Lenis is simultaneously writing scroll
+       position from rAF, so anchor navigation stutters or stalls outright.
+       Anchor jumps are instant here and Lenis smooths the wheel. */
+    scroll-behavior: auto;
   }
 
   /* Anchor jumps clear the fixed nav */
   [id] {
     scroll-margin-top: 6rem;
+  }
+
+  /* Voice assignment (§3.2), applied at the base so it cannot be forgotten:
+     every heading is the display serif, everything else is the UI sans.
+     Instrument Serif has no bold — a `font-bold` on a heading would trigger a
+     synthesised faux-bold, so the weight is pinned and synthesis is off. */
+  h1,
+  h2,
+  h3,
+  h4 {
+    font-family: var(--font-display);
+    font-weight: 400;
   }
 
   body {
@@ -256,23 +340,16 @@
    ========================================================================== */
 
 @utility section-y {
-  padding-block: 5rem;
+  padding-block: clamp(6rem, 11vw, 14rem);
+}
 
-  @media (width >= 48rem) {
-    padding-block: 7.5rem;
-  }
-
-  @media (width >= 64rem) {
-    padding-block: 9rem;
-  }
+/* Hero-adjacent and the two arrival moments. */
+@utility section-y-lg {
+  padding-block: clamp(8rem, 16vw, 22rem);
 }
 
 @utility section-y-sm {
-  padding-block: 3.5rem;
-
-  @media (width >= 48rem) {
-    padding-block: 5rem;
-  }
+  padding-block: clamp(3.5rem, 6vw, 7rem);
 }
 
 /* ==========================================================================
@@ -324,6 +401,21 @@
   }
 }
 
+/* The arrival render settles out of a slight over-scale as it crosses the
+   viewport — the camera coming to rest rather than a picture being placed. */
+/* A stroke that draws itself along the scroll. `pathLength="1"` normalises
+   the geometry so the dash values are fractions rather than measured lengths
+   — which means the same rule works on any path without measuring it in JS. */
+@keyframes draw-line {
+  from { stroke-dashoffset: 1; }
+  to   { stroke-dashoffset: 0; }
+}
+
+@keyframes zoom-settle {
+  from { transform: scale(1.08); }
+  to   { transform: scale(1); }
+}
+
 @keyframes drift {
   from { transform: translateY(-3.5%); }
   to   { transform: translateY(3.5%); }
@@ -344,6 +436,20 @@
       animation-timeline: view();
       animation-range: entry calc(0% + var(--rise-delay, 0) * 0.12%) cover
         calc(30% + var(--rise-delay, 0) * 0.12%);
+    }
+
+    .sd-draw {
+      stroke-dasharray: 1;
+      animation: draw-line linear both;
+      animation-timeline: view();
+      animation-range: entry 20% cover 45%;
+    }
+
+    .sd-zoom {
+      animation: zoom-settle linear both;
+      animation-timeline: view();
+      animation-range: cover 0% cover 62%;
+      will-change: transform;
     }
 
     /* Slow vertical drift inside an overflow-hidden frame. The image is
@@ -406,69 +512,23 @@
 }
 
 /* ==========================================================================
-   Poster utilities
-   ========================================================================== */
+   Reduced motion — bail out entirely rather than shortening.
 
-/* A hard-edged panel that bleeds off the left viewport edge. The crop is the
-   point: type running off the page is what makes it read as a printed poster
-   rather than a centred web hero. */
-@utility panel-bleed-l {
-  margin-left: calc(50% - 50vw);
-  padding-left: calc(50vw - 50% + 1.25rem);
+   The rule this site follows is that a reduced-motion visitor gets *no*
+   curtain, *no* splitting, *no* parallax and *no* smooth scroll — not
+   faster versions of them. Shortening an animation to 0.01s still moves; the
+   request was for stillness.
 
-  @media (width >= 48rem) {
-    padding-left: calc(50vw - 50% + 2.5rem);
-  }
-
-  @media (width >= 90rem) {
-    padding-left: calc(50vw - 50% + 4rem);
-  }
-}
-
-/* Offset block shadow — no blur, pure geometry. Used on selected pills and
-   the submit button so state changes feel physical. */
-@utility shadow-block {
-  box-shadow: 5px 5px 0 0 var(--color-ink);
-}
-
-@utility shadow-block-brick {
-  box-shadow: 5px 5px 0 0 var(--color-brick);
-}
-
-@utility shadow-block-white {
-  box-shadow: 5px 5px 0 0 #fff;
-}
-
-/* Ticker for the hero stat bar. Duplicated content + 50% translate = a seam
-   free loop with no JS. */
-@keyframes stax-ticker {
-  from { transform: translateX(0); }
-  to   { transform: translateX(-50%); }
-}
-
-.ticker-track {
-  display: flex;
-  width: max-content;
-  animation: stax-ticker 42s linear infinite;
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .ticker-track {
-    animation: none;
-  }
-}
-
-/* ==========================================================================
-   Reduced motion — bail out entirely rather than shortening (§6.2 rule 4).
-   The JS side checks useReducedMotion() and skips the effect body; this
-   catches everything CSS-driven.
+   Three layers enforce it and all three are needed:
+     - `gsap.matchMedia` conditions, so the parallax, the plan stack and the
+       pinned walkthrough never build their timelines at all;
+     - `useReducedMotion()` in the components that own their own rAF loops
+       (the counters and the magnetic label), so no frame loop ever starts;
+     - this block, which catches everything CSS-driven, including the
+       scroll-timeline reveals that have no JavaScript to gate.
    ========================================================================== */
 
 @media (prefers-reduced-motion: reduce) {
-  html {
-    scroll-behavior: auto;
-  }
-
   *,
   *::before,
   *::after {
@@ -478,11 +538,41 @@
     scroll-behavior: auto !important;
   }
 
+  /* Entrance animations resolve to their end state rather than to a very
+     fast version of themselves. */
   .animate-rise,
-  .animate-fade {
-    animation: none;
+  .animate-fade,
+  .sd-rise,
+  .sd-mask,
+  .sd-drift,
+  .sd-zoom {
+    animation: none !important;
     opacity: 1;
     transform: none;
+    clip-path: none;
+  }
+
+  /* Split text is re-assembled: the masks and the per-unit transforms come
+     off entirely, so a heading is simply a heading. */
+  .sd-word > span,
+  .sd-letter > span,
+  .hero-reveal .sd-letter > span,
+  .hero-reveal + .hand .sd-word > span {
+    animation: none !important;
+    opacity: 1;
+    transform: none;
+  }
+
+  /* A route that draws itself is just a route. */
+  .sd-draw {
+    stroke-dasharray: none;
+    animation: none !important;
+  }
+
+  /* The curtain never mounts under reduced motion (see Curtain.tsx), but if
+     anything ever renders it, it must not sit over the page. */
+  .curtain {
+    display: none !important;
   }
 }
 
@@ -552,97 +642,64 @@
 }
 
 /* ==========================================================================
-   Hero scroll cue — the rotating circular mark.
+   Hero letter cascade — timed, not scroll-linked.
 
-   to-top.ch parks a circle at the base of its hero, sets it to rotate(15deg)
-   and eases to 8deg on hover, then parallaxes it harder than anything else on
-   the page (yPercent 125) so it sinks as you leave. Same idea in the Stax
-   language: a square, because the wordmark is stacked blocks and a circle
-   would be the one round thing on the site.
+   Everywhere else on the page the reveal rides `animation-timeline: view()`,
+   which is right: the motion is tied to scroll position, so content assembles
+   as you descend and comes apart if you go back.
+
+   The hero cannot use it. It is already in view at load, so its view-timeline
+   progress starts past the entry range and the letters would simply be there.
+   Above the fold there is no scroll to ride, so the cascade runs on a clock —
+   and it is the only timed reveal on the site.
+
+   `--reveal-delay` lets the page-load curtain hand off to it (§4.1): the
+   letters begin as the curtain clears rather than underneath it.
    ========================================================================== */
 
-.hero-cue {
-  transform: rotate(15deg);
-  transition: transform 0.8s var(--ease-out-expo);
-}
+@media (prefers-reduced-motion: no-preference) {
+  .hero-reveal .sd-letter > span {
+    animation: word-rise 0.9s var(--ease-out-expo) both;
+    animation-timeline: auto;
+    animation-range: normal;
+    animation-delay: calc(var(--reveal-delay, 0ms) + var(--i, 0) * 28ms);
+  }
 
-.hero-cue:hover,
-.hero-cue:focus-visible {
-  transform: rotate(8deg);
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .hero-cue,
-  .hero-cue:hover {
-    transform: none;
-    transition: none;
+  /* The handwriting sub-line follows the headline in, one beat behind, and
+     splits by word rather than by character — a marker hand taken apart
+     letter by letter stops reading as handwriting. */
+  .hero-reveal + .hand .sd-word > span {
+    animation: word-rise 0.9s var(--ease-out-expo) both;
+    animation-timeline: auto;
+    animation-range: normal;
+    animation-delay: calc(var(--reveal-delay, 0ms) + 200ms + var(--i, 0) * 55ms);
   }
 }
-
-@keyframes cue-bob {
-  from { transform: translateY(0); }
-  to   { transform: translateY(6px); }
-}
-
-.hero-cue-arrow {
-  animation: cue-bob 1.6s var(--ease-in-out-quart) infinite alternate;
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .hero-cue-arrow { animation: none; }
-}
-
-/* ==========================================================================
-   Tonal blocks.
-
-   The reference threads its four service blocks with one dashed amber line
-   and alternates the block background behind it — `.service-content-container`
-   plus `.yellow` / `.mint-green` / `.light-mint-green`. The alternation is
-   what stops four identical rows reading as a table.
-
-   Here the same rhythm runs on the neutral ramp, so the brick accent stays
-   the only saturated thing on the page.
-   ========================================================================== */
-
-@utility tonal-a { background-color: var(--color-bone); }
-@utility tonal-b { background-color: var(--color-paper); }
-@utility tonal-c { background-color: color-mix(in srgb, var(--color-grey) 45%, var(--color-paper)); }
-@utility tonal-d { background-color: color-mix(in srgb, var(--color-grey) 80%, var(--color-bone)); }
-
-/* Dashed connector, matching the trail language: the same 14/10 rhythm as
-   .trail-line so a block connector and the page trail read as one system. */
-.tonal-connector {
-  background-image: repeating-linear-gradient(
-    to bottom,
-    var(--color-brick) 0,
-    var(--color-brick) 14px,
-    transparent 14px,
-    transparent 24px
-  );
-}
-
 
 /* ==========================================================================
    Ghost numeral.
 
-   to-top.ch sets the index of each numbered block at 432px in the display
-   face at 5-20% white, sitting behind the content as a watermark. It is the
-   single loudest thing in their layout and costs one element.
+   The reference sets each block index at ~454px in the display face behind
+   the content. Stax carried the same information at 11px in an eyebrow, which
+   is what made the sections read as a document rather than as a designed
+   page. This is that device at the reference's scale, in the display serif,
+   clamped so it scales with the viewport rather than overflowing a phone.
 
-   Stax carried the same information at 11px in an eyebrow, which is why the
-   sections read as a document rather than as a designed page. Same device
-   here in Jost, clamped so it scales with the viewport instead of overflowing
-   a phone.
+   It must BLEED OFF the container edge. Clipping at the section boundary is
+   what makes it read as texture rather than as a placed graphic.
    ========================================================================== */
 
 @utility ghost-num {
   position: absolute;
   z-index: 0;
-  font-size: clamp(5.5rem, 22vw, 27rem);
-  font-weight: 700;
-  line-height: 0.72;
-  letter-spacing: -0.06em;
+  font-family: var(--font-display);
+  font-size: clamp(8rem, 26vw, 24rem);
+  font-weight: 400;
+  line-height: 0.8;
+  letter-spacing: -0.03em;
   font-variant-numeric: tabular-nums;
+  color: currentColor;
+  opacity: 0.07;
   pointer-events: none;
   user-select: none;
 }
@@ -665,4 +722,237 @@
   @media (width >= 64rem) {
     padding: 4.5rem;
   }
+}
+
+/* ==========================================================================
+   Components
+   Everything below is a recipe rather than a one-off. If a section needs a
+   card, an annotation or a glow, it uses one of these — that is what makes a
+   long page read as one designed system instead of a pile of effects.
+   ========================================================================== */
+
+@layer components {
+  /* ---- The card. One recipe (§6.2). ------------------------------------
+     Cards sit tilted at rest and STRAIGHTEN on hover. Never the reverse,
+     never a different axis. Applied consistently across cards, sun-circles,
+     badges and dropdowns, that single rule is what reads as a designed
+     language rather than a pile of effects (§7 law 2). */
+  .card {
+    position: relative;
+    overflow: hidden;
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-card);
+    transform: rotate(var(--tilt, -1.2deg));
+    transition:
+      transform var(--dur-slow) var(--ease-out-expo),
+      box-shadow var(--dur-fast) var(--ease-out-soft);
+  }
+
+  .card:hover,
+  .card:focus-within {
+    transform: rotate(0deg) translateY(-6px);
+    box-shadow: var(--shadow-card-hover);
+  }
+
+  /* ---- The annotation (§6.5). ------------------------------------------
+     The highest-return, lowest-cost component in the design. Always the hand,
+     always rotated, always lowercase, always in a margin or over an edge —
+     never in the content column. Maximum one per section: two is cute, three
+     is a theme park. */
+  .hand {
+    font-family: var(--font-hand);
+    font-weight: 600;
+    line-height: 1.15;
+    text-transform: lowercase;
+    transform: rotate(var(--hand-tilt, -4deg));
+    transform-origin: left center;
+  }
+
+  /* ---- The sun-circle (§5.1.4). ----------------------------------------
+     The single light source above the fold, and the element the page was most
+     conspicuously missing. Sized in `ch` so the circle grows with its label
+     rather than needing a magic pixel width. Maximum two per page. */
+  .sun-circle {
+    display: grid;
+    place-items: center;
+    width: 17ch;
+    height: 17ch;
+    padding: 1rem;
+    border: 1px solid rgb(255 255 255 / 0.3);
+    border-radius: var(--radius-full);
+    background: var(--color-amber);
+    color: var(--color-night);
+    box-shadow: var(--shadow-glow);
+    font-family: var(--font-sans);
+    font-size: clamp(0.8rem, 1.2vw, 1rem);
+    font-weight: 700;
+    line-height: 1.2;
+    letter-spacing: 0.04em;
+    text-align: center;
+    text-transform: uppercase;
+    transform: rotate(var(--sun-tilt, -14deg));
+    transition:
+      box-shadow var(--dur-fast) var(--ease-out-soft),
+      transform var(--dur-slow) cubic-bezier(0.33, 1, 0.68, 1);
+  }
+
+  .sun-circle:hover,
+  .sun-circle:focus-visible {
+    box-shadow: var(--shadow-flare);
+    transform: rotate(calc(var(--sun-tilt, -14deg) / 2));
+  }
+
+  /* ---- Glass. Floating chrome only — never on content. ------------------ */
+  .chrome-glass {
+    background: rgb(30 25 23 / 0.94);
+    backdrop-filter: blur(10px);
+  }
+
+  .chrome-glass-lg {
+    background: rgb(44 36 34 / 0.9);
+    backdrop-filter: blur(20px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .card,
+  .card:hover,
+  .sun-circle,
+  .sun-circle:hover {
+    transition: none;
+  }
+}
+
+/* ==========================================================================
+   The plan stack (§5.3).
+
+   Four cards, each sticky at the same offset, so they land on top of each
+   other as you descend. The per-card offset step is deliberate: at a single
+   shared `top` the buried cards vanish completely and the effect reads as
+   one card being replaced four times. A 14px step leaves an edge of each
+   card showing, which is what makes it read as a stack.
+
+   Below `lg` sticky is abandoned entirely and the cards stack vertically at
+   full width with alternating tilt — the reference does exactly this and it
+   works, because a 72vh sticky card on a phone is most of the screen with
+   nowhere to go.
+   ========================================================================== */
+
+.plan-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 2.5rem;
+}
+
+.plan-card {
+  position: relative;
+  overflow: hidden;
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-card);
+  transform: rotate(var(--tilt, -1deg));
+  transition: transform var(--dur-slow) var(--ease-out-expo);
+}
+
+.plan-card:hover {
+  transform: rotate(0deg);
+}
+
+@media (width >= 64rem) {
+  .plan-stack {
+    gap: 6vh;
+  }
+
+  .plan-card {
+    position: sticky;
+    top: calc(6.5rem + var(--depth, 0) * 14px);
+    height: 60vh;
+    min-height: 28rem;
+    /* Straightening on hover is the site's hover grammar, but a card that is
+       part of a scrubbed scale timeline must not also be transformed by a
+       hover rule — the two fight over the same matrix. Upright at rest is the
+       right call here for the same reason the tilt exists elsewhere: the
+       stack already has depth, and tilt on top of scale reads as a wobble. */
+    transform: none;
+    transform-origin: center top;
+    will-change: transform;
+  }
+
+  .plan-card:hover {
+    transform: none;
+  }
+}
+
+/* ==========================================================================
+   Disclosure panels.
+
+   Native <details> gives correct keyboard and screen-reader behaviour, works
+   before hydration and ships no JavaScript — but it opens instantly. These
+   three rules animate the real height of the panel, which is the one thing
+   the old `max-height` trick cannot do: `max-height` animates to a guess
+   above the true height, so the curve applies to a distance the content never
+   travels and the easing is a lie.
+
+   Unsupported browsers get the instant native open, which is exactly what
+   they had before.
+   ========================================================================== */
+
+:root {
+  interpolate-size: allow-keywords;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  details::details-content {
+    block-size: 0;
+    overflow: clip;
+    transition:
+      block-size var(--dur-base) var(--ease-out-expo),
+      content-visibility var(--dur-base) var(--ease-out-expo) allow-discrete;
+  }
+
+  details[open]::details-content {
+    block-size: auto;
+  }
+}
+
+/* ==========================================================================
+   The page-load curtain (§4.1).
+
+   Two elements, four steps, no library. The logo rises and holds, the logo
+   leaves upward, the panel follows it, and by the time the panel clears the
+   hero headline has already begun its cascade underneath.
+
+   `pointer-events: none` is on the panel from the first frame to the last:
+   the curtain is scenery, and a visitor who wants to click Register at 200ms
+   must be able to.
+   ========================================================================== */
+
+.curtain {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  display: grid;
+  place-items: center;
+  pointer-events: none;
+  background: var(--color-night);
+  animation: curtain-lift var(--dur-curtain) var(--ease-in-out-quart) 1000ms both;
+}
+
+.curtain-logo {
+  text-align: center;
+  animation:
+    curtain-logo-in 500ms var(--ease-out-expo) both,
+    curtain-logo-out 600ms var(--ease-in-out-quart) 900ms both;
+}
+
+@keyframes curtain-logo-in {
+  from { opacity: 0; transform: translateY(24px); }
+  to   { opacity: 1; transform: none; }
+}
+
+@keyframes curtain-logo-out {
+  to { opacity: 0; transform: translateY(-101%); }
+}
+
+@keyframes curtain-lift {
+  to { transform: translateY(-101%); }
 }

@@ -67,19 +67,19 @@ export default function ThankYouPage() {
 
       {/* Image rail — desktop only. On mobile the questions come first and
           nothing competes with them. */}
-      <div className="hidden lg:block relative bg-charcoal">
+      <div className="hidden lg:block relative bg-espresso">
         <Render
           media={media("exterior-evening")}
           sizes="44vw"
           className="absolute inset-0 block"
           imgClassName="w-full h-full object-cover"
         />
-        <div className="absolute inset-0 bg-linear-to-t from-charcoal/85 via-charcoal/10 to-transparent" />
+        <div className="absolute inset-0 bg-linear-to-t from-espresso/85 via-espresso/10 to-transparent" />
         <div className="absolute bottom-0 left-0 right-0 p-12">
           <p className="text-grey text-h3 max-w-sm text-balance">
             248 suites. 551 beds. Fifteen minutes from Brock.
           </p>
-          <ButtonLink href="/residences" variant="onDark" className="mt-6">
+          <ButtonLink href="/residences" variant="secondary" className="mt-6">
             See the floor plans
           </ButtonLink>
         </div>

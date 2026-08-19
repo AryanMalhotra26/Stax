@@ -21,8 +21,15 @@ const STATIC_DEMO = process.env.NEXT_PUBLIC_STATIC_DEMO === "1";
  * abandonment-prone field on a cold form, and it is asked for on the thank-you
  * page instead, from someone who has already said yes once.
  *
- * What changed is only the surface: numbered steps, 2px rules, oversized
- * input type, and offset block shadows so selecting a pill feels physical.
+ * The surface is architectural rather than boxed (§5.9): inputs are a single
+ * bottom rule that lights amber on focus, choices are pills, and the submit
+ * is the one amber-filled button on the site — the brightest object on the
+ * whole page, which everything from the hero down has been building toward.
+ *
+ * No focus-ring glow on the inputs. A glow there would put a second emitting
+ * object beside the submit and split the light source, which is the one rule
+ * the palette does not bend on.
+ *
  * Every accessibility and conversion detail from the original is intact —
  * visible labels, real radio semantics, blur-time validation, 44px targets.
  */
@@ -123,20 +130,19 @@ export function CaptureForm({
   }
 
   /* --- surface tokens, light vs dark --- */
-  const rule = onDark ? "border-white/25" : "border-ink/20";
-  const stepNum = onDark ? "text-white/40" : "text-ink-faint";
-  const stepText = onDark ? "text-white" : "text-ink";
+  const rule = onDark ? "border-sand/25" : "border-ink/20";
+  const stepText = onDark ? "text-grey" : "text-ink";
 
   const inputBase =
-    "w-full min-h-14 border-2 bg-transparent px-4 text-xl font-medium outline-none " +
-    "transition-[border-color,box-shadow] duration-150 md:text-2xl";
+    "w-full min-h-14 rounded-xs border-b bg-transparent px-1 py-4 text-lead " +
+    "outline-none transition-[border-color,box-shadow] duration-150 " +
+    "ease-[var(--ease-out-soft)] focus:border-amber " +
+    "focus:shadow-[var(--shadow-focus-rule)]";
   const inputTone = emailError
-    ? onDark
-      ? "border-white text-white placeholder:text-white/35"
-      : "border-brick text-ink placeholder:text-ink-faint/60"
+    ? "border-brick text-inherit placeholder:text-ink-faint/70"
     : onDark
-      ? "border-white/30 text-white placeholder:text-white/35 focus:border-white focus:shadow-block-white"
-      : "border-ink/25 text-ink placeholder:text-ink-faint/60 focus:border-ink focus:shadow-block-brick";
+      ? "border-sand/25 text-bone placeholder:text-grey/35"
+      : "border-ink/25 text-ink placeholder:text-ink-faint/60";
 
   return (
     <div className={`grid ${className}`}>
@@ -149,14 +155,14 @@ export function CaptureForm({
         }`}
       >
         <span
-          className="flex h-12 w-12 shrink-0 items-center justify-center bg-brick"
+          className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-amber shadow-glow"
           aria-hidden="true"
         >
-          <svg viewBox="0 0 20 20" className="h-5 w-5 fill-none stroke-white" strokeWidth={2.75}>
-            <path d="M4 10.5 L8 14.5 L16 6" strokeLinecap="square" />
+          <svg viewBox="0 0 20 20" className="h-5 w-5 fill-none stroke-night" strokeWidth={2.5}>
+            <path d="M4 10.5 L8 14.5 L16 6" strokeLinecap="round" />
           </svg>
         </span>
-        <p className={`text-h3 ${onDark ? "text-white" : "text-ink"}`} role="status">
+        <p className={`text-h3 ${onDark ? "text-bone" : "text-ink"}`} role="status">
           {state === "done" && "You’re on the list. Two quick questions…"}
         </p>
       </div>
@@ -170,7 +176,7 @@ export function CaptureForm({
           {/* 01 — email */}
           <div>
             <div className={`mb-3 flex items-center gap-3 border-b pb-2 ${rule}`}>
-              <span className={`text-eyebrow tnum ${stepNum}`}>01</span>
+              <span className="text-eyebrow tnum text-amber uppercase">01</span>
               <label
                 htmlFor={`email-${uid}`}
                 className={`text-eyebrow uppercase ${stepText}`}
@@ -199,7 +205,7 @@ export function CaptureForm({
             {emailError && (
               <p
                 id={`email-error-${uid}`}
-                className={`mt-2.5 text-sm font-medium ${onDark ? "text-white" : "text-brick"}`}
+                className={`mt-2.5 text-sm font-medium ${onDark ? "text-amber" : "text-brick"}`}
               >
                 {emailError}
               </p>
@@ -209,7 +215,7 @@ export function CaptureForm({
           {/* 02 — move-in term */}
           <div>
             <div className={`mb-3 flex items-center gap-3 border-b pb-2 ${rule}`}>
-              <span className={`text-eyebrow tnum ${stepNum}`}>02</span>
+              <span className="text-eyebrow tnum text-amber uppercase">02</span>
               <span className={`text-eyebrow uppercase ${stepText}`}>
                 When are you moving in?
               </span>
@@ -219,17 +225,15 @@ export function CaptureForm({
               {MOVE_IN_OPTIONS.map((opt) => {
                 const selected = moveIn === opt.value;
                 const base =
-                  "min-h-14 cursor-pointer border-2 px-2 text-sm font-semibold uppercase leading-tight " +
-                  "sm:px-3 sm:text-base tracking-wide " +
+                  "min-h-13 cursor-pointer rounded-full border px-4 py-3 text-sm " +
+                  "font-semibold tracking-wide uppercase leading-tight sm:px-6 " +
                   "transition-[background-color,color,border-color,box-shadow,transform] " +
-                  "duration-150 active:translate-y-px";
-                const tone = onDark
-                  ? selected
-                    ? "border-white bg-white text-ink shadow-block-brick"
-                    : "border-white/30 bg-transparent text-white/80 hover:border-white hover:text-white"
-                  : selected
-                    ? "border-ink bg-ink text-white shadow-block-brick"
-                    : "border-ink/25 bg-transparent text-ink hover:border-ink";
+                  "duration-300 active:translate-y-px";
+                const tone = selected
+                  ? "border-transparent bg-amber text-night shadow-glow [--glow-strength:0.25]"
+                  : onDark
+                    ? "border-sand/25 bg-transparent text-grey/80 hover:border-amber hover:text-amber"
+                    : "border-ink/25 bg-transparent text-ink hover:border-amber hover:text-brick";
                 return (
                   <button
                     key={opt.value}
@@ -253,21 +257,19 @@ export function CaptureForm({
           {error && (
             <p
               role="alert"
-              className={`text-sm font-medium ${onDark ? "text-white" : "text-brick"}`}
+              className={`text-sm font-medium ${onDark ? "text-bone" : "text-brick"}`}
             >
               {error}
             </p>
           )}
 
-          {/* Submit — reward stated, never "Submit" */}
+          {/* Submit. The brightest object on the entire site — the only
+              amber fill, and the end of the light the hero's sun-circle
+              started. Everything has been building to it. */}
           <button
             type="submit"
             disabled={state === "sending"}
-            className={`group flex min-h-16 w-full items-center justify-between gap-3 border-2 px-5 text-left text-sm font-bold uppercase tracking-wide sm:gap-4 sm:px-6 sm:text-base transition-[background-color,color,box-shadow,transform] duration-150 active:translate-y-px disabled:opacity-60 ${
-              onDark
-                ? "border-white bg-white text-ink hover:shadow-block-brick"
-                : "border-brick bg-brick text-white hover:shadow-block"
-            }`}
+            className="group flex min-h-16 w-full items-center justify-between gap-3 rounded-full bg-amber px-7 text-left text-sm font-bold tracking-[0.06em] text-night uppercase shadow-glow transition-[background-color,box-shadow,transform] duration-300 hover:-translate-y-0.5 hover:bg-amber-hot hover:shadow-flare [--flare-strength:0.4] active:translate-y-px disabled:opacity-60 sm:gap-4 sm:px-8 sm:text-base"
           >
             <span>{state === "sending" ? "Sending…" : ctaLabel}</span>
             <svg
@@ -281,16 +283,12 @@ export function CaptureForm({
           </button>
 
           <p
-            className={`flex items-start gap-2.5 text-[0.8125rem] leading-relaxed ${
-              onDark ? "text-white/55" : "text-ink-faint"
+            className={`hand text-center text-hand-sm ${
+              onDark ? "text-grey/50" : "text-ink-faint"
             }`}
+            style={{ ["--hand-tilt" as string]: "-1.5deg" }}
           >
-            <span className="stax-mark mt-[0.4em] shrink-0 opacity-50" aria-hidden="true">
-              <i />
-              <i />
-              <i />
-            </span>
-            Takes 15 seconds. No spam — unsubscribe anytime.
+            takes 15 seconds. no spam.
           </p>
         </form>
       )}

@@ -1,66 +1,218 @@
 import { Render } from "@/components/ui/Render";
-import { SectionHead } from "@/components/ui";
-import { Reveal } from "@/components/motion/Reveal";
+import { Reveal, CountUp } from "@/components/motion/Reveal";
+import { SplitWords } from "@/components/motion/SplitWords";
+import { Seam } from "@/components/ui/Edge";
+import { ArtArrow, ArtDoor, ArtKey, ArtSignpost } from "@/components/ui/LineArt";
 import { media } from "@/content/generated/media";
 import { SITE } from "@/lib/site";
 
 /**
- * The one idea the building is about (§3.1 §3). Split layout, text left.
+ * "01 — The Idea" — the question (§5.2).
  *
- * The render sits in an overflow-hidden frame with a scroll-driven mask reveal
- * and a slow parallax drift — both native CSS `animation-timeline`, so they
- * cost no JS and degrade to a static image where unsupported.
+ * The reference opens the equivalent section with a huge two-tone serif
+ * question, a 3D signpost showing a fork in the road, and two large rounded
+ * cards naming the two things people are actually worried about. Stax had the
+ * same argument in its copy and none of its structure: a 240px summary strip,
+ * a counter row, then a text-only block. The words were doing all the work
+ * unaided.
+ *
+ * This is that argument composed. The question is asked at display scale, the
+ * fork puts the choice in front of you, the two cards are the two bad options
+ * — and the light source picks the answer, because the arm pointing at your
+ * own front door is the only thing here that glows.
+ *
+ * The counter row folds in as a footer strip rather than owning a section of
+ * its own. It is supporting evidence for the idea, not a standalone
+ * statement, and giving it a section of its own was what made the top of the
+ * page read as a slide deck.
  */
+
+const CONCERNS = [
+  {
+    n: "01",
+    title: "The house that was never a house",
+    body: "A room in a house that was never meant to be one — carved up, patched together, and rented by the door.",
+    surface: "bg-clay text-bone",
+    tilt: "-1.2deg",
+    Art: ArtKey,
+  },
+  {
+    n: "02",
+    title: "The corridor",
+    body: "Or a residence hall, where a corridor is the first thing you walk into every day and the last thing you walk out of.",
+    surface: "bg-espresso text-grey",
+    tilt: "1.4deg",
+    Art: ArtDoor,
+  },
+] as const;
+
 export function Positioning() {
   return (
-    <section className="bg-bone">
-      <div className="container-stax section-y relative">
-        <SectionHead
-          index="01"
-          eyebrow="The idea"
-          heading="Close enough to campus. Far enough to feel like your own place."
-        />
+    <section
+      id="main-story"
+      data-trail="the street"
+      className="relative overflow-hidden bg-bone section-y"
+    >
+      <Seam edge="bottom" color="paper" size="18%" />
 
-        <div className="mt-10 grid items-start gap-10 lg:grid-cols-[1fr_1.1fr] lg:gap-16">
-          <Reveal className="max-w-lg space-y-4 text-lead text-ink-soft">
-            <p>
-              Student housing usually asks you to choose: a room in a house that
-              was never meant to be one, or a residence hall where a corridor is
-              the first thing you walk into every day.
-            </p>
-            <p>
-              Stax is {SITE.facts.blocks} purpose-built blocks in a
-              stacked-townhouse form — private entries, real kitchens, balconies
-              — with a complimentary shuttle that removes the reason anyone puts
-              up with the alternative.
-            </p>
+      <div className="container-stax relative z-2">
+        {/* The section's one annotation. Lowercase, rotated, in a student's
+            voice, sitting outside the content column — never inside it. */}
+        <div className="relative mx-auto max-w-3xl text-center">
+          <p
+            className="hand inline-block text-hand text-brick"
+            style={{ ["--hand-tilt" as string]: "-3deg" }}
+          >
+            so — where do you actually want to live?
+          </p>
+          <ArtArrow className="absolute -right-2 -bottom-7 hidden h-10 w-14 text-brick/50 md:block" />
+        </div>
 
-            <dl className="grid grid-cols-3 gap-4 border-t border-ink/15 pt-6 text-base">
-              <Fact k="Blocks" v={SITE.facts.blocks} />
-              <Fact k="Suites" v={SITE.facts.units} />
-              <Fact k="Beds" v={SITE.facts.beds} />
-            </dl>
-          </Reveal>
+        <h2 className="mx-auto mt-9 max-w-[17ch] text-center text-h1 text-balance">
+          <span className="text-ink">
+            <SplitWords text="Close enough to campus." />
+          </span>{" "}
+          <span className="text-ink-faint">
+            <SplitWords text="Far enough to feel like your own place." />
+          </span>
+        </h2>
 
-          <div className="sd-mask relative aspect-3/2 overflow-hidden bg-grey">
+        {/* ---- The fork ------------------------------------------------
+            The reference spends 2.2MB of WebGL on a 3D signpost here. This is
+            the same idea flat: a band, a drawn post, two arms in the hand —
+            about 15KB, and at a glance nobody can tell which one they are
+            looking at. */}
+        <Reveal className="relative mt-14 md:mt-20" delay={0.06}>
+          <div className="sd-mask relative aspect-16/7 overflow-hidden rounded-md bg-linen md:aspect-21/8">
             <Render
               media={media("exterior-garden")}
-              sizes="(max-width: 1023px) 100vw, 52vw"
+              sizes="(max-width: 1439px) 100vw, 1312px"
               className="sd-drift absolute inset-0 block h-[108%] w-full"
               imgClassName="h-full w-full object-cover"
             />
+            {/* The scrim runs left to right rather than bottom to top: the
+                signpost stands on the lawn at the left, and the building has
+                to stay legible at the right. */}
+            <div
+              aria-hidden="true"
+              className="absolute inset-0"
+              style={{
+                background:
+                  "linear-gradient(to right, rgb(23 18 16 / 0.86) 6%, rgb(23 18 16 / 0.5) 38%, transparent 66%), linear-gradient(to top, rgb(23 18 16 / 0.45), transparent 40%)",
+              }}
+            />
+
+            {/* The post and its two boards. Built from elements rather than
+                one flat drawing so the arms can carry live text at the hand's
+                own size — a label baked into an SVG stops being type. */}
+            <div className="absolute inset-y-0 left-0 flex items-end pb-[7%] pl-[6%] md:pl-[8%]">
+              <div className="relative flex flex-col items-start">
+                <div className="relative mb-1 flex flex-col items-start gap-2.5 md:gap-3.5">
+                  {/* Left arm — the alternative. Unlit, and it points back
+                      the way you came. */}
+                  <span
+                    className="hand -translate-x-[14%] rounded-sm border border-bone/25 bg-night/55 px-3 py-1 text-hand-sm whitespace-nowrap text-bone/65 backdrop-blur-[2px] md:px-4 md:py-1.5 md:text-hand"
+                    style={{ ["--hand-tilt" as string]: "-6deg" }}
+                  >
+                    ← a room in someone&rsquo;s house
+                  </span>
+
+                  {/* Right arm — the answer. The only object in this
+                      composition emitting light, which is how the reader is
+                      told which way to go without a word of instruction. */}
+                  <span
+                    className="hand translate-x-[10%] rounded-sm border border-amber/45 bg-night/55 px-3 py-1 text-hand-sm whitespace-nowrap text-amber shadow-glow backdrop-blur-[2px] md:px-4 md:py-1.5 md:text-hand"
+                    style={{ ["--hand-tilt" as string]: "4deg" }}
+                  >
+                    your own front door →
+                  </span>
+                </div>
+
+                <ArtSignpost
+                  className="ml-[18%] h-24 w-28 text-bone/85 md:h-40 md:w-36"
+                  // Stroke art needs a shadow cast by the stroke, not by the
+                  // element box, or the post disappears against a pale facade.
+                  style={{ filter: "drop-shadow(0 2px 10px rgb(23 18 16 / 0.7))" }}
+                />
+              </div>
+            </div>
           </div>
+        </Reveal>
+
+        {/* ---- The two concerns ---------------------------------------- */}
+        <div className="mt-14 grid gap-8 md:mt-20 md:grid-cols-2 md:gap-10">
+          {CONCERNS.map(({ n, title, body, surface, tilt, Art }, i) => (
+            <Reveal key={n} delay={i * 0.08} as="article">
+              <div
+                className={`card block-pad ${surface}`}
+                style={{ ["--tilt" as string]: tilt }}
+              >
+                {/* The watermark. Sized to ~60% of the card and bled off a
+                    corner — clipping it is what makes it texture rather than
+                    a placed icon. */}
+                <Art className="pointer-events-none absolute -right-8 -bottom-10 h-[62%] w-auto opacity-8" />
+
+                <div className="relative z-2">
+                  <p className="text-eyebrow tnum text-amber uppercase">{n}</p>
+                  <h3 className="mt-6 text-h2">{title}</h3>
+                  <p className="mt-4 max-w-sm leading-relaxed opacity-75">
+                    {body}
+                  </p>
+                </div>
+              </div>
+            </Reveal>
+          ))}
         </div>
+
+        <Reveal delay={0.1}>
+          <p className="mx-auto mt-14 max-w-2xl text-center text-lead text-ink-soft md:mt-20">
+            Stax is {SITE.facts.blocks} purpose-built blocks in a
+            stacked-townhouse form — private entries, real kitchens, balconies —
+            with a complimentary shuttle that removes the reason anyone puts up
+            with the alternative.
+          </p>
+        </Reveal>
+
+        {/* ---- Evidence ------------------------------------------------ */}
+        <dl className="mt-16 grid grid-cols-2 gap-x-6 gap-y-12 border-t border-line pt-12 md:mt-24 md:grid-cols-4">
+          <Fact value={<CountUp to={SITE.facts.units} />} label="Suites" />
+          <Fact value={<CountUp to={SITE.facts.beds} />} label="Beds" />
+          <Fact
+            value={
+              <>
+                <CountUp to={SITE.facts.shuttleMinutes} />
+                <span className="ml-1.5 mb-[0.35em] self-end font-sans text-[0.28em] font-semibold tracking-[0.18em]">
+                  MIN
+                </span>
+              </>
+            }
+            label="To Brock, by shuttle"
+          />
+          <Fact value="Sept" label="2027 move-in" suffix="’27" />
+        </dl>
       </div>
     </section>
   );
 }
 
-function Fact({ k, v }: { k: string; v: number }) {
+function Fact({
+  value,
+  label,
+  suffix,
+}: {
+  value: React.ReactNode;
+  label: string;
+  suffix?: string;
+}) {
   return (
     <div>
-      <dd className="text-h3 tnum text-ink">{v.toLocaleString()}</dd>
-      <dt className="mt-1.5 text-eyebrow uppercase text-ink-faint">{k}</dt>
+      <dd className="flex items-baseline font-display text-stat text-ink">
+        {value}
+        {suffix && <span className="sr-only">{suffix}</span>}
+      </dd>
+      <dt className="mt-3.5 font-sans text-eyebrow text-ink-faint uppercase">
+        {label}
+      </dt>
     </div>
   );
 }

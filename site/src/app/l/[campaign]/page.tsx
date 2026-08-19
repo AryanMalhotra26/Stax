@@ -102,7 +102,7 @@ export default async function LandingPage(props: PageProps<"/l/[campaign]">) {
                 and form first on mobile, with the render below them. Hoisting
                 the image above the form on a paid-traffic page pushes the only
                 conversion element off the first screen (§3.5). */}
-            <div className="relative aspect-4/5 lg:aspect-3/4 overflow-hidden bg-grey">
+            <div className="relative aspect-4/5 lg:aspect-3/4 overflow-hidden rounded-md bg-grey">
               <Render
                 media={campaign.heroMedia}
                 sizes="(max-width: 1023px) 100vw, 45vw"
@@ -115,7 +115,7 @@ export default async function LandingPage(props: PageProps<"/l/[campaign]">) {
         </section>
 
         {/* 3. Proof row */}
-        <section className="bg-charcoal text-grey">
+        <section className="bg-espresso text-grey">
           <div className="container-stax section-y-sm">
             <dl className="grid grid-cols-3 gap-6">
               <Proof value={SITE.facts.units.toString()} label="Suites" />
@@ -129,7 +129,7 @@ export default async function LandingPage(props: PageProps<"/l/[campaign]">) {
         <section className="container-stax section-y-sm">
           <div className="grid sm:grid-cols-3 gap-3.5">
             {["living-upgrade-island", "bedroom", "exterior-garden"].map((slug) => (
-              <div key={slug} className="relative aspect-4/5 overflow-hidden bg-grey">
+              <div key={slug} className="relative aspect-4/5 overflow-hidden rounded-md bg-grey">
                 <Render
                   media={media(slug)}
                   sizes="(max-width: 639px) 100vw, 31vw"
@@ -167,11 +167,11 @@ export default async function LandingPage(props: PageProps<"/l/[campaign]">) {
         </section>
 
         {/* 6. Form repeat with a one-line trust statement */}
-        <section className="bg-charcoal text-grey">
+        <section className="bg-espresso text-grey">
           <div className="container-stax section-y-sm">
             <div className="grid lg:grid-cols-2 gap-10 lg:gap-20 items-start max-w-5xl">
               <div>
-                <h2 className="text-h2 text-white text-balance max-w-md">
+                <h2 className="text-h2 text-bone text-balance max-w-md">
                   {campaign.ctaLabel}.
                 </h2>
                 <p className="mt-5 text-grey/60 max-w-sm">{campaign.trustLine}</p>
@@ -207,7 +207,7 @@ export default async function LandingPage(props: PageProps<"/l/[campaign]">) {
 function Proof({ value, label }: { value: string; label: string }) {
   return (
     <div>
-      <dd className="text-h2 text-white tnum">{value}</dd>
+      <dd className="text-h2 text-bone tnum">{value}</dd>
       <dt className="text-eyebrow uppercase mt-2 text-grey/40">{label}</dt>
     </div>
   );

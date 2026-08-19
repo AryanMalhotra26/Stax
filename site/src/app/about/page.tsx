@@ -71,7 +71,7 @@ export default function AboutPage() {
 
           <div className="container-stax pb-14 md:pb-20">
             <Reveal>
-              <div className="relative aspect-21/9 overflow-hidden bg-grey">
+              <div className="relative aspect-21/9 overflow-hidden rounded-md bg-grey">
                 <Render
                   media={media("site-plan")}
                   sizes="100vw"
@@ -88,7 +88,7 @@ export default function AboutPage() {
         </section>
 
         {/* Experience / credibility */}
-        <section className="bg-charcoal text-grey">
+        <section className="bg-espresso text-grey">
           <div className="container-stax section-y">
             <div className="grid lg:grid-cols-2 gap-12 lg:gap-20">
               <Reveal>
@@ -105,16 +105,16 @@ export default function AboutPage() {
                 <h3 className="text-eyebrow uppercase text-grey/40">
                   Built across
                 </h3>
-                <ul className="mt-6 border-t border-white/10">
+                <ul className="mt-6 border-t border-sand/10">
                   {ABOUT_EXPERIENCE.assetClasses.map((item, i) => (
                     <li
                       key={item}
-                      className="flex items-baseline gap-4 py-3.5 border-b border-white/10"
+                      className="flex items-baseline gap-4 py-3.5 border-b border-sand/10"
                     >
                       <span className="text-eyebrow text-grey/30 tnum">
                         {String(i + 1).padStart(2, "0")}
                       </span>
-                      <span className={i < 2 ? "text-white font-medium" : "text-grey/70"}>
+                      <span className={i < 2 ? "text-bone font-medium" : "text-grey/70"}>
                         {item}
                       </span>
                     </li>
@@ -129,10 +129,10 @@ export default function AboutPage() {
             {/* Rendered only once real figures exist — see ABOUT_STATS. */}
             {ABOUT_STATS.length > 0 && (
               <Reveal delay={0.15}>
-                <dl className="mt-10 grid grid-cols-2 md:grid-cols-4 gap-x-6 gap-y-10 border-t border-white/10 pt-12">
+                <dl className="mt-10 grid grid-cols-2 md:grid-cols-4 gap-x-6 gap-y-10 border-t border-sand/10 pt-12">
                   {ABOUT_STATS.map((stat) => (
                     <div key={stat.label}>
-                      <dd className="text-h2 text-white tnum">{stat.value}</dd>
+                      <dd className="text-h2 text-bone tnum">{stat.value}</dd>
                       <dt className="text-eyebrow uppercase mt-3 text-grey/40">
                         {stat.label}
                       </dt>
@@ -251,8 +251,8 @@ export default function AboutPage() {
         </section>
 
         <CaptureBlock
-          eyebrow="Stay in the loop"
-          heading="We'll tell you when things move."
+          heading="We'll tell you"
+          quiet="when things move."
           body="Registration is the only way to get plans, pricing and lease dates before they're public. It takes fifteen seconds."
         />
       </main>
@@ -274,7 +274,7 @@ function TeamCard({ member }: { member: TeamMember }) {
       {/* Real photos or none (§3.3). Where a headshot hasn't been supplied the
           card shows the brand mark rather than a stock person — on a landlord
           page, a stranger's stock portrait is worse than an obvious gap. */}
-      <div className="aspect-4/5 bg-grey flex items-center justify-center overflow-hidden">
+      <div className="aspect-4/5 bg-grey flex items-center justify-center overflow-hidden rounded-md">
         {shot ? (
           <picture className="block w-full h-full">
             <source
