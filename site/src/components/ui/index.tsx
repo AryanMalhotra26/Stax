@@ -162,7 +162,7 @@ export function SectionHead({
   const dark = tone === "dark";
   return (
     <div
-      className={`relative overflow-hidden border-t pt-5 md:pt-6 ${
+      className={`relative overflow-clip border-t pt-5 md:pt-6 ${
         dark ? "border-sand/15" : "border-ink/15"
       } ${className}`}
     >

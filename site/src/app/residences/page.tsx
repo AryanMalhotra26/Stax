@@ -33,7 +33,7 @@ export default function ResidencesPage() {
       <Nav />
       <main id="main" className="relative">
         <Trail />
-        <section className="relative h-[46vh] min-h-[22rem] flex items-end overflow-hidden bg-espresso">
+        <section className="relative h-[46vh] min-h-[22rem] flex items-end overflow-clip bg-espresso">
           <Render
             media={media("exterior-lawn")}
             sizes="100vw"

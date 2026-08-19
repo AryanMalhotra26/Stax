@@ -90,10 +90,24 @@ export function AmenityPan() {
       // or a GSAP chunk that failed to arrive.
       container.dataset.walk = "pan";
 
-      // Native horizontal scrolling would compete with the pan for the same
-      // gesture, so it is switched off while the pan owns the track. Set
-      // through gsap so mm.revert() puts the swipe strip back.
-      gsap.set(el, { overflowX: "hidden", scrollSnapType: "none" });
+      /**
+       * Hand the gesture to the pan — WITHOUT making the track a clipper.
+       *
+       * This was `overflowX: "hidden"`, and that is the bug that cut the row
+       * off. `hidden` clips at the element's own box, and this element is the
+       * one being translated: as the track slid left, its clip window slid
+       * left with it. Measured mid-pan at 1512px wide, the track sat at
+       * x = -203, so it was clipping its own content at 1309 instead of 1512
+       * — a hard vertical edge partway across the screen with bare floor
+       * beyond it, and every card past that point invisible.
+       *
+       * A clip has to live on something that does not move. The section is
+       * stationary and already carries `overflow: hidden`, so it does the
+       * clipping; the track just needs to stop being a scroll container so it
+       * cannot compete with the pan for the wheel — and `visible` is exactly
+       * that. Set through gsap so mm.revert() restores the swipe strip.
+       */
+      gsap.set(el, { overflowX: "visible", scrollSnapType: "none" });
 
       // How far the track has to move for the last card to clear the right
       // edge. Never capped: capping this is capping how much of the content
@@ -107,23 +121,13 @@ export function AmenityPan() {
       // diverge completely.
       const travel = () => Math.max(0, el.scrollWidth - el.clientWidth);
 
-      // How much page scroll that costs the reader.
-      //
-      // This wants to be slightly LONGER than the travel, not shorter. A
-      // two-viewport cap squeezed 2010px of track into 1800px of scroll, so
-      // the track had to move 1.12px for every pixel scrolled — and with a
-      // full second of scrub lag on top, a normal flick of the wheel outran
-      // it completely: the pin ended, the section scrolled away, and the
-      // tween was still easing toward card three somewhere off-screen. You
-      // saw two cards and then the neighbourhood.
-      //
-      // At 1.15x the track always has slack behind the scroll, so it arrives
-      // rather than chases. The ceiling stays at the 2.5 viewport heights the
-      // brief asks for — horizontal pins are the one place readers most often
-      // feel trapped, and an uncapped one grows with the card count until the
-      // section is a tunnel.
+      // How much page scroll that costs the reader: the travel itself, so the
+      // track moves a pixel for every pixel scrolled, capped at the 2.5
+      // viewport heights the brief allows. Horizontal scroll is the one place
+      // readers most often feel trapped and the section should not outstay
+      // its welcome.
       const scrollLength = () =>
-        Math.min(travel() * 1.15, window.innerHeight * 2.5);
+        Math.min(travel(), window.innerHeight * 2.5);
 
       gsap.to(el, {
         x: () => -travel(),
@@ -271,7 +275,7 @@ export function AmenityPan() {
               >
                 <Art className="pointer-events-none absolute -right-10 -bottom-12 h-[58%] w-auto opacity-8" />
 
-                <div className="relative z-2 min-h-0 flex-1 overflow-hidden rounded-sm bg-night/20">
+                <div className="relative z-2 min-h-0 flex-1 overflow-clip rounded-sm bg-night/20">
                   <Render
                     media={amenity.media}
                     sizes="(max-width: 767px) 80vw, (max-width: 1023px) 34vw, 26vw"
@@ -303,7 +307,7 @@ export function AmenityPan() {
           much of it is left. */}
       <div className="walk-rail pointer-events-none absolute inset-x-0 bottom-6 z-10">
         <div className="container-stax flex items-center gap-5">
-          <div className="h-px flex-1 overflow-hidden bg-sand/20">
+          <div className="h-px flex-1 overflow-clip bg-sand/20">
             <span
               ref={rail}
               className="block h-full origin-left scale-x-0 bg-brick"

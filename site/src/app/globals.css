@@ -628,6 +628,8 @@
 
 /* Lightbox lock — set by the Flip gallery while an image is open */
 .lightbox-lock {
+  /* The one place `hidden` is correct: this is a deliberate scroll LOCK on
+     the document while the lightbox is open, not a crop. */
   overflow: hidden;
 }
 
@@ -768,7 +770,21 @@
      language rather than a pile of effects (§7 law 2). */
   .card {
     position: relative;
-    overflow: hidden;
+    /* `clip`, NOT `hidden`, and the difference is not cosmetic.
+    
+       `overflow: hidden` creates a scrollport: the box becomes programmatically
+       scrollable and the browser treats it as the scroll target under the
+       cursor. Every card here bleeds a line-art watermark 48px past its bottom
+       edge, so every card had 48px of scrollable overflow — and a wheel event
+       over a card went to the card instead of the page. The result was a page
+       that simply stopped scrolling wherever the pointer happened to rest on
+       a card, which on the walkthrough meant the reader froze on card two and
+       the pan never began.
+    
+       `overflow: clip` clips identically — same crop, same rounded corners —
+       but never creates a scrollport, so there is nothing under the cursor to
+       swallow the gesture. */
+    overflow: clip;
     border-radius: var(--radius-md);
     box-shadow: var(--shadow-card);
     transform: rotate(var(--tilt, -1.2deg));
@@ -875,7 +891,10 @@
 
 .plan-card {
   position: relative;
-  overflow: hidden;
+  /* `clip` for the same reason as `.card`: these carry ghost numerals bled
+     off their own edges, and `hidden` would turn each one into a scrollport
+     that eats the wheel. */
+  overflow: clip;
   border-radius: var(--radius-lg);
   box-shadow: var(--shadow-card);
   transform: rotate(var(--tilt, -1deg));
@@ -1062,7 +1081,7 @@
 .walk[data-walk="pan"] {
   height: 100svh;
   padding-block: 0;
-  overflow: hidden;
+  overflow: clip;
 }
 
 .walk[data-walk="pan"] .walk-track {

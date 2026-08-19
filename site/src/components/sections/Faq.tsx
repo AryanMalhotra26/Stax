@@ -49,7 +49,7 @@ export function FaqSection({
   return (
     <section
       id="faq"
-      className={`relative overflow-hidden section-y ${tone === "paper" ? "bg-paper" : "bg-bone"}`}
+      className={`relative overflow-clip section-y ${tone === "paper" ? "bg-paper" : "bg-bone"}`}
       aria-labelledby="faq-heading"
     >
       <Seam edge="top" color="linen" size="14%" />

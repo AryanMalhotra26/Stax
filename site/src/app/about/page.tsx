@@ -71,7 +71,7 @@ export default function AboutPage() {
 
           <div className="container-stax pb-14 md:pb-20">
             <Reveal>
-              <div className="relative aspect-21/9 overflow-hidden rounded-md bg-grey">
+              <div className="relative aspect-21/9 overflow-clip rounded-md bg-grey">
                 <Render
                   media={media("site-plan")}
                   sizes="100vw"
@@ -274,7 +274,7 @@ function TeamCard({ member }: { member: TeamMember }) {
       {/* Real photos or none (§3.3). Where a headshot hasn't been supplied the
           card shows the brand mark rather than a stock person — on a landlord
           page, a stranger's stock portrait is worse than an obvious gap. */}
-      <div className="aspect-4/5 bg-grey flex items-center justify-center overflow-hidden rounded-md">
+      <div className="aspect-4/5 bg-grey flex items-center justify-center overflow-clip rounded-md">
         {shot ? (
           <picture className="block w-full h-full">
             <source

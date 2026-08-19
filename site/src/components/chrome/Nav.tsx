@@ -154,7 +154,7 @@ export function Nav() {
 
         {/* Mobile sheet — inside the pill, so it opens as one object. */}
         <div
-          className={`grid overflow-hidden transition-[grid-template-rows] duration-600 ease-[var(--ease-out-expo)] md:hidden ${
+          className={`grid overflow-clip transition-[grid-template-rows] duration-600 ease-[var(--ease-out-expo)] md:hidden ${
             open ? "grid-rows-[1fr]" : "grid-rows-[0fr]"
           }`}
         >

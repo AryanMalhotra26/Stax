@@ -46,7 +46,7 @@ export function Hero() {
   return (
     <section
       data-px-root
-      className="relative flex min-h-dvh flex-col overflow-hidden bg-espresso"
+      className="relative flex min-h-dvh flex-col overflow-clip bg-espresso"
     >
       {/* ---- The environment ------------------------------------------
           Three plates at three depths (§8.1 Route B). Every plate travels
