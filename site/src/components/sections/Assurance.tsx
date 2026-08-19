@@ -67,7 +67,7 @@ export function Assurance() {
           quiet="in writing, before you give us anything."
         />
 
-        <div className="mt-12 grid gap-8 md:mt-16 md:grid-cols-3">
+        <div className="mt-10 grid gap-6 md:mt-12 md:grid-cols-3">
           {COMMITMENTS.map(({ title, body, Art, tilt }, i) => (
             <Reveal key={title} delay={i * 0.08} as="article">
               <div
@@ -87,12 +87,12 @@ export function Assurance() {
                     enough of it left to name. */}
                 <span
                   aria-hidden="true"
-                  className="pointer-events-none absolute top-0 left-0 font-display text-[5.5rem] leading-[0.9] text-amber/40 select-none"
+                  className="pointer-events-none absolute top-0 left-0 font-display text-[4.5rem] leading-[0.9] text-amber/40 select-none"
                 >
                   {String(i + 1).padStart(2, "0")}
                 </span>
 
-                <div className="relative z-2 pt-20">
+                <div className="relative z-2 pt-16">
                   <h3 className="text-h3">{title}</h3>
                   <p className="mt-3.5 leading-relaxed text-ink-soft">{body}</p>
                 </div>
@@ -103,7 +103,7 @@ export function Assurance() {
 
         {/* ---- The developer ------------------------------------------- */}
         <Reveal delay={0.1}>
-          <div className="relative mt-16 overflow-clip rounded-md bg-sand/35 md:mt-24">
+          <div className="relative mt-12 overflow-clip rounded-md bg-sand/35 md:mt-16">
             {/* A completed Sphere project behind the whole block at low
                 contrast — evidence, not decoration. */}
             <Render
@@ -117,7 +117,7 @@ export function Assurance() {
               className="absolute inset-0 bg-linen/55"
             />
 
-            <div className="relative z-2 flex flex-col gap-10 p-8 md:flex-row md:items-center md:justify-between md:gap-14 md:p-14">
+            <div className="relative z-2 flex flex-col gap-8 p-7 md:flex-row md:items-center md:justify-between md:gap-12 md:p-10">
               <div className="max-w-2xl">
                 <p className="text-lead text-ink-soft text-balance">
                   Stax is built by{" "}
@@ -176,7 +176,7 @@ export function Assurance() {
                         </picture>
                       </div>
                       <figcaption
-                        className="hand mt-2 text-center text-hand-sm text-brick"
+                        className="hand mt-2 text-center text-hand-sm text-brick-dark"
                         style={{
                           ["--hand-tilt" as string]: i % 2 ? "3deg" : "-4deg",
                         }}

@@ -174,7 +174,7 @@ export default async function LandingPage(props: PageProps<"/l/[campaign]">) {
                 <h2 className="text-h2 text-bone text-balance max-w-md">
                   {campaign.ctaLabel}.
                 </h2>
-                <p className="mt-5 text-grey/60 max-w-sm">{campaign.trustLine}</p>
+                <p className="mt-5 text-grey/75 max-w-sm">{campaign.trustLine}</p>
               </div>
               <CaptureForm
                 onDark
@@ -208,7 +208,7 @@ function Proof({ value, label }: { value: string; label: string }) {
   return (
     <div>
       <dd className="text-h2 text-bone tnum">{value}</dd>
-      <dt className="text-eyebrow uppercase mt-2 text-grey/40">{label}</dt>
+      <dt className="text-eyebrow uppercase mt-2 text-grey/75">{label}</dt>
     </div>
   );
 }

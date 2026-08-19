@@ -96,13 +96,13 @@ export default function AboutPage() {
                 <h2 className="text-h2 mt-6 text-balance">
                   {ABOUT_EXPERIENCE.heading}
                 </h2>
-                <p className="mt-7 text-lead text-grey/60 max-w-lg">
+                <p className="mt-7 text-lead text-grey/75 max-w-lg">
                   {ABOUT_EXPERIENCE.body}
                 </p>
               </Reveal>
 
               <Reveal delay={0.1} className="lg:pt-4">
-                <h3 className="text-eyebrow uppercase text-grey/40">
+                <h3 className="text-eyebrow uppercase text-grey/75">
                   Built across
                 </h3>
                 <ul className="mt-6 border-t border-sand/10">
@@ -114,13 +114,13 @@ export default function AboutPage() {
                       <span className="text-eyebrow text-grey/30 tnum">
                         {String(i + 1).padStart(2, "0")}
                       </span>
-                      <span className={i < 2 ? "text-bone font-medium" : "text-grey/70"}>
+                      <span className={i < 2 ? "text-bone font-medium" : "text-grey/75"}>
                         {item}
                       </span>
                     </li>
                   ))}
                 </ul>
-                <p className="mt-8 text-grey/60 leading-relaxed">
+                <p className="mt-8 text-grey/75 leading-relaxed">
                   {ABOUT_EXPERIENCE.closing}
                 </p>
               </Reveal>
@@ -133,7 +133,7 @@ export default function AboutPage() {
                   {ABOUT_STATS.map((stat) => (
                     <div key={stat.label}>
                       <dd className="text-h2 text-bone tnum">{stat.value}</dd>
-                      <dt className="text-eyebrow uppercase mt-3 text-grey/40">
+                      <dt className="text-eyebrow uppercase mt-3 text-grey/75">
                         {stat.label}
                       </dt>
                     </div>

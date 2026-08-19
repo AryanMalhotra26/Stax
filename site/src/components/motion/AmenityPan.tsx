@@ -127,7 +127,7 @@ export function AmenityPan() {
       // readers most often feel trapped and the section should not outstay
       // its welcome.
       const scrollLength = () =>
-        Math.min(travel(), window.innerHeight * 2.5);
+        Math.min(travel(), window.innerHeight * 2.2);
 
       gsap.to(el, {
         x: () => -travel(),
@@ -145,6 +145,17 @@ export function AmenityPan() {
           scrub: 0.5,
           invalidateOnRefresh: true, // survives resize + orientation change
           anticipatePin: 1,
+          // B6 — the trail runs the full height of the page at a fixed left
+          // offset, which means it draws straight across the pinned track and
+          // slices through card 01. It is a page-level wayfinding device; the
+          // one section that takes the page's own scroll away is the one
+          // place it has nothing to say.
+          onToggle: (self) => {
+            document.documentElement.classList.toggle(
+              "trail-muted",
+              self.isActive,
+            );
+          },
           onUpdate: (self) => {
             // The rail and the counter are the reader's only way to know how
             // much walk is left. Written straight to the DOM — a pinned
@@ -170,6 +181,7 @@ export function AmenityPan() {
       // to go back to being a shape that suits one.
       return () => {
         container.dataset.walk = "list";
+        document.documentElement.classList.remove("trail-muted");
       };
     });
 
@@ -225,7 +237,7 @@ export function AmenityPan() {
       className="walk bg-espresso text-grey"
       style={{
         backgroundImage: [
-          "linear-gradient(to bottom, var(--color-paper), transparent 18%)",
+          "linear-gradient(to bottom, var(--color-paper), transparent 28%)",
           "linear-gradient(to top, var(--color-espresso), transparent 30%)",
           "radial-gradient(ellipse at 72% 18%, rgb(232 163 61 / 0.16), transparent 62%)",
           `url(${asset("/textures/oak-floor.webp")})`,
@@ -245,7 +257,7 @@ export function AmenityPan() {
             <h2 id="amenities-heading" className="mt-6 text-h2 text-balance">
               The parts that decide whether a year goes well.
             </h2>
-            <p className="mt-6 max-w-sm leading-relaxed text-grey/60">
+            <p className="mt-6 max-w-sm leading-relaxed text-grey/75">
               Not a feature list. These are the seven things you will actually
               notice, every week, for eight months.
             </p>
@@ -313,7 +325,7 @@ export function AmenityPan() {
               className="block h-full origin-left scale-x-0 bg-brick"
             />
           </div>
-          <p className="shrink-0 text-eyebrow tnum text-grey/50 uppercase">
+          <p className="shrink-0 text-eyebrow tnum text-grey/75 uppercase">
             <span ref={counter}>01</span> / {String(AMENITIES.length).padStart(2, "0")}
           </p>
         </div>

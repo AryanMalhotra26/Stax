@@ -75,7 +75,7 @@ export function Curtain() {
     <div ref={ref} hidden className="curtain" aria-hidden="true">
       <div className="curtain-logo">
         <Logo className="h-9 w-auto text-bone md:h-12" />
-        <p className="mt-4 text-eyebrow text-grey/45 uppercase">
+        <p className="mt-4 text-eyebrow text-grey/75 uppercase">
           A {SITE.developer.name} community
         </p>
       </div>

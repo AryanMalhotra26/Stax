@@ -141,7 +141,7 @@ export function CaptureForm({
   const inputTone = emailError
     ? "border-brick text-inherit placeholder:text-ink-faint/70"
     : onDark
-      ? "border-sand/25 text-bone placeholder:text-grey/35"
+      ? "border-sand/25 text-bone placeholder:text-grey/75"
       : "border-ink/25 text-ink placeholder:text-ink-faint/60";
 
   return (
@@ -284,7 +284,7 @@ export function CaptureForm({
 
           <p
             className={`hand text-center text-hand-sm ${
-              onDark ? "text-grey/50" : "text-ink-faint"
+              onDark ? "text-grey/75" : "text-ink-faint"
             }`}
             style={{ ["--hand-tilt" as string]: "-1.5deg" }}
           >

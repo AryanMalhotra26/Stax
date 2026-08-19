@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { Caveat, Instrument_Serif, Jost } from "next/font/google";
 import { SITE } from "@/lib/site";
+import { asset } from "@/lib/asset";
 import "./globals.css";
 
 /**
@@ -117,6 +118,22 @@ export default function RootLayout({
       className={`${jost.variable} ${instrumentSerif.variable} ${caveat.variable}`}
      
     >
+      <head>
+        {/*
+          The LCP element on the home page is the hero's mid-distance render.
+          Without this the browser cannot start fetching it until the parser
+          reaches the <picture> that references it, which on a cold connection
+          is most of a second of dead time on the one image the metric is
+          measured against.
+        */}
+        <link
+          rel="preload"
+          as="image"
+          type="image/avif"
+          href={asset("/renders/exterior-street-1600.avif")}
+          fetchPriority="high"
+        />
+      </head>
       <body className="antialiased">
         <a
           href="#main"

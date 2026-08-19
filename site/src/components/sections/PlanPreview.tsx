@@ -98,18 +98,15 @@ export function PlanPreview() {
               <div className="grid h-full gap-0 lg:grid-cols-[42fr_58fr]">
                 {/* ---- Left: the plan itself ---------------------------- */}
                 <div className="relative z-2 flex flex-col justify-center p-7 md:p-11 lg:p-14">
-                  <p
-                    className="hand text-hand-sm text-amber"
-                    style={{ ["--hand-tilt" as string]: "-4deg" }}
-                  >
-                    {plan.bedrooms === 0
-                      ? "take a room"
-                      : plan.bedrooms === 3
-                        ? "take the whole thing"
-                        : `take ${plan.bedrooms === 1 ? "a" : "two"} bedroom${plan.bedrooms === 1 ? "" : "s"}`}
-                  </p>
-
-                  <h3 className="mt-3 text-h1">{plan.name}</h3>
+                  {/* No per-card kicker.
+                  
+                      There were four — "take a room" / "take a bedroom" /
+                      "take two bedrooms" / "take the whole thing" — which is
+                      the same joke four times, and the joke is already the
+                      section's H2: *Four layouts. Take a room or take the
+                      whole thing.* The hand only reads as a human aside when
+                      it is rare. */}
+                  <h3 className="plan-name text-h1">{plan.name}</h3>
 
                   <p className="mt-5 text-lead tnum opacity-75">
                     {sqftRange(plan)} sq ft
@@ -142,9 +139,13 @@ export function PlanPreview() {
                   </Link>
 
                   {NOTES[i] && (
+                    // Amber on taupe measures 2.94:1 and fails. On the two
+                    // light tiers of the ladder the annotation takes the
+                    // card's own ink instead; amber survives only where it
+                    // has a dark surface to emit against.
                     <p
-                      className="hand mt-8 max-w-[22ch] text-hand-sm text-amber lg:absolute lg:-bottom-2 lg:left-14 lg:mt-0"
-                      style={{ ["--hand-tilt" as string]: "-8deg" }}
+                      className="hand mt-8 w-fit max-w-[26ch] rounded-sm bg-night/85 px-3 py-1.5 text-hand-sm text-amber"
+                      style={{ ["--hand-tilt" as string]: "-6deg" }}
                     >
                       {NOTES[i]}
                     </p>

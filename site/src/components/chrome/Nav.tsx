@@ -115,7 +115,7 @@ export function Nav() {
           <div className="flex items-center gap-2">
             <a
               href="tel:+19050000000"
-              className="hidden text-[0.9375rem] font-medium text-grey/70 transition-colors duration-300 hover:text-amber lg:block"
+              className="hidden text-[0.9375rem] font-medium text-grey/75 transition-colors duration-300 hover:text-amber lg:block"
             >
               Talk to us
             </a>
