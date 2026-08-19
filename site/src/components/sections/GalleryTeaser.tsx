@@ -34,13 +34,13 @@ export function GalleryTeaser() {
   return (
     <section
       data-trail="about 7pm"
-      className="relative overflow-hidden bg-night text-grey section-y"
+      className="relative overflow-clip bg-night text-grey section-y"
     >
       <Seam edge="top" color="espresso" size="16%" />
       <Seam edge="bottom" color="linen" size="18%" />
 
       <div className="container-stax relative z-2">
-        <div className="relative overflow-hidden border-t border-sand/15 pt-5 md:pt-6">
+        <div className="relative overflow-clip border-t border-sand/15 pt-5 md:pt-6">
           <span
             aria-hidden="true"
             className="ghost-num top-1/2 hidden -translate-y-1/2 text-bone md:right-0 md:block"
@@ -70,7 +70,7 @@ export function GalleryTeaser() {
           <MagneticLabel label="View gallery">
             <Link
               href="/residences#gallery"
-              className="sd-mask group relative block aspect-4/3 overflow-hidden rounded-md bg-bark md:aspect-21/9"
+              className="sd-mask group relative block aspect-4/3 overflow-clip rounded-md bg-bark md:aspect-21/9"
             >
               <Render
                 media={media("exterior-evening")}
@@ -119,7 +119,7 @@ export function GalleryTeaser() {
               <Link
                 key={slug}
                 href="/residences#gallery"
-                className="group relative aspect-4/3 overflow-hidden rounded-sm bg-bark"
+                className="group relative aspect-4/3 overflow-clip rounded-sm bg-bark"
               >
                 <Render
                   media={media(slug)}

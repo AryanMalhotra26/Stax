@@ -120,7 +120,7 @@ export function Gallery() {
           <button
             key={item.id}
             onClick={(e) => openImage(item, e.currentTarget.firstElementChild as HTMLElement)}
-            className="group block w-full mb-3.5 break-inside-avoid overflow-hidden rounded-md bg-grey cursor-zoom-in"
+            className="group block w-full mb-3.5 break-inside-avoid overflow-clip rounded-md bg-grey cursor-zoom-in"
             aria-label={`Open image: ${item.alt}`}
           >
             <div className="relative">

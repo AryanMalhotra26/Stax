@@ -26,14 +26,14 @@ export const metadata: Metadata = {
  * Layout: one full-bleed render with the copy and the form card sitting on it,
  * both vertically centred. No split seam, and — the point of §3.4 — the entire
  * form is inside the first screen with nothing to scroll past. The section is
- * `h-dvh` with `overflow-hidden` precisely so that stays true; the earlier
+ * `h-dvh` with `overflow-clip` precisely so that stays true; the earlier
  * version used large top padding and pushed the submit button under the fold.
  */
 export default function RegisterPage() {
   return (
     <>
       <main id="main">
-        <section className="relative flex h-dvh min-h-[44rem] flex-col overflow-hidden bg-espresso">
+        <section className="relative flex h-dvh min-h-[44rem] flex-col overflow-clip bg-espresso">
           <Render
             media={media("exterior-evening")}
             sizes="100vw"

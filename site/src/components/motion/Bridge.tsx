@@ -36,7 +36,7 @@ export function Bridge({
 
   return (
     <div
-      className={`relative h-[30vh] min-h-44 overflow-hidden md:h-[38vh] ${className}`}
+      className={`relative h-[30vh] min-h-44 overflow-clip md:h-[38vh] ${className}`}
       aria-hidden="true"
     >
       <Render

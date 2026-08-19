@@ -51,7 +51,7 @@ export function Positioning() {
     <section
       id="main-story"
       data-trail="the street"
-      className="relative overflow-hidden bg-bone section-y"
+      className="relative overflow-clip bg-bone section-y"
     >
       <Seam edge="bottom" color="paper" size="18%" />
 
@@ -83,7 +83,7 @@ export function Positioning() {
             about 15KB, and at a glance nobody can tell which one they are
             looking at. */}
         <Reveal className="relative mt-14 md:mt-20" delay={0.06}>
-          <div className="sd-mask relative aspect-16/7 overflow-hidden rounded-md bg-linen md:aspect-21/8">
+          <div className="sd-mask relative aspect-16/7 overflow-clip rounded-md bg-linen md:aspect-21/8">
             <Render
               media={media("exterior-garden")}
               sizes="(max-width: 1439px) 100vw, 1312px"

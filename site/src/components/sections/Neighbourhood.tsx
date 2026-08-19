@@ -31,7 +31,7 @@ export function Neighbourhood() {
   return (
     <section
       data-trail="the walk"
-      className="relative overflow-hidden bg-espresso text-grey section-y"
+      className="relative overflow-clip bg-espresso text-grey section-y"
     >
       <Seam edge="top" color="espresso" size="12%" />
       <Seam edge="bottom" color="night" size="18%" />

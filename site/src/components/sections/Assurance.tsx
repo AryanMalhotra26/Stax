@@ -54,7 +54,7 @@ export function Assurance() {
   return (
     <section
       data-trail="in writing"
-      className="relative overflow-hidden bg-linen section-y"
+      className="relative overflow-clip bg-linen section-y"
     >
       <Seam edge="top" color="night" size="14%" />
       <Seam edge="bottom" color="paper" size="16%" />
@@ -103,7 +103,7 @@ export function Assurance() {
 
         {/* ---- The developer ------------------------------------------- */}
         <Reveal delay={0.1}>
-          <div className="relative mt-16 overflow-hidden rounded-md bg-sand/35 md:mt-24">
+          <div className="relative mt-16 overflow-clip rounded-md bg-sand/35 md:mt-24">
             {/* A completed Sphere project behind the whole block at low
                 contrast — evidence, not decoration. */}
             <Render
@@ -149,7 +149,7 @@ export function Assurance() {
                   return (
                     <figure key={member.name} className="relative">
                       <div
-                        className="h-28 w-28 overflow-hidden rounded-full border border-bone/60 shadow-card md:h-36 md:w-36"
+                        className="h-28 w-28 overflow-clip rounded-full border border-bone/60 shadow-card md:h-36 md:w-36"
                         style={{
                           transform: `rotate(${i % 2 ? 2 : -2}deg)`,
                         }}

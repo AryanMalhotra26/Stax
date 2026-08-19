@@ -51,7 +51,7 @@ export function PlanPreview() {
       <Seam edge="bottom" color="espresso" size="20%" />
 
       <div className="container-stax relative z-2">
-        <div className="relative overflow-hidden border-t border-ink/15 pt-5 md:pt-6">
+        <div className="relative overflow-clip border-t border-ink/15 pt-5 md:pt-6">
           <span
             aria-hidden="true"
             className="ghost-num top-1/2 hidden -translate-y-1/2 text-ink md:right-0 md:block"
@@ -152,7 +152,7 @@ export function PlanPreview() {
                 </div>
 
                 {/* ---- Right: the render ------------------------------- */}
-                <div className="relative min-h-52 overflow-hidden">
+                <div className="relative min-h-52 overflow-clip">
                   <span
                     aria-hidden="true"
                     className="ghost-num -top-[14%] -left-6 z-1 text-current opacity-10"

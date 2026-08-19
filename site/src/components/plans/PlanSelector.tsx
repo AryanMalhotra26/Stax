@@ -106,7 +106,7 @@ function PlanCard({
     <div className="grid lg:grid-cols-2 gap-10 lg:gap-16 items-start">
       {/* Render */}
       <div className={flip ? "lg:order-2" : ""}>
-        <div className="relative aspect-4/3 overflow-hidden rounded-md bg-grey">
+        <div className="relative aspect-4/3 overflow-clip rounded-md bg-grey">
           <Render
             media={plan.heroMedia}
             sizes="(max-width: 1023px) 100vw, 46vw"

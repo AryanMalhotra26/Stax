@@ -35,7 +35,7 @@ export function CaptureBlock({
     <section
       id="register"
       data-trail="move-in"
-      className="relative overflow-hidden bg-night text-grey section-y-lg"
+      className="relative overflow-clip bg-night text-grey section-y-lg"
     >
       {/* The evening render, lit windows, held right down so it is the room
           you are standing in rather than a picture of one. */}

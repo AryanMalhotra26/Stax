@@ -146,7 +146,7 @@ export function Trail() {
           stationary: offsetting a repeating dash makes it march along the
           path instead of the path arriving. */}
       <div
-        className="absolute inset-x-0 top-0 overflow-hidden"
+        className="absolute inset-x-0 top-0 overflow-clip"
         style={{ height: "calc(100% * var(--p))" }}
       >
         {route("stroke-brick")}
