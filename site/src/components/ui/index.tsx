@@ -3,30 +3,47 @@ import type { ComponentProps, ReactNode } from "react";
 import { SplitWords } from "@/components/motion/SplitWords";
 
 /* -------------------------------------------------------------------------
-   Button
-   Sharp corners, 44px minimum tap target (§7.1), no gradient, no shadow.
+   Buttons — three types, no others (§6.1).
+
+   `primary` is brick because brick is what the building is made of;
+   `amber` exists for exactly one button on the site, the register form's
+   submit, which is the brightest object on the page and the thing everything
+   has been building toward. `secondary` is a hairline that resolves to amber
+   on hover — the one place a control is allowed to light up.
+
+   Every one of them is a pill. Radius was an empty set across the entire
+   previous stylesheet; a rectangle button is the single loudest signal that
+   nothing on a page has been designed.
    ---------------------------------------------------------------------- */
 
-type ButtonVariant = "primary" | "secondary" | "ghost" | "onDark";
+type ButtonVariant = "primary" | "secondary" | "amber" | "ghost";
 type ButtonSize = "md" | "lg";
 
 const BUTTON_BASE =
-  "inline-flex items-center justify-center gap-2 font-semibold tracking-tight " +
-  "transition-[background-color,color,border-color,transform] duration-200 " +
-  "ease-[var(--ease-out-expo)] active:translate-y-px disabled:pointer-events-none " +
-  "disabled:opacity-50 select-none text-center";
+  "inline-flex items-center justify-center gap-2.5 rounded-full font-sans " +
+  "font-bold uppercase tracking-[0.06em] text-center select-none " +
+  "transition-[background-color,color,border-color,transform,box-shadow] " +
+  "duration-300 ease-[var(--ease-out-expo)] active:translate-y-px " +
+  "disabled:pointer-events-none disabled:opacity-50";
 
 const BUTTON_VARIANTS: Record<ButtonVariant, string> = {
-  primary: "bg-brick text-white hover:bg-brick-dark",
+  primary:
+    "bg-brick text-bone hover:bg-brick-dark hover:-translate-y-0.5 " +
+    "hover:shadow-glow [--glow-strength:0.3]",
   secondary:
-    "bg-transparent text-ink border border-ink/25 hover:border-ink hover:bg-ink hover:text-white",
-  ghost: "bg-transparent text-ink hover:text-brick underline-offset-4 hover:underline",
-  onDark: "bg-white text-ink hover:bg-grey",
+    "bg-transparent border border-current/30 hover:border-amber hover:text-amber " +
+    "duration-150 ease-[var(--ease-out-soft)]",
+  amber:
+    "bg-amber text-night shadow-glow hover:bg-amber-hot hover:-translate-y-0.5 " +
+    "hover:shadow-flare [--flare-strength:0.4]",
+  ghost:
+    "bg-transparent underline-offset-4 hover:text-amber duration-150 " +
+    "ease-[var(--ease-out-soft)]",
 };
 
 const BUTTON_SIZES: Record<ButtonSize, string> = {
-  md: "min-h-11 px-5 text-[0.9375rem]",
-  lg: "min-h-14 px-7 text-base",
+  md: "min-h-12 px-7 text-[0.8125rem]",
+  lg: "min-h-14 px-8 text-[0.875rem]",
 };
 
 export function buttonClass(
@@ -53,6 +70,24 @@ export function ButtonLink({
   ...props
 }: ComponentProps<typeof Link> & { variant?: ButtonVariant; size?: ButtonSize }) {
   return <Link className={buttonClass(variant, size, className)} {...props} />;
+}
+
+/**
+ * The arrow every "→" button carries. Translates 6px on the parent's hover —
+ * one gesture, applied identically everywhere, rather than each button
+ * inventing its own.
+ */
+export function ButtonArrow() {
+  return (
+    <svg
+      viewBox="0 0 26 10"
+      aria-hidden="true"
+      className="h-2.5 w-6 shrink-0 fill-none stroke-current transition-transform duration-300 group-hover:translate-x-1.5"
+      strokeWidth={2}
+    >
+      <path d="M0 5 H23 M19 1.5 L23 5 L19 8.5" />
+    </svg>
+  );
 }
 
 /* -------------------------------------------------------------------------
@@ -86,19 +121,28 @@ export function Eyebrow({
 }
 
 /* -------------------------------------------------------------------------
-   SectionHead — the masthead every light section opens with.
+   SectionHead — the masthead every numbered section opens with.
 
-   The white sections previously started with just a small eyebrow and a
-   heading floating on an empty page, which is what made them read as
-   undesigned. This gives each one a rule, a running index and a label track,
-   so the type sits on visible structure and the sections read as a numbered
-   sequence rather than a pile of unrelated blocks.
+   Three devices, all lifted from the reference and all cheap:
+
+   1. THE GHOST NUMERAL, at 26vw in the display serif, bleeding off the
+      container edge. The crop is what stops it reading as a placed graphic.
+      Stax carried the same information at 11px in an eyebrow, which is why
+      the sections read as a document rather than as a designed page.
+
+   2. THE TWO-TONE HEADING. Line one in full ink, line two a step back into
+      the surface — the reference's `transforming` / `organizations` move,
+      already used by the hero, and reused on every two-part heading so the
+      page has one headline grammar rather than nine.
+
+   3. A RULE AND A RUNNING INDEX, so the type sits on visible structure.
    ---------------------------------------------------------------------- */
 
 export function SectionHead({
   index,
   eyebrow,
   heading,
+  quiet,
   action,
   tone = "light",
   className = "",
@@ -106,7 +150,10 @@ export function SectionHead({
 }: {
   index: string;
   eyebrow: string;
+  /** Line one — full contrast. */
   heading: ReactNode;
+  /** Line two — a step back. Omit for a single-tone heading. */
+  quiet?: string;
   action?: ReactNode;
   tone?: "light" | "dark";
   className?: string;
@@ -115,34 +162,30 @@ export function SectionHead({
   const dark = tone === "dark";
   return (
     <div
-      id={headingId}
-      className={`relative overflow-hidden border-t pt-5 md:pt-6 ${dark ? "border-white/15" : "border-ink/15"} ${className}`}
+      className={`relative overflow-hidden border-t pt-5 md:pt-6 ${
+        dark ? "border-sand/15" : "border-ink/15"
+      } ${className}`}
     >
-      {/* Ghost numeral. to-top.ch sets its block index at 432px in the display
-          face at 5-20% opacity, behind the content, bled off the edge — the
-          crop is what stops it reading as a placed graphic.
-
-          Desktop only, and that is a layout constraint rather than a
+      {/* Desktop only, and that is a layout constraint rather than a
           preference: a watermark needs horizontal room the heading is not
-          using, and on a 375px column the heading wraps full-width straight
-          through it, which made the type unreadable. Below `md` the same
-          index becomes a large inline numeral in the eyebrow row instead —
-          the hierarchy survives, the collision does not. */}
+          using, and on a 375px column the heading wraps straight through it.
+          Below `md` the index becomes a large inline numeral in the eyebrow
+          row instead — the hierarchy survives, the collision does not. */}
       <span
         aria-hidden="true"
-        className={`ghost-num top-1/2 hidden -translate-y-1/2 md:block md:-right-6 ${
-          dark ? "text-white/8" : "text-ink/6"
+        className={`ghost-num top-1/2 hidden -translate-y-1/2 md:right-0 md:block ${
+          dark ? "text-bone" : "text-ink"
         }`}
       >
         {index}
       </span>
 
-      <div className="relative z-10">
+      <div className="relative z-2">
         <div className="flex items-baseline gap-3 md:gap-4">
           <span
             aria-hidden="true"
-            className={`text-[2rem] leading-none font-bold tracking-tight tnum md:hidden ${
-              dark ? "text-white/25" : "text-ink/20"
+            className={`font-display text-[2.25rem] leading-none tnum md:hidden ${
+              dark ? "text-bone/25" : "text-ink/20"
             }`}
           >
             {index}
@@ -152,14 +195,27 @@ export function SectionHead({
             <i />
             <i />
           </span>
-          <span className={`text-eyebrow uppercase ${dark ? "text-white/55" : "text-ink-soft"}`}>
+          <span
+            className={`text-eyebrow uppercase ${dark ? "text-grey/55" : "text-ink-soft"}`}
+          >
             {eyebrow}
           </span>
         </div>
 
         <div className="mt-6 flex flex-wrap items-end justify-between gap-x-8 gap-y-5 md:mt-8">
-          <h2 className={`text-h2 max-w-2xl text-balance ${dark ? "text-white" : ""}`}>
+          <h2
+            id={headingId}
+            className={`max-w-3xl text-h1 text-balance ${dark ? "text-bone" : "text-ink"}`}
+          >
             {typeof heading === "string" ? <SplitWords text={heading} /> : heading}
+            {quiet && (
+              <>
+                {" "}
+                <span className={dark ? "text-stone" : "text-ink-faint"}>
+                  <SplitWords text={quiet} />
+                </span>
+              </>
+            )}
           </h2>
           {action}
         </div>
@@ -190,13 +246,13 @@ export function Section({
   const tones = {
     light: "bg-bone text-ink",
     paper: "bg-paper text-ink",
-    grey: "bg-grey text-ink",
-    dark: "bg-charcoal text-grey",
+    grey: "bg-linen text-ink",
+    dark: "bg-espresso text-grey",
   };
   const sizes = {
-    sm: "py-14 md:py-20",
+    sm: "section-y-sm",
     md: "section-y",
-    lg: "section-y",
+    lg: "section-y-lg",
   };
   return (
     <Tag id={id} className={`${tones[tone]} ${sizes[size]} ${className}`}>
@@ -235,14 +291,16 @@ export function Input({
   ...props
 }: ComponentProps<"input"> & { invalid?: boolean; onDark?: boolean }) {
   const base =
-    "w-full min-h-12 px-4 text-base bg-transparent border transition-colors " +
-    "duration-150 outline-none placeholder:text-ink-faint";
+    "w-full min-h-12 rounded-xs border-b bg-transparent px-1 py-3 text-base " +
+    "outline-none transition-[border-color,box-shadow] duration-150 " +
+    "ease-[var(--ease-out-soft)] placeholder:text-ink-faint " +
+    "focus:shadow-[var(--shadow-focus-rule)]";
   const light = invalid
-    ? "border-brick text-ink focus:border-brick"
-    : "border-ink/25 text-ink focus:border-ink";
+    ? "border-brick text-ink"
+    : "border-ink/25 text-ink focus:border-amber";
   const dark = invalid
-    ? "border-brick text-white placeholder:text-white/40"
-    : "border-white/25 text-white placeholder:text-white/40 focus:border-white";
+    ? "border-brick text-bone placeholder:text-grey/40"
+    : "border-sand/25 text-bone placeholder:text-grey/40 focus:border-amber";
   return <input className={`${base} ${onDark ? dark : light} ${className}`} {...props} />;
 }
 
@@ -281,11 +339,11 @@ export function PillGroup({
           "min-h-12 px-3 text-[0.9375rem] font-medium border transition-colors " +
           "duration-150 cursor-pointer";
         const light = selected
-          ? "bg-ink text-white border-ink"
+          ? "bg-ink text-bone border-ink"
           : "bg-transparent text-ink border-ink/25 hover:border-ink";
         const dark = selected
-          ? "bg-white text-ink border-white"
-          : "bg-transparent text-white/85 border-white/25 hover:border-white";
+          ? "bg-bone text-ink border-sand"
+          : "bg-transparent text-grey/85 border-sand/25 hover:border-amber";
         return (
           <button
             key={opt.value}
@@ -299,34 +357,6 @@ export function PillGroup({
           </button>
         );
       })}
-    </div>
-  );
-}
-
-/* -------------------------------------------------------------------------
-   Stat — proof-strip figure. Plain type, no card (§3.1 §2).
-   ---------------------------------------------------------------------- */
-
-export function Stat({
-  value,
-  label,
-  suffix,
-}: {
-  value: ReactNode;
-  label: string;
-  suffix?: string;
-}) {
-  return (
-    <div>
-      <div className="text-stat tnum flex items-start">
-        {value}
-        {suffix && (
-          <span className="text-[0.35em] font-semibold ml-1 mt-[0.55em] tracking-normal">
-            {suffix}
-          </span>
-        )}
-      </div>
-      <div className="text-eyebrow uppercase mt-3 text-ink-soft">{label}</div>
     </div>
   );
 }

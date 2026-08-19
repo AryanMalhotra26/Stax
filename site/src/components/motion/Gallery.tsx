@@ -102,7 +102,7 @@ export function Gallery() {
               onClick={() => setCategory(c.value)}
               className={`shrink-0 min-h-11 px-5 text-[0.9375rem] font-medium border transition-colors duration-150 ${
                 active
-                  ? "bg-ink text-white border-ink"
+                  ? "rounded-full bg-ink text-bone border-ink"
                   : "bg-transparent text-ink border-ink/20 hover:border-ink"
               }`}
             >
@@ -120,7 +120,7 @@ export function Gallery() {
           <button
             key={item.id}
             onClick={(e) => openImage(item, e.currentTarget.firstElementChild as HTMLElement)}
-            className="group block w-full mb-3.5 break-inside-avoid overflow-hidden bg-grey cursor-zoom-in"
+            className="group block w-full mb-3.5 break-inside-avoid overflow-hidden rounded-md bg-grey cursor-zoom-in"
             aria-label={`Open image: ${item.alt}`}
           >
             <div className="relative">
@@ -144,7 +144,7 @@ export function Gallery() {
           role="dialog"
           aria-modal="true"
           aria-label={open.alt}
-          className="fixed inset-0 z-100 bg-charcoal/97 flex items-center justify-center p-4 md:p-10"
+          className="fixed inset-0 z-100 bg-espresso/97 flex items-center justify-center p-4 md:p-10"
           onClick={close}
         >
           <div
@@ -165,7 +165,7 @@ export function Gallery() {
           <button
             onClick={close}
             aria-label="Close"
-            className="absolute top-4 right-4 md:top-8 md:right-8 w-12 h-12 flex items-center justify-center text-white hover:text-brick transition-colors"
+            className="absolute top-4 right-4 md:top-8 md:right-8 w-12 h-12 flex items-center justify-center text-bone hover:text-brick transition-colors"
           >
             <svg viewBox="0 0 24 24" className="w-6 h-6 stroke-current" strokeWidth={1.5}>
               <path d="M5 5 L19 19 M19 5 L5 19" />
@@ -178,7 +178,7 @@ export function Gallery() {
               step(-1);
             }}
             aria-label="Previous image"
-            className="absolute left-2 md:left-6 top-1/2 -translate-y-1/2 w-12 h-12 flex items-center justify-center text-white/70 hover:text-white transition-colors"
+            className="absolute left-2 md:left-6 top-1/2 -translate-y-1/2 w-12 h-12 flex items-center justify-center text-grey/70 hover:text-bone transition-colors"
           >
             <svg viewBox="0 0 24 24" className="w-7 h-7 stroke-current fill-none" strokeWidth={1.5}>
               <path d="M15 4 L7 12 L15 20" />
@@ -191,7 +191,7 @@ export function Gallery() {
               step(1);
             }}
             aria-label="Next image"
-            className="absolute right-2 md:right-6 top-1/2 -translate-y-1/2 w-12 h-12 flex items-center justify-center text-white/70 hover:text-white transition-colors"
+            className="absolute right-2 md:right-6 top-1/2 -translate-y-1/2 w-12 h-12 flex items-center justify-center text-grey/70 hover:text-bone transition-colors"
           >
             <svg viewBox="0 0 24 24" className="w-7 h-7 stroke-current fill-none" strokeWidth={1.5}>
               <path d="M9 4 L17 12 L9 20" />

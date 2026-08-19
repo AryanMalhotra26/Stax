@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef, type ElementType, type ReactNode } from "react";
-import { animate, useReducedMotion } from "motion/react";
+import { useReducedMotion } from "motion/react";
 
 /**
  * Section reveal — scroll-linked, not triggered.
@@ -55,60 +55,77 @@ export function Reveal({
 }
 
 /**
- * Stat counter (motion inventory #4). Counts once on enter, then stops.
+ * Stat counter — scrubbed, not triggered.
  *
- * Deliberately still triggered rather than scrubbed: a counter that runs
- * backwards when you scroll up reads as a bug, not a flourish. The tween
- * writes straight to `textContent` via a ref, so several counters at 60fps
- * cost no React renders.
+ * This used to count once on enter and stop, on the argument that a counter
+ * running backwards reads as a bug. That argument loses to the page's one
+ * motion law: **scrub everything, trigger nothing** (§7). A counter that
+ * fires on a threshold is the only thing on the page running on its own
+ * clock, and next to twenty scrubbed elements it is the one that looks wrong
+ * — it announces itself while everything around it answers the wheel.
+ *
+ * Scrubbed, it also does something a triggered counter cannot: scroll up
+ * halfway and the number sits at an intermediate value, which makes the
+ * figure feel attached to the page rather than played at you.
+ *
+ * Implemented against the scroll position directly rather than with
+ * ScrollTrigger. GSAP is deliberately absent from this route's shared chunk
+ * (a statically imported GSAP gets hoisted by Turbopack into a chunk every
+ * route pays for, the ad landing pages included) and this is ~20 lines. The
+ * tween writes straight to `textContent` through a ref, so several counters
+ * at 60fps cost no React renders.
  */
 export function CountUp({
   to,
-  duration = 1.4,
   className = "",
 }: {
   to: number;
-  duration?: number;
   className?: string;
 }) {
   const reduce = useReducedMotion();
   const ref = useRef<HTMLSpanElement>(null);
-  const done = useRef(false);
 
   useEffect(() => {
-    if (reduce || !ref.current || done.current) return;
     const el = ref.current;
-    let controls: { stop: () => void } | null = null;
+    if (!el) return;
+    if (reduce) {
+      el.textContent = to.toLocaleString();
+      return;
+    }
 
-    el.textContent = "0";
+    let frame = 0;
 
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (!entry.isIntersecting) return;
-        observer.disconnect();
-
-        controls = animate(0, to, {
-          duration,
-          ease: [0.16, 1, 0.3, 1],
-          onUpdate: (v) => {
-            el.textContent = Math.round(v).toLocaleString();
-          },
-          onComplete: () => {
-            done.current = true;
-            el.textContent = to.toLocaleString();
-          },
-        });
-      },
-      { threshold: 0.6 },
-    );
-
-    observer.observe(el);
-    return () => {
-      observer.disconnect();
-      controls?.stop();
-      if (!done.current) el.textContent = to.toLocaleString();
+    const update = () => {
+      frame = 0;
+      const rect = el.getBoundingClientRect();
+      // Counts across the last third of its approach: from one third of a
+      // viewport below the fold, to the point where it sits 65% up the
+      // screen. Any longer and the digits are still moving when the reader
+      // has started on the next paragraph.
+      const start = window.innerHeight * 1.05;
+      const end = window.innerHeight * 0.65;
+      const p = (start - rect.top) / (start - end);
+      const clamped = Math.min(1, Math.max(0, p));
+      // expo-out, matching --ease-out-expo, so the count decelerates into its
+      // final value instead of arriving at a constant rate.
+      const eased = clamped === 1 ? 1 : 1 - Math.pow(2, -10 * clamped);
+      el.textContent = Math.round(to * eased).toLocaleString();
     };
-  }, [to, duration, reduce]);
+
+    const onScroll = () => {
+      if (!frame) frame = requestAnimationFrame(update);
+    };
+
+    update();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    window.addEventListener("resize", onScroll, { passive: true });
+
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+      window.removeEventListener("resize", onScroll);
+      if (frame) cancelAnimationFrame(frame);
+    };
+  }, [to, reduce]);
 
   return (
     <span ref={ref} className={`tnum ${className}`}>

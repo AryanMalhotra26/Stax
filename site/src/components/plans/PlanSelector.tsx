@@ -52,10 +52,10 @@ export function PlanSelector({
                 role="tab"
                 aria-selected={active}
                 onClick={() => setFilter(f.value)}
-                className={`shrink-0 min-h-11 px-5 text-[0.9375rem] font-medium border transition-colors duration-150 ${
+                className={`shrink-0 min-h-11 rounded-full border px-5 text-[0.9375rem] font-medium transition-colors duration-150 ease-[var(--ease-out-soft)] ${
                   active
-                    ? "bg-ink text-white border-ink"
-                    : "bg-transparent text-ink border-ink/20 hover:border-ink"
+                    ? "border-ink bg-ink text-bone"
+                    : "border-ink/20 bg-transparent text-ink hover:border-amber hover:text-brick"
                 }`}
               >
                 {f.label}
@@ -106,7 +106,7 @@ function PlanCard({
     <div className="grid lg:grid-cols-2 gap-10 lg:gap-16 items-start">
       {/* Render */}
       <div className={flip ? "lg:order-2" : ""}>
-        <div className="relative aspect-4/3 overflow-hidden bg-grey">
+        <div className="relative aspect-4/3 overflow-hidden rounded-md bg-grey">
           <Render
             media={plan.heroMedia}
             sizes="(max-width: 1023px) 100vw, 46vw"
@@ -117,7 +117,7 @@ function PlanCard({
 
         {/* The plan diagram — SVG, so it stays sharp at any zoom and costs
             ~4KB rather than ~400KB (§3.2). */}
-        <figure className="mt-4 border border-line bg-paper p-6 md:p-8">
+        <figure className="mt-4 rounded-md border border-line bg-paper p-6 md:p-8">
           <FloorPlanDiagram slug={plan.slug} />
           <figcaption className="mt-4 text-xs text-ink-faint leading-relaxed">
             Illustrative layout. Dimensioned plans are released with pricing in

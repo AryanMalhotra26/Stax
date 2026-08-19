@@ -93,6 +93,126 @@ const CATALOG = [
   },
 ];
 
+/**
+ * Hero parallax layers (§8.1, Route B).
+ *
+ * The hero environment needs plates at different depths. Route A cuts alpha
+ * silhouettes out of the renders in Photoshop, which reads richer but needs a
+ * human with a pen tool; Route B builds the same illusion from three layers —
+ * a CSS sky gradient, the render itself, and a blurred crop of the render's
+ * own foreground — and it is what ships here.
+ *
+ * Only the third needs generating. It is the bottom slice of the street view,
+ * heavily blurred and dropped in exposure, so it reads as out-of-focus kerb
+ * and planting a metre in front of the camera. Blurring first means there is
+ * no detail left to preserve, so it stays tiny at 1600px — the whole layer is
+ * a few tens of KB against a 900KB budget for the environment.
+ */
+const HERO_LAYERS = [
+  {
+    // The garden view, not the street view: its bottom edge is lawn and
+    // flowering planting beds, which is what a foreground plate wants. The
+    // street view's is asphalt, and blurred asphalt is a grey gradient.
+    file: "EXT 3 2.jpg",
+    slug: "hero-near",
+    /** Fraction of the source height to keep, measured from the bottom. */
+    crop: 0.26,
+    blur: 11,
+    widths: [1024, 1600],
+  },
+];
+
+/**
+ * The oak-floor substrate (§5.4, §8.2).
+ *
+ * The amenities walkthrough is the moment the page goes *inside*, and the
+ * reference sells its equivalent moment by standing its cards on a real
+ * photographic surface — grass, a picnic blanket, a compass — rather than on
+ * a flat colour. Flat colour is what made this section read as dead.
+ *
+ * This is a warm dark floor generated rather than sourced. A CC0 wood
+ * photograph would be 300–800KB for something that renders at 18% size behind
+ * a scrim at low contrast; this is a perfectly seamless 512px tile in under
+ * 10KB. Every frequency below is an integer number of cycles across the tile,
+ * which is what makes the wrap invisible — a photograph tiled at this size
+ * shows its repeat immediately and there is no way to fix that after the fact.
+ */
+const TEXTURE_OUT = path.resolve(__dirname, "../public/textures");
+
+async function buildTextures() {
+  const S = 512;
+  const data = Buffer.alloc(S * S * 3);
+  const TAU = Math.PI * 2;
+
+  // Grain: stretched along x, tight in y, so it reads as boards running
+  // across rather than as noise.
+  const bands = [
+    { fx: 1, fy: 7, a: 0.5, p: 0.0 },
+    { fx: 2, fy: 13, a: 0.3, p: 1.7 },
+    { fx: 1, fy: 23, a: 0.22, p: 3.1 },
+    { fx: 3, fy: 41, a: 0.14, p: 5.2 },
+    { fx: 2, fy: 67, a: 0.09, p: 2.4 },
+  ];
+
+  for (let y = 0; y < S; y += 1) {
+    for (let x = 0; x < S; x += 1) {
+      let n = 0;
+      for (const b of bands) {
+        n += b.a * Math.sin(TAU * ((b.fx * x) / S + (b.fy * y) / S) + b.p);
+      }
+
+      // Board seams every 128px, with the joint one shade darker than grain.
+      const seam = y % 128 < 2 ? -0.4 : 0;
+      // Plank-to-plank variation, so adjacent boards are not identical.
+      const plank = 0.05 * Math.sin(TAU * (Math.floor(y / 128) / 4) + 0.9);
+
+      const k = 1 + 0.1 * n + seam + plank;
+      const i = (y * S + x) * 3;
+      // Dark enough that a `bark` card still separates from the floor it is
+      // standing on. A substrate has to lose to the content on top of it.
+      data[i] = Math.max(0, Math.min(255, Math.round(52 * k)));
+      data[i + 1] = Math.max(0, Math.min(255, Math.round(36 * k)));
+      data[i + 2] = Math.max(0, Math.min(255, Math.round(28 * k)));
+    }
+  }
+
+  await mkdir(TEXTURE_OUT, { recursive: true });
+  const img = sharp(data, { raw: { width: S, height: S, channels: 3 } });
+  await img.clone().avif({ quality: 46, effort: 6 }).toFile(path.join(TEXTURE_OUT, "oak-floor.avif"));
+  await img.clone().webp({ quality: 70 }).toFile(path.join(TEXTURE_OUT, "oak-floor.webp"));
+  console.log("  \u2713 textures/oak-floor      512\u00d7512 seamless");
+}
+
+async function buildHeroLayers() {
+  const available = new Set(await readdir(SRC));
+
+  for (const layer of HERO_LAYERS) {
+    if (!available.has(layer.file)) {
+      console.warn(`  ! missing source, skipping: ${layer.file}`);
+      continue;
+    }
+    const src = path.join(SRC, layer.file);
+    const meta = await sharp(src, { limitInputPixels: false }).metadata();
+    const height = Math.round(meta.height * layer.crop);
+
+    for (const w of layer.widths) {
+      const base = sharp(src, { limitInputPixels: false })
+        .extract({ left: 0, top: meta.height - height, width: meta.width, height })
+        .resize(w)
+        .blur(layer.blur)
+        // Golden hour is warm and the foreground is in shadow: darken and
+        // pull saturation so the plate sits *under* the lit facades rather
+        // than competing with them.
+        .modulate({ brightness: 0.72, saturation: 0.85 });
+
+      await base.clone().avif({ quality: 48, effort: 6 }).toFile(path.join(OUT, `${layer.slug}-${w}.avif`));
+      await base.clone().webp({ quality: 66 }).toFile(path.join(OUT, `${layer.slug}-${w}.webp`));
+    }
+
+    console.log(`  \u2713 ${layer.slug.padEnd(24)} bottom ${layer.crop * 100}% \u2192 blur ${layer.blur}`);
+  }
+}
+
 async function lqip(input) {
   // 20px wide WebP, base64 inlined. Renders behind the real image to kill CLS
   // without a network round trip.
@@ -103,9 +223,22 @@ async function lqip(input) {
   return `data:image/webp;base64,${buf.toString("base64")}`;
 }
 
+/**
+ * `ONLY=hero npm run images` rebuilds just the parallax plates. Re-encoding
+ * every render to change one derived layer costs minutes and churns a hundred
+ * committed binaries for nothing.
+ */
+const ONLY = process.env.ONLY;
+
 async function main() {
   await mkdir(OUT, { recursive: true });
   await mkdir(path.dirname(MANIFEST), { recursive: true });
+
+  if (ONLY === "hero") {
+    await buildHeroLayers();
+    await buildTextures();
+    return;
+  }
 
   const available = new Set(await readdir(SRC));
   const records = [];
@@ -156,6 +289,9 @@ async function main() {
     const largest = Math.max(...Object.keys(variants.avif).map(Number));
     console.log(`  ✓ ${item.slug.padEnd(24)} ${meta.width}×${meta.height} → ${Object.keys(variants.avif).length} widths (max ${largest})`);
   }
+
+  await buildHeroLayers();
+  await buildTextures();
 
   // --- team headshots -----------------------------------------------------
   // Separate output and a separate manifest entry shape: these are 4:5 crops

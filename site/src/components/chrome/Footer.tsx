@@ -6,12 +6,22 @@ export function Footer() {
   const year = new Date().getFullYear();
 
   return (
-    <footer className="bg-charcoal text-grey">
+    <footer className="relative overflow-hidden bg-night text-grey">
       <div className="container-stax section-y-sm">
         <div className="grid gap-12 md:grid-cols-[1.4fr_1fr_1fr_1fr]">
           <div>
-            <Logo className="h-8 w-auto text-grey" />
-            <p className="mt-6 max-w-xs text-grey/60 leading-relaxed">
+            <Logo className="h-9 w-auto text-grey md:h-11" />
+
+            {/* The trail's terminus. It has run down the left edge of every
+                section since the hero; this is where the walk ends. */}
+            <p
+              className="hand mt-4 text-hand text-amber"
+              style={{ ["--hand-tilt" as string]: "-2deg" }}
+            >
+              see you in september.
+            </p>
+
+            <p className="mt-6 max-w-xs leading-relaxed text-grey/60">
               Brand-new student residences near Brock University. Opening{" "}
               {SITE.facts.occupancy}.
             </p>
@@ -21,7 +31,7 @@ export function Footer() {
                 href={SITE.developer.url}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-grey/70 underline underline-offset-4 hover:text-white transition-colors"
+                className="text-grey/70 underline underline-offset-4 transition-colors duration-150 ease-[var(--ease-out-soft)] hover:text-amber"
               >
                 {SITE.developer.name}
               </a>{" "}
@@ -40,7 +50,7 @@ export function Footer() {
             <li>
               <a
                 href={`mailto:${SITE.email}`}
-                className="text-grey/60 hover:text-white transition-colors"
+                className="text-grey/70 transition-colors duration-150 ease-[var(--ease-out-soft)] hover:text-amber"
               >
                 {SITE.email}
               </a>
@@ -48,7 +58,7 @@ export function Footer() {
             <li>
               <a
                 href={SITE.phoneHref}
-                className="text-grey/60 hover:text-white transition-colors"
+                className="text-grey/70 transition-colors duration-150 ease-[var(--ease-out-soft)] hover:text-amber"
               >
                 {SITE.phone}
               </a>
@@ -64,7 +74,7 @@ export function Footer() {
             <li>
               <a
                 href={SITE.social.instagram}
-                className="text-grey/60 hover:text-white transition-colors"
+                className="text-grey/70 transition-colors duration-150 ease-[var(--ease-out-soft)] hover:text-amber"
                 rel="noopener noreferrer"
                 target="_blank"
               >
@@ -74,7 +84,7 @@ export function Footer() {
             <li>
               <a
                 href={SITE.social.tiktok}
-                className="text-grey/60 hover:text-white transition-colors"
+                className="text-grey/70 transition-colors duration-150 ease-[var(--ease-out-soft)] hover:text-amber"
                 rel="noopener noreferrer"
                 target="_blank"
               >
@@ -84,15 +94,15 @@ export function Footer() {
           </FooterColumn>
         </div>
 
-        <div className="mt-16 pt-8 border-t border-white/10 flex flex-col sm:flex-row gap-4 sm:items-center sm:justify-between text-sm text-grey/45">
+        <div className="mt-16 pt-8 border-t border-sand/12 flex flex-col sm:flex-row gap-4 sm:items-center sm:justify-between text-sm text-grey/45">
           <p>
             © {year} {SITE.legalName}. All rights reserved.
           </p>
           <div className="flex gap-6">
-            <Link href="/privacy" className="hover:text-white transition-colors">
+            <Link href="/privacy" className="transition-colors duration-150 ease-[var(--ease-out-soft)] hover:text-amber">
               Privacy
             </Link>
-            <Link href="/terms" className="hover:text-white transition-colors">
+            <Link href="/terms" className="transition-colors duration-150 ease-[var(--ease-out-soft)] hover:text-amber">
               Terms
             </Link>
           </div>
@@ -117,7 +127,7 @@ function FooterColumn({
 }) {
   return (
     <div>
-      <h2 className="text-eyebrow uppercase text-white/45">{title}</h2>
+      <h2 className="text-eyebrow uppercase text-amber">{title}</h2>
       <ul className="mt-5 space-y-3">{children}</ul>
     </div>
   );
@@ -126,7 +136,7 @@ function FooterColumn({
 function FooterLink({ href, children }: { href: string; children: React.ReactNode }) {
   return (
     <li>
-      <Link href={href} className="text-grey/60 hover:text-white transition-colors">
+      <Link href={href} className="text-grey/70 transition-colors duration-150 ease-[var(--ease-out-soft)] hover:text-amber">
         {children}
       </Link>
     </li>
