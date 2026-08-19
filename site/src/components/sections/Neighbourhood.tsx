@@ -46,7 +46,7 @@ export function Neighbourhood() {
 
         <div className="mt-12 grid items-start gap-12 lg:grid-cols-[1fr_1.15fr] lg:gap-16">
           <Reveal>
-            <p className="max-w-lg text-lead text-grey/60">
+            <p className="max-w-lg text-lead text-grey/75">
               {NEIGHBOURHOOD_COPY.body}
             </p>
 
@@ -60,12 +60,12 @@ export function Neighbourhood() {
                     className={
                       landmark.featured
                         ? "font-medium text-bone"
-                        : "text-grey/70"
+                        : "text-grey/75"
                     }
                   >
                     {landmark.name}
                   </span>
-                  <span className="shrink-0 text-sm tnum whitespace-nowrap text-ink-faint transition-colors duration-150 ease-[var(--ease-out-soft)] group-hover:text-amber">
+                  <span className="shrink-0 text-sm tnum whitespace-nowrap text-grey/70 transition-colors duration-150 ease-[var(--ease-out-soft)] group-hover:text-amber">
                     {landmark.time}{" "}
                     {landmark.mode === "shuttle"
                       ? "shuttle"
@@ -77,11 +77,11 @@ export function Neighbourhood() {
               ))}
             </ul>
 
-            <p className="mt-5 text-sm leading-relaxed text-grey/50">
+            <p className="mt-5 text-sm leading-relaxed text-grey/75">
               Plus {FOOD_NEARBY.slice(0, -1).join(", ")} and {FOOD_NEARBY.at(-1)},
               along with local restaurants and bars.
             </p>
-            <p className="mt-3 text-xs text-grey/35">
+            <p className="mt-3 text-xs text-grey/75">
               Times are approximate and provided for guidance only.
             </p>
 
@@ -225,17 +225,16 @@ function MapPlate({ featured }: { featured: typeof LANDMARKS }) {
           something written on the map; the same words in the UI sans read as
           a data field. */}
       <span
-        className="hand pointer-events-none absolute top-[36%] left-[52%] text-hand-sm whitespace-nowrap text-amber"
+        className="hand pointer-events-none absolute top-[36%] left-[52%] text-hand-sm whitespace-nowrap text-amber-hot"
         style={{ ["--hand-tilt" as string]: "-24deg" }}
       >
         15 min shuttle
       </span>
 
-      <figcaption
-        className="hand mt-4 text-right text-hand-sm text-ink-faint"
-        style={{ ["--hand-tilt" as string]: "-3deg" }}
-      >
-        not to scale
+      {/* Not in Caveat: this is an accuracy disclaimer, and the hand makes a
+          disclaimer read as a joke. */}
+      <figcaption className="mt-4 text-right text-xs tracking-wide text-grey/75 uppercase">
+        Not to scale
       </figcaption>
     </figure>
   );

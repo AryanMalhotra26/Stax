@@ -54,7 +54,7 @@ export default function RegisterPage() {
               </Link>
               <Link
                 href="/residences"
-                className="text-eyebrow uppercase text-grey/70 transition-colors hover:text-bone"
+                className="text-eyebrow uppercase text-grey/75 transition-colors hover:text-bone"
               >
                 Floor plans
               </Link>
@@ -91,7 +91,7 @@ export default function RegisterPage() {
               {/* Form card. Charcoal so the fields read as one object on the
                   photograph rather than floating loose over it. */}
               <div className="animate-rise stagger-3 w-full bg-ink/95 p-6 backdrop-blur-md md:p-8">
-                <p className="mb-6 text-eyebrow uppercase text-grey/45 sm:hidden">
+                <p className="mb-6 text-eyebrow uppercase text-grey/75 sm:hidden">
                   Priority list · {SITE.facts.occupancyShort}
                 </p>
                 <h2 className="mb-6 text-h3 text-bone sm:hidden">Get in first.</h2>
@@ -99,7 +99,7 @@ export default function RegisterPage() {
                 <CaptureForm onDark compact ctaLabel="Register your interest" />
 
                 <div className="mt-6 border-t border-sand/15 pt-5">
-                  <p className="text-sm text-grey/55">
+                  <p className="text-sm text-grey/75">
                     Rather just ask someone?{" "}
                     <a
                       href={SITE.phoneHref}
@@ -148,7 +148,7 @@ function Mini({ value, label }: { value: string; label: string }) {
   return (
     <div>
       <dd className="text-h3 tnum text-bone">{value}</dd>
-      <dt className="mt-1.5 text-eyebrow uppercase text-grey/45">{label}</dt>
+      <dt className="mt-1.5 text-eyebrow uppercase text-grey/75">{label}</dt>
     </div>
   );
 }
@@ -161,7 +161,7 @@ function Step({ n, title, body }: { n: string; title: string; body: string }) {
         <span className="h-1.5 w-1.5 bg-brick" aria-hidden="true" />
       </div>
       <h2 className="text-h3 mt-5 text-bone">{title}</h2>
-      <p className="mt-3 leading-relaxed text-grey/60">{body}</p>
+      <p className="mt-3 leading-relaxed text-grey/75">{body}</p>
     </li>
   );
 }

@@ -21,17 +21,17 @@ export function Footer() {
               see you in september.
             </p>
 
-            <p className="mt-6 max-w-xs leading-relaxed text-grey/60">
+            <p className="mt-6 max-w-xs leading-relaxed text-grey/75">
               Brand-new student residences near Brock University. Opening{" "}
               {SITE.facts.occupancy}.
             </p>
-            <p className="mt-5 text-sm text-grey/45">
+            <p className="mt-5 text-sm text-grey/75">
               A{" "}
               <a
                 href={SITE.developer.url}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-grey/70 underline underline-offset-4 transition-colors duration-150 ease-[var(--ease-out-soft)] hover:text-amber"
+                className="-my-2 inline-block py-2 text-grey/75 underline underline-offset-4 transition-colors duration-150 ease-[var(--ease-out-soft)] hover:text-amber"
               >
                 {SITE.developer.name}
               </a>{" "}
@@ -50,7 +50,7 @@ export function Footer() {
             <li>
               <a
                 href={`mailto:${SITE.email}`}
-                className="text-grey/70 transition-colors duration-150 ease-[var(--ease-out-soft)] hover:text-amber"
+                className="-my-2 inline-block py-2 text-grey/75 transition-colors duration-150 ease-[var(--ease-out-soft)] hover:text-amber"
               >
                 {SITE.email}
               </a>
@@ -58,12 +58,12 @@ export function Footer() {
             <li>
               <a
                 href={SITE.phoneHref}
-                className="text-grey/70 transition-colors duration-150 ease-[var(--ease-out-soft)] hover:text-amber"
+                className="-my-2 inline-block py-2 text-grey/75 transition-colors duration-150 ease-[var(--ease-out-soft)] hover:text-amber"
               >
                 {SITE.phone}
               </a>
             </li>
-            <li className="text-grey/60 pt-2 leading-relaxed">
+            <li className="text-grey/75 pt-2 leading-relaxed">
               {SITE.address.street}
               <br />
               {SITE.address.city}, {SITE.address.region}
@@ -74,7 +74,7 @@ export function Footer() {
             <li>
               <a
                 href={SITE.social.instagram}
-                className="text-grey/70 transition-colors duration-150 ease-[var(--ease-out-soft)] hover:text-amber"
+                className="-my-2 inline-block py-2 text-grey/75 transition-colors duration-150 ease-[var(--ease-out-soft)] hover:text-amber"
                 rel="noopener noreferrer"
                 target="_blank"
               >
@@ -84,7 +84,7 @@ export function Footer() {
             <li>
               <a
                 href={SITE.social.tiktok}
-                className="text-grey/70 transition-colors duration-150 ease-[var(--ease-out-soft)] hover:text-amber"
+                className="-my-2 inline-block py-2 text-grey/75 transition-colors duration-150 ease-[var(--ease-out-soft)] hover:text-amber"
                 rel="noopener noreferrer"
                 target="_blank"
               >
@@ -94,21 +94,21 @@ export function Footer() {
           </FooterColumn>
         </div>
 
-        <div className="mt-16 pt-8 border-t border-sand/12 flex flex-col sm:flex-row gap-4 sm:items-center sm:justify-between text-sm text-grey/45">
+        <div className="mt-16 pt-8 border-t border-sand/12 flex flex-col sm:flex-row gap-4 sm:items-center sm:justify-between text-sm text-grey/75">
           <p>
             © {year} {SITE.legalName}. All rights reserved.
           </p>
           <div className="flex gap-6">
-            <Link href="/privacy" className="transition-colors duration-150 ease-[var(--ease-out-soft)] hover:text-amber">
+            <Link href="/privacy" className="-my-2 inline-block py-2 transition-colors duration-150 ease-[var(--ease-out-soft)] hover:text-amber">
               Privacy
             </Link>
-            <Link href="/terms" className="transition-colors duration-150 ease-[var(--ease-out-soft)] hover:text-amber">
+            <Link href="/terms" className="-my-2 inline-block py-2 transition-colors duration-150 ease-[var(--ease-out-soft)] hover:text-amber">
               Terms
             </Link>
           </div>
         </div>
 
-        <p className="mt-8 text-xs text-grey/35 max-w-3xl leading-relaxed">
+        <p className="mt-8 text-xs text-grey/75 max-w-3xl leading-relaxed">
           Renderings are artist&rsquo;s impressions and are subject to change.
           Dimensions, finishes, unit mix and availability are approximate and
           not a representation or warranty. E.&amp;O.E.
@@ -127,7 +127,11 @@ function FooterColumn({
 }) {
   return (
     <div>
-      <h2 className="text-eyebrow uppercase text-amber">{title}</h2>
+      {/* Not an <h2>: these are navigation labels, not document headings, and
+          an 11px high-contrast serif goes muddy — the hairlines drop out. */}
+      <p className="font-sans text-eyebrow font-semibold uppercase text-amber">
+        {title}
+      </p>
       <ul className="mt-5 space-y-3">{children}</ul>
     </div>
   );
@@ -136,7 +140,7 @@ function FooterColumn({
 function FooterLink({ href, children }: { href: string; children: React.ReactNode }) {
   return (
     <li>
-      <Link href={href} className="text-grey/70 transition-colors duration-150 ease-[var(--ease-out-soft)] hover:text-amber">
+      <Link href={href} className="-my-2 inline-block py-2 text-grey/75 transition-colors duration-150 ease-[var(--ease-out-soft)] hover:text-amber">
         {children}
       </Link>
     </li>

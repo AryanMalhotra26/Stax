@@ -135,7 +135,7 @@ export function Trail() {
     <div
       ref={ref}
       aria-hidden="true"
-      className="pointer-events-none absolute top-0 left-[clamp(20px,4vw,72px)] z-20 hidden lg:block"
+      className="trail pointer-events-none absolute top-0 left-[clamp(20px,4vw,72px)] z-20 hidden transition-opacity duration-300 lg:block"
       style={{ height, width: W, ["--p" as string]: 0 }}
     >
       {/* The route ahead — faint. */}

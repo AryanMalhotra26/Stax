@@ -46,7 +46,7 @@ export default function ResidencesPage() {
             aria-hidden="true"
           />
           <div className="container-stax relative pb-12 pt-28">
-            <Eyebrow className="text-grey/60">Residences</Eyebrow>
+            <Eyebrow className="text-grey/75">Residences</Eyebrow>
             <h1 className="text-h1 text-bone mt-5 max-w-3xl text-balance">
               Four layouts across {SITE.facts.blocks} blocks.
             </h1>

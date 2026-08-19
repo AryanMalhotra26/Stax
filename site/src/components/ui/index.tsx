@@ -196,7 +196,7 @@ export function SectionHead({
             <i />
           </span>
           <span
-            className={`text-eyebrow uppercase ${dark ? "text-grey/55" : "text-ink-soft"}`}
+            className={`text-eyebrow uppercase ${dark ? "text-grey/75" : "text-ink-soft"}`}
           >
             {eyebrow}
           </span>
@@ -299,8 +299,8 @@ export function Input({
     ? "border-brick text-ink"
     : "border-ink/25 text-ink focus:border-amber";
   const dark = invalid
-    ? "border-brick text-bone placeholder:text-grey/40"
-    : "border-sand/25 text-bone placeholder:text-grey/40 focus:border-amber";
+    ? "border-brick text-bone placeholder:text-grey/75"
+    : "border-sand/25 text-bone placeholder:text-grey/75 focus:border-amber";
   return <input className={`${base} ${onDark ? dark : light} ${className}`} {...props} />;
 }
 

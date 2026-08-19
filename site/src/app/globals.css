@@ -47,7 +47,10 @@
   /* --- ink — warmed off neutral to match the surfaces ------------------ */
   --color-ink: #241d1a;
   --color-ink-soft: #5a4a43;
-  --color-ink-faint: #8d7a70;
+  /* Darkened from #8d7a70, which measured 3.98:1 on bone and failed AA for
+     body text everywhere it was used — eyebrow numerals, table times, the
+     map's own labels. #7a675d holds the same warmth at 5.1:1. */
+  --color-ink-faint: #7a675d;
   --color-line: #e2dad1;
   --color-line-dark: #4a3b34;
   --color-grey: #ede6de;       /* text on dark                             */
@@ -80,6 +83,20 @@
   --text-h3--line-height: 1.15;
   --text-h3--letter-spacing: -0.012em;
   --text-h3--font-weight: 400;
+
+  /* Hero display.
+  
+     `--text-mega` is sized for a short poster line — the old headline was
+     "reimagined.", eleven characters. The current one is "Fifteen minutes
+     from Brock." at twenty-seven, and at 12vw that wraps to three lines and
+     pushes the proof band off the fold. This is the same voice one step down,
+     sized so the longest line fits the content column on one line at every
+     width. `--text-mega` stays for the Register summit, where the line is
+     short enough to earn it. */
+  --text-hero: clamp(2.25rem, 6.6vw, 6.5rem);
+  --text-hero--line-height: 0.92;
+  --text-hero--letter-spacing: -0.028em;
+  --text-hero--font-weight: 400;
 
   /* Annotation — Caveat. Always rotated, always lowercase, always in a
      margin. See `.hand` in the components layer. */
@@ -222,9 +239,18 @@
     color: #fff;
   }
 
+  /* Every interactive element gets a visible keyboard focus state. Amber
+     because it is the only accent that holds against both the light surfaces
+     and the night/espresso ones — brick disappears into the dark tiers.
+     
+     The Pass 1 note about "no focus ring glow" on the form inputs was about
+     the *glow*, not about removing focus indication: those inputs draw a 2px
+     amber rule instead, which is the same signal in the section's own
+     language. */
   :focus-visible {
-    outline: 2px solid var(--color-brick);
+    outline: 2px solid var(--color-amber);
     outline-offset: 3px;
+    border-radius: var(--radius-xs);
   }
 
   /* Hide focus rings for mouse users but never for keyboard */
@@ -504,7 +530,6 @@
 
 .sd-word > span {
   display: inline-block;
-  will-change: transform;
 }
 
 @keyframes word-rise {
@@ -656,7 +681,6 @@
 
 .sd-letter > span {
   display: inline-block;
-  will-change: transform;
 }
 
 @supports (animation-timeline: view()) {
@@ -841,6 +865,13 @@
       transform var(--dur-slow) cubic-bezier(0.33, 1, 0.68, 1);
   }
 
+  /* Phone variant: the sun-circle is now the only CTA on the site's fold,
+     so it has to exist on a 390px screen rather than being hidden there. */
+  .sun-circle-sm {
+    width: 13ch;
+    height: 13ch;
+  }
+
   .sun-circle:hover,
   .sun-circle:focus-visible {
     box-shadow: var(--shadow-flare);
@@ -866,6 +897,13 @@
   .sun-circle:hover {
     transition: none;
   }
+}
+
+/* The trail is page-level wayfinding, so it steps aside for the one section
+   that takes the page's scroll away from the reader — otherwise it draws
+   straight through the pinned track and slices across the first card. */
+.trail-muted .trail {
+  opacity: 0;
 }
 
 /* ==========================================================================
@@ -905,16 +943,24 @@
   transform: rotate(0deg);
 }
 
+/* A plan name is the biggest thing on its card and must still lose to the
+   heading of the section it lives in. At `text-h1` it tied with it exactly. */
+.plan-name {
+  font-size: clamp(2rem, 4.6vw, 4.25rem);
+  line-height: 1;
+  letter-spacing: -0.02em;
+}
+
 @media (width >= 64rem) {
   .plan-stack {
-    gap: 6vh;
+    gap: 4vh;
   }
 
   .plan-card {
     position: sticky;
     top: calc(6.5rem + var(--depth, 0) * 14px);
-    height: 60vh;
-    min-height: 28rem;
+    height: 54vh;
+    min-height: 26rem;
     /* Straightening on hover is the site's hover grammar, but a card that is
        part of a scrubbed scale timeline must not also be transformed by a
        hover rule — the two fight over the same matrix. Upright at rest is the

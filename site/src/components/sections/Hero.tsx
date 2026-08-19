@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { Render } from "@/components/ui/Render";
-import { SplitLetters, SplitWords } from "@/components/motion/SplitWords";
+import { SplitLetters } from "@/components/motion/SplitWords";
 import { TornEdge } from "@/components/ui/Edge";
 import { media } from "@/content/generated/media";
 import { asset } from "@/lib/asset";
@@ -39,8 +39,18 @@ import { SITE } from "@/lib/site";
  * entrance animation, only scroll response.
  */
 
-const LINE_1 = "Student living,";
-const LINE_2 = "reimagined.";
+/**
+ * The two things nobody else near Brock offers, stated flat.
+ *
+ * This was "Student living, / reimagined." — and "reimagined" is the single
+ * highest-frequency abstract intensifier in AI marketing copy, sitting in the
+ * largest type on the site while saying nothing (reimagined *how*?). The rest
+ * of this site writes like a person — "It matters more in February than it
+ * does in September", "You are not buying a couch in August" — and the hero
+ * was the one place it wrote like a brand.
+ */
+const LINE_1 = "Your own front door.";
+const LINE_2 = "Fifteen minutes from Brock.";
 
 export function Hero() {
   return (
@@ -138,26 +148,29 @@ export function Hero() {
         }}
       />
 
-      {/* ---- Copy ------------------------------------------------------ */}
-      <div className="relative z-10 flex flex-1 flex-col">
-        <div className="container-stax w-full flex-1 pt-[clamp(6.5rem,13vw,11rem)] pb-8 text-center">
-          <p
-            data-px="badge"
-            data-px-fade
-            className="animate-rise stagger-1 mb-7 inline-flex max-w-full items-center gap-2.5 rounded-full bg-brick px-4 py-2 text-[0.625rem] tracking-[0.16em] text-bone uppercase md:text-eyebrow"
-          >
-            <span className="h-1.5 w-1.5 shrink-0 bg-bone" aria-hidden="true" />
-            Now registering · {SITE.facts.occupancyShort}
-          </p>
+      {/* ---- Copy ------------------------------------------------
+          FIVE blocks, left-anchored, one CTA.
 
-          {/* Sentence case, display serif, and the two-tone split the
-              reference uses on every headline: the statement in full white,
-              the resolution a step back into the surface. */}
+          This was ten blocks on a single centred axis — badge, headline x2,
+          handwriting, lead paragraph, two buttons, sun-circle, proof label,
+          proof row — and that stack *is* the signature of every AI page
+          builder's output: pill badge, big headline, grey subheadline,
+          primary button plus ghost secondary, all centred. The badge was the
+          loudest tell, and the lead paragraph carried no fact that was not
+          already on screen twice.
+
+          Breaking the centre axis matters as much as the deletions. The
+          reference centres because it has a symmetrical mountain behind it;
+          this render is a horizontal terrace of buildings, which reads better
+          under an asymmetric overlay — and it leaves the right third of the
+          scene uninterrupted. */}
+      <div className="relative z-10 flex flex-1 flex-col">
+        <div className="container-stax flex w-full flex-1 flex-col justify-end pt-[clamp(7rem,14vw,11rem)] pb-8">
           <h1
             data-px="headline"
             data-px-fade
             aria-label={`${LINE_1} ${LINE_2}`}
-            className="hero-reveal text-mega text-bone"
+            className="hero-reveal max-w-[30ch] text-hero text-bone"
           >
             <span className="block">
               <SplitLetters text={LINE_1} />
@@ -167,94 +180,65 @@ export function Hero() {
             </span>
           </h1>
 
-          <p
-            data-px="hand"
-            data-px-fade
-            className="hand mt-5 inline-block text-hand text-amber"
-            style={{ ["--hand-tilt" as string]: "-2.5deg" }}
-          >
-            <SplitWords text="eight blocks. your own front door." />
-          </p>
+          {/* The annotation and the single CTA share a row.
 
-          <div
-            data-px="lede"
-            data-px-fade
-            className="animate-rise stagger-3 mx-auto mt-6 max-w-2xl"
-          >
-            <p className="text-lead text-balance text-grey/70">
-              Brand-new rentals near Brock University — furnished, connected by
-              a complimentary shuttle, and built for the way students actually
-              live.
+              The annotation used to sit at `mt-5` under a headline whose line
+              box overshoots its glyphs, so it overlapped the H1 by 53px and
+              rendered visually inside the descender of the last word. Its own
+              row clears it. */}
+          <div className="mt-10 flex items-end justify-between gap-8 md:mt-12">
+            <p
+              data-px="hand"
+              data-px-fade
+              className="hand max-w-[42ch] text-hand text-amber"
+              style={{ ["--hand-tilt" as string]: "-3deg" }}
+            >
+              eight blocks. {SITE.facts.beds} beds. september 2027
             </p>
-          </div>
 
-          <div
-            data-px="cta"
-            data-px-fade
-            className="animate-rise stagger-4 mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row"
-          >
+            {/* The only CTA on the fold, and it points at Register — the
+                conversion goal — rather than at the floor plans, which the
+                nav already links and which section 02 is entirely made of.
+                That also kills the duplicate-destination bug: this circle and
+                the deleted FLOOR PLANS button both resolved to /residences. */}
             <Link
               href="/register"
-              className="group flex min-h-14 items-center justify-center gap-3 rounded-full bg-brick px-8 text-[0.8125rem] font-bold tracking-[0.06em] text-bone uppercase transition-[background-color,transform,box-shadow] duration-300 hover:-translate-y-0.5 hover:bg-brick-dark hover:shadow-glow [--glow-strength:0.3]"
+              data-px="sun-circle"
+              className="sun-circle hidden shrink-0 lg:grid"
             >
               Register your interest
-              <svg
-                viewBox="0 0 26 10"
-                aria-hidden="true"
-                className="h-2.5 w-6 shrink-0 fill-none stroke-current transition-transform duration-300 group-hover:translate-x-1.5"
-                strokeWidth={2}
-              >
-                <path d="M0 5 H23 M19 1.5 L23 5 L19 8.5" />
-              </svg>
-            </Link>
-            <Link
-              href="/residences"
-              className="flex min-h-14 items-center justify-center rounded-full border border-grey/30 px-8 text-[0.8125rem] font-bold tracking-[0.06em] text-grey uppercase transition-colors duration-150 ease-[var(--ease-out-soft)] hover:border-amber hover:text-amber"
-            >
-              Floor plans
             </Link>
           </div>
         </div>
 
-        {/* ---- The sun-circle ----------------------------------------
-            Half-overlapping the environment, lower right, so it sits *in* the
-            scene rather than on top of it. The only object glowing above the
-            fold, and one of exactly two on the site. */}
-        <Link
-          href="/residences"
-          data-px="sun-circle"
-          className="sun-circle absolute right-[clamp(1rem,5vw,7rem)] bottom-[clamp(9rem,18vh,14rem)] z-10 hidden lg:grid"
-        >
-          See the plans
-        </Link>
-
-        {/* ---- Proof band -------------------------------------------- */}
+        {/* ---- Proof band --------------------------------------------
+            Trimmed from five items to three: the suite count, bed count and
+            shuttle time all now live in the annotation above, and carrying
+            them in both places is the same redundancy in a different face. */}
         <div className="container-stax relative z-10 w-full pb-8 md:pb-10">
-          <div className="flex flex-col items-center gap-4 border-t border-sand/12 pt-6 md:flex-row md:justify-between md:gap-8">
+          <div className="flex flex-wrap items-center gap-x-8 gap-y-3 border-t border-sand/15 pt-6">
             <p
               className="hand shrink-0 text-hand-sm text-amber"
               style={{ ["--hand-tilt" as string]: "-4deg" }}
             >
               minutes from
             </p>
-            <div className="flex flex-wrap items-center justify-center gap-x-6 gap-y-2.5 text-eyebrow text-grey/60 uppercase md:gap-x-10">
-              <span className="text-grey/85">Brock University</span>
-              <span aria-hidden="true" className="hidden h-3 w-px bg-sand/20 md:block" />
-              <span className="hidden tnum sm:inline">
-                {SITE.facts.units} suites
-              </span>
-              <span className="hidden tnum sm:inline">
-                {SITE.facts.beds} beds
-              </span>
-              <span className="tnum">
-                {SITE.facts.shuttleMinutes} min to Brock
-              </span>
-              <span aria-hidden="true" className="hidden h-3 w-px bg-sand/20 md:block" />
-              <span className="hidden md:inline">
-                A {SITE.developer.name} community
-              </span>
-            </div>
+            <span className="text-eyebrow text-grey/85 uppercase">
+              Brock University
+            </span>
+            <span className="text-eyebrow text-grey/75 uppercase md:ml-auto">
+              A {SITE.developer.name} community
+            </span>
           </div>
+        </div>
+
+        {/* The sun-circle is the only CTA, so on a phone — where it is the
+            only one there has ever been — it has to be present rather than
+            hidden. Sits below the annotation at a smaller diameter. */}
+        <div className="container-stax w-full pb-10 lg:hidden">
+          <Link href="/register" className="sun-circle sun-circle-sm">
+            Register your interest
+          </Link>
         </div>
       </div>
 

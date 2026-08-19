@@ -159,7 +159,7 @@ export function Gallery() {
               className="block w-full h-full"
               imgClassName="w-full h-full max-h-[78dvh] object-contain"
             />
-            <p className="mt-4 text-sm text-grey/60 max-w-2xl">{open.alt}</p>
+            <p className="mt-4 text-sm text-grey/75 max-w-2xl">{open.alt}</p>
           </div>
 
           <button
@@ -178,7 +178,7 @@ export function Gallery() {
               step(-1);
             }}
             aria-label="Previous image"
-            className="absolute left-2 md:left-6 top-1/2 -translate-y-1/2 w-12 h-12 flex items-center justify-center text-grey/70 hover:text-bone transition-colors"
+            className="absolute left-2 md:left-6 top-1/2 -translate-y-1/2 w-12 h-12 flex items-center justify-center text-grey/75 hover:text-bone transition-colors"
           >
             <svg viewBox="0 0 24 24" className="w-7 h-7 stroke-current fill-none" strokeWidth={1.5}>
               <path d="M15 4 L7 12 L15 20" />
@@ -191,7 +191,7 @@ export function Gallery() {
               step(1);
             }}
             aria-label="Next image"
-            className="absolute right-2 md:right-6 top-1/2 -translate-y-1/2 w-12 h-12 flex items-center justify-center text-grey/70 hover:text-bone transition-colors"
+            className="absolute right-2 md:right-6 top-1/2 -translate-y-1/2 w-12 h-12 flex items-center justify-center text-grey/75 hover:text-bone transition-colors"
           >
             <svg viewBox="0 0 24 24" className="w-7 h-7 stroke-current fill-none" strokeWidth={1.5}>
               <path d="M9 4 L17 12 L9 20" />

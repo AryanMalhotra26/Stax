@@ -120,7 +120,7 @@ function Item({ faq, n }: { faq: Faq; n: number }) {
         <span className="shrink-0 text-eyebrow tnum text-ink-faint uppercase transition-colors duration-150 group-open:text-brick">
           {String(n).padStart(2, "0")}
         </span>
-        <h3 className="flex-1 font-sans text-[1.0625rem] font-medium leading-snug tracking-[-0.01em] transition-colors duration-150 ease-[var(--ease-out-soft)] group-hover:text-brick">
+        <h3 className="flex-1 font-sans text-[1.3125rem] font-medium leading-snug tracking-[-0.012em] transition-colors duration-150 ease-[var(--ease-out-soft)] group-hover:text-brick">
           {faq.question}
         </h3>
 

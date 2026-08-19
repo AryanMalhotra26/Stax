@@ -50,7 +50,7 @@ export function GalleryTeaser() {
 
           <div className="relative z-2 flex flex-wrap items-end justify-between gap-x-8 gap-y-6">
             <div>
-              <Eyebrow className="text-grey/55">
+              <Eyebrow className="text-grey/75">
                 <span className="tnum">04</span> · Gallery
               </Eyebrow>
               <h2 className="mt-6 text-h1 md:mt-8">
@@ -66,7 +66,7 @@ export function GalleryTeaser() {
         </div>
 
         {/* ---- The arrival render -------------------------------------- */}
-        <Reveal delay={0.06} className="relative mt-12 md:mt-16">
+        <Reveal delay={0.06} className="relative mt-10 md:mt-12">
           <MagneticLabel label="View gallery">
             <Link
               href="/residences#gallery"
@@ -133,7 +133,7 @@ export function GalleryTeaser() {
         </Reveal>
 
         <Reveal delay={0.16}>
-          <p className="mt-8 text-[0.9375rem] text-grey/50">
+          <p className="mt-8 text-[0.9375rem] text-grey/75">
             <Link
               href="/residences#gallery"
               className="group inline-flex items-center gap-2 font-medium text-grey transition-colors duration-150 ease-[var(--ease-out-soft)] hover:text-amber"
