@@ -476,12 +476,30 @@
    reads as a cascade.
    ========================================================================== */
 
+/* The mask a word rises out of.
+   
+   Sizing this is the whole trick, and the first version got it wrong. The
+   clip box is the line box, and the display face's line-height is 0.98 —
+   deliberately tight, because that is what makes big serif headings stack
+   into a block of colour. But Instrument Serif's *ink* spans 1.295em
+   (0.989 ascent + 0.307 descent), so at a 0.98em line box the glyphs
+   overflow their own line by roughly a fifth of an em at each end, and
+   `overflow: clip` duly sheared the tops off the capitals and the tails off
+   every descender. The heading was not animating badly; it was being cut in
+   half.
+   
+   So the box is padded past the ink at both ends and the padding is pulled
+   back out with an equal negative margin. For an inline-block the line box
+   is computed from the *margin* box, so the pair cancels exactly and the
+   surrounding layout does not move. --rv-hide then has to clear the taller
+   box: see the keyframe. */
 .sd-word {
   display: inline-block;
   overflow: clip;
-  /* Descenders would be sheared by the clip without this pad/pull pair. */
-  padding-bottom: 0.12em;
-  margin-bottom: -0.12em;
+  padding-top: var(--rv-pad-top, 0.2em);
+  margin-top: calc(var(--rv-pad-top, 0.2em) * -1);
+  padding-bottom: var(--rv-pad-bottom, 0.26em);
+  margin-bottom: calc(var(--rv-pad-bottom, 0.26em) * -1);
 }
 
 .sd-word > span {
@@ -492,7 +510,8 @@
 @keyframes word-rise {
   from {
     opacity: 0;
-    transform: translateY(105%);
+    /* Clears the padded clip box (see .sd-word), not just the line box. */
+    transform: translateY(135%);
   }
   to {
     opacity: 1;
@@ -505,8 +524,16 @@
     .sd-word > span {
       animation: word-rise linear both;
       animation-timeline: view();
-      animation-range: entry calc(4% + var(--i, 0) * 1.6%) cover
-        calc(34% + var(--i, 0) * 1.6%);
+      /* The cascade comes from offsetting each word's range by its index —
+         but the offset MUST be bounded. Unbounded, a nine-word heading pushed
+         its last word's range 14% further down the timeline than its first,
+         and on a heading that sits high in a tall section the tail never
+         reached progress 1 at all: those words stayed part-risen and, because
+         the box clips, permanently unreadable. Capping the offset means the
+         whole heading is always resolved by `cover 39%`, well before it
+         leaves, whatever its length. */
+      animation-range: entry calc(6% + min(calc(var(--i, 0) * 1.4%), 11%))
+        cover calc(28% + min(calc(var(--i, 0) * 1.4%), 11%));
     }
   }
 }
@@ -614,12 +641,15 @@
    headings — see SplitLetters.
    ========================================================================== */
 
+/* Same geometry as .sd-word — see the note there for why the padding is
+   this large. */
 .sd-letter {
   display: inline-block;
   overflow: clip;
-  /* Descenders would be sheared by the clip without this pad/pull pair. */
-  padding-bottom: 0.14em;
-  margin-bottom: -0.14em;
+  padding-top: var(--rv-pad-top, 0.2em);
+  margin-top: calc(var(--rv-pad-top, 0.2em) * -1);
+  padding-bottom: var(--rv-pad-bottom, 0.26em);
+  margin-bottom: calc(var(--rv-pad-bottom, 0.26em) * -1);
 }
 
 .sd-letter > span {
@@ -632,11 +662,10 @@
     .sd-letter > span {
       animation: word-rise linear both;
       animation-timeline: view();
-      /* Tighter per-index offset than the word cascade — there are far more
-         letters than words, so the same step would run the tail of a long
-         heading past the end of its own range. */
-      animation-range: entry calc(3% + var(--i, 0) * 0.5%) cover
-        calc(30% + var(--i, 0) * 0.5%);
+      /* Tighter per-index step than the word cascade — there are far more
+         letters than words — and bounded for the same reason. */
+      animation-range: entry calc(4% + min(calc(var(--i, 0) * 0.45%), 12%))
+        cover calc(28% + min(calc(var(--i, 0) * 0.45%), 12%));
     }
   }
 }

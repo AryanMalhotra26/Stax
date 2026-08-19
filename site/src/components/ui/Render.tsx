@@ -9,6 +9,13 @@ type Props = {
   imgClassName?: string;
   /** Only the LCP image gets this. Everything else stays lazy. */
   priority?: boolean;
+  /**
+   * Forces eager decoding without the LCP treatment. For images that are
+   * off-screen in *layout* terms but about to be moved into view by a
+   * transform — the horizontal walkthrough — where the browser's own lazy
+   * heuristics cannot see them coming.
+   */
+  eager?: boolean;
   /** Overrides the authored alt — use for decorative repeats only. */
   alt?: string;
 };
@@ -31,6 +38,7 @@ export function Render({
   className = "",
   imgClassName = "",
   priority = false,
+  eager = false,
   alt,
 }: Props) {
   const widths = Object.keys(media.variants.avif)
@@ -53,7 +61,7 @@ export function Render({
         width={media.width}
         height={media.height}
         sizes={sizes}
-        loading={priority ? "eager" : "lazy"}
+        loading={priority || eager ? "eager" : "lazy"}
         // fetchPriority high on the LCP image only — using it everywhere is
         // the same as using it nowhere.
         fetchPriority={priority ? "high" : "auto"}
