@@ -985,3 +985,162 @@
 @keyframes curtain-lift {
   to { transform: translateY(-101%); }
 }
+
+/* ==========================================================================
+   The walkthrough (§5.4).
+
+   TWO LAYOUTS, AND THE VERTICAL ONE IS THE DEFAULT.
+
+   The horizontal pan is an enhancement. It requires JavaScript, a pinned
+   ScrollTrigger and a visitor who has not asked for reduced motion — and
+   when any of those is missing, a row of seven cards laid out along an axis
+   the page does not scroll is not a degraded experience, it is a hidden one.
+   The reader sees two cards, no affordance suggests a sideways gesture, and
+   five cards of the most persuasive content on the page simply never exist.
+
+   So the markup ships as a plain vertical grid, which needs no script and no
+   gesture anyone has to guess at. `AmenityPan` sets `data-walk="pan"` only
+   once the pan is genuinely running, and takes it off again on cleanup.
+   ========================================================================== */
+
+.walk {
+  position: relative;
+  padding-block: clamp(6rem, 11vw, 14rem);
+}
+
+.walk-track {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 2rem;
+  width: 100%;
+  max-width: 90rem;
+  margin-inline: auto;
+  padding-inline: 1.25rem;
+}
+
+.walk-intro {
+  grid-column: 1 / -1;
+  max-width: 34rem;
+}
+
+.walk-card {
+  display: flex;
+  flex-direction: column;
+  height: 30rem;
+}
+
+/* The trailing spacer and the progress rail are pan furniture: one exists to
+   let the last card clear the right edge, the other to report horizontal
+   progress. Neither means anything in a vertical list. */
+.walk-tail,
+.walk-rail,
+.walk-cue {
+  display: none;
+}
+
+@media (width >= 48rem) {
+  .walk-track {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    padding-inline: 2.5rem;
+  }
+}
+
+@media (width >= 64rem) {
+  .walk-track {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+@media (width >= 90rem) {
+  .walk-track {
+    padding-inline: 4rem;
+  }
+}
+
+/* ---- pan mode ---------------------------------------------------------- */
+
+.walk[data-walk="pan"] {
+  height: 100svh;
+  padding-block: 0;
+  overflow: hidden;
+}
+
+.walk[data-walk="pan"] .walk-track {
+  display: flex;
+  align-items: center;
+  height: 100%;
+  max-width: none;
+  gap: 1.25rem;
+  padding-inline: 1.25rem;
+  /* Scrollable at rest so the gesture always exists; gsap switches this to
+     `hidden` while the pan owns it, and mm.revert() puts it back. */
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scroll-padding-left: 1.25rem;
+  scrollbar-width: none;
+}
+
+.walk[data-walk="pan"] .walk-track::-webkit-scrollbar {
+  display: none;
+}
+
+.walk[data-walk="pan"] .walk-intro,
+.walk[data-walk="pan"] .walk-card {
+  flex-shrink: 0;
+  scroll-snap-align: start;
+  width: 80vw;
+  height: 74svh;
+}
+
+.walk[data-walk="pan"] .walk-intro {
+  max-width: none;
+  justify-content: center;
+}
+
+.walk[data-walk="pan"] .walk-tail {
+  display: block;
+  flex-shrink: 0;
+  width: 1.25rem;
+}
+
+.walk[data-walk="pan"] .walk-rail {
+  display: block;
+}
+
+@media (width >= 48rem) {
+  .walk[data-walk="pan"] .walk-cue {
+    display: flex;
+  }
+}
+
+@media (width >= 40rem) {
+  .walk[data-walk="pan"] .walk-intro { width: 60vw; }
+  .walk[data-walk="pan"] .walk-card { width: 56vw; }
+}
+
+@media (width >= 48rem) {
+  .walk[data-walk="pan"] .walk-track {
+    gap: 1.75rem;
+    padding-inline: 0;
+    scroll-snap-type: none;
+    scroll-padding-left: 0;
+  }
+  .walk[data-walk="pan"] .walk-intro {
+    width: 42vw;
+    height: auto;
+    padding-inline: 3.5rem;
+  }
+  .walk[data-walk="pan"] .walk-card {
+    width: 34vw;
+    height: 70vh;
+  }
+  .walk[data-walk="pan"] .walk-tail { width: 10vw; }
+}
+
+@media (width >= 64rem) {
+  .walk[data-walk="pan"] .walk-intro {
+    width: 32vw;
+    padding-inline: 5rem;
+  }
+  .walk[data-walk="pan"] .walk-card { width: 26vw; }
+}
