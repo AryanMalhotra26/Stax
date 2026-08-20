@@ -92,8 +92,16 @@
      pushes the proof band off the fold. This is the same voice one step down,
      sized so the longest line fits the content column on one line at every
      width. `--text-mega` stays for the Register summit, where the line is
-     short enough to earn it. */
-  --text-hero: clamp(2.25rem, 6.6vw, 6.5rem);
+     short enough to earn it.
+
+     The ceiling was 6.5rem for one pass and that was an over-correction.
+     Pass 2 cut the hero from ten blocks to five, then shrank the type as
+     well — which spent the room the deletions had just bought and left the
+     fold 40% empty sky above a crowded lower half. Big type with few
+     elements IS the poster effect; the reference sets its hero line at
+     230px. 8.5rem lands at ~136px here, which is as far as twenty-seven
+     characters will go on one line in this column. */
+  --text-hero: clamp(2.5rem, 8.5vw, 8.5rem);
   --text-hero--line-height: 0.92;
   --text-hero--letter-spacing: -0.028em;
   --text-hero--font-weight: 400;
@@ -381,19 +389,6 @@
 /* ==========================================================================
    Structure
    ========================================================================== */
-
-/* The dashed route. A repeating gradient rather than an SVG stroke: no extra
-   DOM, and it scales to any page height without a viewBox. Dash 14 / gap 10
-   at 3px reads at the same density as to-top's 20/14 at 4px. */
-.trail-line {
-  background-image: repeating-linear-gradient(
-    to bottom,
-    var(--color-brick) 0,
-    var(--color-brick) 14px,
-    transparent 14px,
-    transparent 24px
-  );
-}
 
 /* ==========================================================================
    Scroll-driven animation
@@ -732,34 +727,6 @@
 }
 
 /* ==========================================================================
-   Ghost numeral.
-
-   The reference sets each block index at ~454px in the display face behind
-   the content. Stax carried the same information at 11px in an eyebrow, which
-   is what made the sections read as a document rather than as a designed
-   page. This is that device at the reference's scale, in the display serif,
-   clamped so it scales with the viewport rather than overflowing a phone.
-
-   It must BLEED OFF the container edge. Clipping at the section boundary is
-   what makes it read as texture rather than as a placed graphic.
-   ========================================================================== */
-
-@utility ghost-num {
-  position: absolute;
-  z-index: 0;
-  font-family: var(--font-display);
-  font-size: clamp(8rem, 26vw, 24rem);
-  font-weight: 400;
-  line-height: 0.8;
-  letter-spacing: -0.03em;
-  font-variant-numeric: tabular-nums;
-  color: currentColor;
-  opacity: 0.07;
-  pointer-events: none;
-  user-select: none;
-}
-
-/* ==========================================================================
    Generous block padding.
 
    Their content containers run 80px of padding at 1248px wide. Stax was
@@ -897,13 +864,6 @@
   .sun-circle:hover {
     transition: none;
   }
-}
-
-/* The trail is page-level wayfinding, so it steps aside for the one section
-   that takes the page's scroll away from the reader — otherwise it draws
-   straight through the pinned track and slices across the first card. */
-.trail-muted .trail {
-  opacity: 0;
 }
 
 /* ==========================================================================

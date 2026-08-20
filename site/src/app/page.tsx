@@ -2,7 +2,6 @@ import dynamic from "next/dynamic";
 import { Nav } from "@/components/chrome/Nav";
 import { SmoothScroll } from "@/components/motion/SmoothScroll";
 import { Curtain } from "@/components/motion/Curtain";
-import { Trail } from "@/components/motion/Trail";
 import { Bridge } from "@/components/motion/Bridge";
 import { Footer } from "@/components/chrome/Footer";
 import { Hero } from "@/components/sections/Hero";
@@ -48,7 +47,6 @@ export default function HomePage() {
       <Curtain />
       <Nav />
       <main id="main" className="relative">
-        <Trail />
         <ParallaxHero />
         <Hero />
         <Positioning />
@@ -56,10 +54,15 @@ export default function HomePage() {
         <Bridge slug="exterior-garden" from="paper" to="espresso" />
         <AmenityPan />
         <Neighbourhood />
-        <Bridge slug="exterior-evening" from="espresso" to="night" />
+        <Bridge slug="exterior-evening" from="espresso" to="night" trail="b" />
         <GalleryTeaser />
         <Assurance />
-        <FaqSection tone="paper" />
+        {/* Bone, not paper. Commitments → FAQ → Register was linen → paper →
+            night: two of those three are 8 points of luminance apart, so the
+            middle 2,400px of the page read as one undifferentiated light
+            slab. linen → bone is a step you can actually see, and it makes
+            the drop into Register's night land harder for free. */}
+        <FaqSection />
         <CaptureBlock />
       </main>
       <Footer />

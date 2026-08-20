@@ -123,19 +123,22 @@ export function Eyebrow({
 /* -------------------------------------------------------------------------
    SectionHead — the masthead every numbered section opens with.
 
-   Three devices, all lifted from the reference and all cheap:
+   Two devices, both lifted from the reference and both cheap:
 
-   1. THE GHOST NUMERAL, at 26vw in the display serif, bleeding off the
-      container edge. The crop is what stops it reading as a placed graphic.
-      Stax carried the same information at 11px in an eyebrow, which is why
-      the sections read as a document rather than as a designed page.
-
-   2. THE TWO-TONE HEADING. Line one in full ink, line two a step back into
+   1. THE TWO-TONE HEADING. Line one in full ink, line two a step back into
       the surface — the reference's `transforming` / `organizations` move,
       already used by the hero, and reused on every two-part heading so the
       page has one headline grammar rather than nine.
 
-   3. A RULE AND A RUNNING INDEX, so the type sits on visible structure.
+   2. A RULE AND A RUNNING INDEX, so the type sits on visible structure.
+
+   There was a third: a ghost numeral at 26vw in the display serif, bleeding
+   off the container edge. It is gone from every section on the site. At that
+   scale it stopped being texture behind the masthead and became the largest
+   object in the section — it sat under the heading, under the `ALL PLANS &
+   GALLERIES` button, and under the plan cards, and what reads as a watermark
+   in a reference deck reads as a stray layer here. The index survives at
+   eyebrow scale, where it is information rather than decoration.
    ---------------------------------------------------------------------- */
 
 export function SectionHead({
@@ -166,30 +169,13 @@ export function SectionHead({
         dark ? "border-sand/15" : "border-ink/15"
       } ${className}`}
     >
-      {/* Desktop only, and that is a layout constraint rather than a
-          preference: a watermark needs horizontal room the heading is not
-          using, and on a 375px column the heading wraps straight through it.
-          Below `md` the index becomes a large inline numeral in the eyebrow
-          row instead — the hierarchy survives, the collision does not. */}
-      <span
-        aria-hidden="true"
-        className={`ghost-num top-1/2 hidden -translate-y-1/2 md:right-0 md:block ${
-          dark ? "text-bone" : "text-ink"
-        }`}
-      >
-        {index}
-      </span>
-
       <div className="relative z-2">
+        {/* The index runs inline in the eyebrow at every width now, in the
+            same `NN · Label` form the two sections with hand-built mastheads
+            already used. It was a 36px display numeral below `md` and a
+            watermark above it, which meant the page numbered itself two
+            different ways depending on the viewport. */}
         <div className="flex items-baseline gap-3 md:gap-4">
-          <span
-            aria-hidden="true"
-            className={`font-display text-[2.25rem] leading-none tnum md:hidden ${
-              dark ? "text-bone/25" : "text-ink/20"
-            }`}
-          >
-            {index}
-          </span>
           <span className="stax-mark text-brick" aria-hidden="true">
             <i />
             <i />
@@ -198,7 +184,7 @@ export function SectionHead({
           <span
             className={`text-eyebrow uppercase ${dark ? "text-grey/75" : "text-ink-soft"}`}
           >
-            {eyebrow}
+            <span className="tnum">{index}</span> · {eyebrow}
           </span>
         </div>
 

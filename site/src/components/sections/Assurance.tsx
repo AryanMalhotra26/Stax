@@ -2,8 +2,15 @@ import Link from "next/link";
 import { SectionHead } from "@/components/ui";
 import { Reveal } from "@/components/motion/Reveal";
 import { Seam } from "@/components/ui/Edge";
-import { ArtArrow, ArtDoorKey, ArtKey, ArtWifi } from "@/components/ui/LineArt";
+import {
+  ArtArrow,
+  ArtDoorKey,
+  ArtKey,
+  ArtTopography,
+  ArtWifi,
+} from "@/components/ui/LineArt";
 import { Render } from "@/components/ui/Render";
+import { TrailSegment } from "@/components/ui/Trail";
 import { ABOUT_TEAM } from "@/content/about";
 import { headshotBySlug, media } from "@/content/generated/media";
 import { asset } from "@/lib/asset";
@@ -53,11 +60,27 @@ const FACES = ABOUT_TEAM.filter((m) => m.photo).slice(0, 2);
 export function Assurance() {
   return (
     <section
-      data-trail="in writing"
       className="relative overflow-clip bg-linen section-y"
     >
       <Seam edge="top" color="night" size="14%" />
-      <Seam edge="bottom" color="paper" size="16%" />
+      <Seam edge="bottom" color="bone" size="16%" />
+
+      {/* The ground the route is drawn on (§ map vocabulary).
+      
+          Used once on the whole site, and this is the section that needs it:
+          Commitments → FAQ → Register runs about 2,400px of light surface
+          with almost no tonal change, and a flat run that long stops reading
+          as a page and starts reading as a background.
+
+          At 4% it is below the threshold of anything you would call a
+          pattern. That is the intent — you should not be able to say what is
+          different about this section, only that the page is printed on
+          something. Anything louder and the topography competes with the
+          trail it exists to explain. */}
+      <ArtTopography
+        className="pointer-events-none absolute inset-0 z-0 h-full w-full text-ink opacity-4"
+        id="topo-commitments"
+      />
 
       <div className="container-stax relative z-2">
         <SectionHead
@@ -67,38 +90,54 @@ export function Assurance() {
           quiet="in writing, before you give us anything."
         />
 
-        <div className="mt-10 grid gap-6 md:mt-12 md:grid-cols-3">
-          {COMMITMENTS.map(({ title, body, Art, tilt }, i) => (
-            <Reveal key={title} delay={i * 0.08} as="article">
-              <div
-                className="card block-pad h-full bg-bone"
-                style={{ ["--tilt" as string]: tilt }}
-              >
-                <Art className="pointer-events-none absolute -right-8 -bottom-10 h-[55%] w-auto text-ink opacity-7" />
+        {/* ---- Segment C ------------------------------------------------
+            Quiet connective tissue, and the segment nobody should
+            consciously notice. It exists because the run from the Gallery to
+            the FAQ is about two thousand pixels with no route on it, and a
+            map that simply stops for a third of the page stops being a map.
 
-                {/* Sits inside the card, not bled off it.
-                
-                    The ghost numerals at section level are cropped on
-                    purpose — that is what makes them read as texture. At card
-                    level the same move just looks broken: the card clips its
-                    own overflow, so a numeral hung off the corner loses its
-                    top half and reads as a rendering fault rather than a
-                    device. Small type earns its crop only when there is
-                    enough of it left to name. */}
-                <span
-                  aria-hidden="true"
-                  className="pointer-events-none absolute top-0 left-0 font-display text-[4.5rem] leading-[0.9] text-amber/40 select-none"
+            Behind everything: the three cards are opaque bone, so the arc
+            passes under all of them and shows only in the gaps. */}
+        <div className="relative mt-10 md:mt-12">
+          <TrailSegment
+            id="c"
+            tone="ink"
+            className="-top-[22%] -left-[12%] z-0 w-[124%]"
+          />
+
+          <div className="relative z-2 grid gap-6 md:grid-cols-3">
+            {COMMITMENTS.map(({ title, body, Art, tilt }, i) => (
+              <Reveal key={title} delay={i * 0.08} as="article">
+                <div
+                  className="card block-pad h-full bg-bone"
+                  style={{ ["--tilt" as string]: tilt }}
                 >
-                  {String(i + 1).padStart(2, "0")}
-                </span>
+                  <Art className="pointer-events-none absolute -right-8 -bottom-10 h-[55%] w-auto text-ink opacity-7" />
 
-                <div className="relative z-2 pt-16">
-                  <h3 className="text-h3">{title}</h3>
-                  <p className="mt-3.5 leading-relaxed text-ink-soft">{body}</p>
+                  {/* Sits inside the card, not bled off it.
+                
+                      The ghost numerals at section level are cropped on
+                      purpose — that is what makes them read as texture. At card
+                      level the same move just looks broken: the card clips its
+                      own overflow, so a numeral hung off the corner loses its
+                      top half and reads as a rendering fault rather than a
+                      device. Small type earns its crop only when there is
+                      enough of it left to name. */}
+                  <span
+                    aria-hidden="true"
+                    className="pointer-events-none absolute top-0 left-0 font-display text-[4.5rem] leading-[0.9] text-amber/40 select-none"
+                  >
+                    {String(i + 1).padStart(2, "0")}
+                  </span>
+
+                  <div className="relative z-2 pt-16">
+                    <h3 className="text-h3">{title}</h3>
+                    <p className="mt-3.5 leading-relaxed text-ink-soft">{body}</p>
+                  </div>
                 </div>
-              </div>
-            </Reveal>
-          ))}
+              </Reveal>
+            ))}
+          </div>
         </div>
 
         {/* ---- The developer ------------------------------------------- */}
@@ -131,7 +170,7 @@ export function Assurance() {
 
                 <Link
                   href="/about"
-                  className="group mt-6 inline-flex items-center gap-2 font-medium text-ink underline-offset-4 transition-colors duration-150 ease-[var(--ease-out-soft)] hover:text-brick"
+                  className="group mt-3 inline-flex items-center gap-2 rounded-xs py-3 font-medium text-ink underline-offset-4 transition-colors duration-150 ease-[var(--ease-out-soft)] hover:text-brick"
                 >
                   Meet the team
                   <span className="inline-block transition-transform duration-300 group-hover:translate-x-1.5">

@@ -145,17 +145,6 @@ export function AmenityPan() {
           scrub: 0.5,
           invalidateOnRefresh: true, // survives resize + orientation change
           anticipatePin: 1,
-          // B6 — the trail runs the full height of the page at a fixed left
-          // offset, which means it draws straight across the pinned track and
-          // slices through card 01. It is a page-level wayfinding device; the
-          // one section that takes the page's own scroll away is the one
-          // place it has nothing to say.
-          onToggle: (self) => {
-            document.documentElement.classList.toggle(
-              "trail-muted",
-              self.isActive,
-            );
-          },
           onUpdate: (self) => {
             // The rail and the counter are the reader's only way to know how
             // much walk is left. Written straight to the DOM — a pinned
@@ -181,7 +170,6 @@ export function AmenityPan() {
       // to go back to being a shape that suits one.
       return () => {
         container.dataset.walk = "list";
-        document.documentElement.classList.remove("trail-muted");
       };
     });
 
@@ -229,7 +217,6 @@ export function AmenityPan() {
     <section
       ref={wrap}
       aria-labelledby="amenities-heading"
-      data-trail="inside"
       // Ships as `list` and is upgraded to `pan` by the effect above, only
       // once the pan is genuinely running. See the .walk block in globals.css
       // for why the vertical layout is the default rather than the fallback.

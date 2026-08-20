@@ -244,3 +244,109 @@ export function ArtUnderline({
     </svg>
   );
 }
+
+/**
+ * Topographic ground (§ map vocabulary).
+ *
+ * The trail alone will not make a page read as a map. to-top's route sits
+ * inside a whole drawn world — contour rings, outline mountains, scribbled
+ * trees, a second path that goes nowhere — and it is that world, not the
+ * line, that does the work. Without it a dashed curve is just a dashed curve.
+ *
+ * Used ONCE, on the Commitments section, and that restraint is the point
+ * twice over. It is the one light section long enough to feel flat — three
+ * consecutive light sections run about 2,400px with no tonal change — and a
+ * texture that appeared on every section would stop being ground and start
+ * being wallpaper.
+ *
+ * A tiled `<pattern>` rather than a raster: one authored 400×400 tile covers
+ * any section at any size for about 1KB, where a seamless PNG large enough
+ * not to visibly repeat would be several hundred. The caller sets the colour
+ * with `currentColor` and the strength with `opacity` — this should never be
+ * legible as drawing, only as the suggestion that the page is printed on
+ * something.
+ */
+export function ArtTopography({
+  className = "",
+  id = "stax-topo",
+  ...props
+}: SVGProps<SVGSVGElement> & { id?: string }) {
+  return (
+    <svg
+      className={className}
+      aria-hidden="true"
+      focusable="false"
+      {...props}
+    >
+      <defs>
+        <pattern
+          id={id}
+          width="400"
+          height="400"
+          patternUnits="userSpaceOnUse"
+        >
+          <g
+            fill="none"
+            stroke="currentColor"
+            strokeWidth={1.4}
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          >
+            {/* Contour rings. Nested, deliberately not concentric — a
+                surveyed hill is never a set of circles, and evenly spaced
+                rings read as a target rather than as terrain. */}
+            <path d="M104 96 C150 74 208 92 214 130 C220 172 176 200 134 192 C92 184 66 122 104 96 Z" />
+            <path d="M112 112 C148 96 190 110 194 136 C198 164 166 182 136 176 C106 170 88 128 112 112 Z" />
+            <path d="M124 130 C146 120 172 128 174 142 C176 158 156 166 142 162 C126 158 112 140 124 130 Z" />
+
+            {/* A ridge, in outline. */}
+            <path d="M232 322 L268 268 L292 302 L312 274 L356 336 Z" />
+            <path d="M258 292 L268 278 L278 292" />
+
+            {/* Two trees, the way a surveyor draws them: a stroke and a
+                canopy, nothing more. */}
+            <path d="M52 300 L52 336" />
+            <path d="M52 306 C34 300 30 276 52 268 C74 276 70 300 52 306 Z" />
+            <path d="M330 108 L330 140" />
+            <path d="M330 114 C316 108 314 90 330 84 C346 90 344 108 330 114 Z" />
+
+            {/* Loose contour lines running off the tile in both directions,
+                so the ground has a grain and not just objects on it. */}
+            <path d="M-40 214 C60 244 140 236 210 214 C286 190 350 216 440 202" />
+            <path d="M-40 380 C70 356 130 392 220 384 C300 377 350 396 440 372" />
+            <path d="M-40 40 C80 66 150 24 240 46 C320 66 370 38 440 58" />
+          </g>
+        </pattern>
+      </defs>
+
+      <rect width="100%" height="100%" fill={`url(#${id})`} />
+    </svg>
+  );
+}
+
+/**
+ * Compass rose. Placed once, on the neighbourhood plate.
+ *
+ * A schematic with a north arrow and a "not to scale" note reads as a map. The
+ * same schematic without them reads as a diagram someone generated. This is
+ * the cheapest half of that pair.
+ */
+export function ArtCompass({ className = "", ...props }: SVGProps<SVGSVGElement>) {
+  return (
+    <svg
+      viewBox="0 0 60 76"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth={1.6}
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      className={className}
+      aria-hidden="true"
+      {...props}
+    >
+      <path d="M30 20 L30 68" />
+      <path d="M30 20 L20 36 L30 31 L40 36 Z" />
+      <path d="M22 12 L22 2 L38 12 L38 2" />
+    </svg>
+  );
+}
