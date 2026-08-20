@@ -1,5 +1,6 @@
 import { CaptureForm } from "@/components/lead/CaptureForm";
 import { Render } from "@/components/ui/Render";
+import { TrailSegment } from "@/components/ui/Trail";
 import { SplitLetters } from "@/components/motion/SplitWords";
 import { media } from "@/content/generated/media";
 import { SITE } from "@/lib/site";
@@ -34,7 +35,6 @@ export function CaptureBlock({
   return (
     <section
       id="register"
-      data-trail="move-in"
       className="relative overflow-clip bg-night text-grey section-y"
     >
       {/* The evening render, lit windows, held right down so it is the room
@@ -52,6 +52,37 @@ export function CaptureBlock({
           background:
             "radial-gradient(ellipse at 50% 28%, rgb(232 163 61 / 0.22), transparent 62%), linear-gradient(to bottom, rgb(23 18 16 / 0.74), rgb(23 18 16 / 0.9))",
         }}
+      />
+
+      {/* ---- Segment D — the arrival -----------------------------------
+          Everything before this has been a route. This is the destination,
+          and it is the only segment that ends: in from the top-left
+          off-canvas, down, and up to a stop at an X beside the form. The X is
+          drawn once on the whole site, here, at the point of conversion.
+
+          Two deliberate departures from the rules that govern A, B and C.
+
+          It does not run off the far edge. The others do, because a route
+          should look like it continues past its frame; a *destination* that
+          runs off the edge is not a destination.
+
+          And it is lit. Brick is the ink the other three are drawn in — the
+          route as something marked on a map — where this one is amber at full
+          strength, the site's one light source, spending itself in the one
+          place it is worth spending. The X stays in sand: on the night
+          surface sand is what ink is, and a mark that glows would be a second
+          light source competing with the arrival it is marking.
+
+          It sits at `z-1` — above the render and its gradient, below the
+          content at `z-2`. In front of the section's own art is as far
+          forward as any segment goes on this site. The old trail was pinned
+          at `z-20` above everything and struck through a heading, a plan card
+          and the walkthrough, and no amount of emphasis is worth that. */}
+      <TrailSegment
+        id="d"
+        tone="lit"
+        className="-top-[12%] -left-[8%] z-1 w-[116%]"
+        mobileClassName="top-0 left-0 z-1 w-full"
       />
 
       <div className="container-stax relative z-2">

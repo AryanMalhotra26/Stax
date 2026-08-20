@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import { Nav } from "@/components/chrome/Nav";
-import { Trail } from "@/components/motion/Trail";
 import { SmoothScroll } from "@/components/motion/SmoothScroll";
 import { Footer } from "@/components/chrome/Footer";
 import { Render } from "@/components/ui/Render";
@@ -32,7 +31,6 @@ export default function ResidencesPage() {
       <SmoothScroll />
       <Nav />
       <main id="main" className="relative">
-        <Trail />
         <section className="relative h-[46vh] min-h-[22rem] flex items-end overflow-clip bg-espresso">
           <Render
             media={media("exterior-lawn")}

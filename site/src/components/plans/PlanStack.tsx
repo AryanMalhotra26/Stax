@@ -66,10 +66,12 @@ export function PlanStack({
             // The front card never shrinks. Nothing lands on top of it.
             if (i === cards.length - 1) return;
 
-            gsap.to(card, {
-              scale: 0.88 - (cards.length - 1 - i) * 0.055,
-              filter: "brightness(0.82)",
-              ease: "none",
+            const chrome = gsap.utils.toArray<HTMLElement>(
+              "[data-card-chrome]",
+              card,
+            );
+
+            const tl = gsap.timeline({
               scrollTrigger: {
                 // Driven by the *next* card's approach, so a card recedes
                 // exactly as the one covering it arrives.
@@ -78,9 +80,54 @@ export function PlanStack({
                 end: "top top",
                 scrub: 0.8,
                 invalidateOnRefresh: true,
+                /**
+                 * A buried card stops being operable.
+                 *
+                 * Its `SEE THIS PLAN` button was still clickable while the
+                 * card above sliced it in half — a control cut through the
+                 * middle by an opaque edge, which is worse than either
+                 * hiding it or showing it: it reads as a rendering fault and
+                 * it takes clicks meant for the card in front.
+                 *
+                 * `inert` rather than `pointer-events: none`, because
+                 * pointer-events only solves the mouse. A faded-out link is
+                 * still in the tab order, so a keyboard user would land on
+                 * an invisible control behind a card they cannot see —
+                 * strictly worse than the bug being fixed. `inert` takes the
+                 * whole subtree out of hit-testing, focus and the
+                 * accessibility tree in one move, and it is stable rather
+                 * than flickering: once a card is buried it stays buried.
+                 */
+                onUpdate: (self) => {
+                  card.inert = self.progress > 0.4;
+                },
               },
             });
+
+            tl.to(
+              card,
+              {
+                scale: 0.88 - (cards.length - 1 - i) * 0.055,
+                filter: "brightness(0.82)",
+                ease: "none",
+              },
+              0,
+            );
+
+            // The chrome goes before the card does. Everything below the
+            // plan name is detail you can only act on from the front, and
+            // it is the part the next card crops first.
+            tl.to(chrome, { opacity: 0, ease: "none", duration: 0.4 }, 0);
           });
+
+          // `inert` is set imperatively, so gsap's own revert will not undo
+          // it. Crossing back under `lg` with a card still marked inert
+          // would leave the mobile layout with an unreachable plan.
+          return () => {
+            cards.forEach((card) => {
+              card.inert = false;
+            });
+          };
         },
       );
 

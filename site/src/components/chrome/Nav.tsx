@@ -78,7 +78,11 @@ export function Nav() {
         }`}
       >
         <nav className="flex min-h-16 items-center justify-between gap-6 pr-3 pl-5 md:min-h-19 md:pr-4 md:pl-10">
-          <Link href="/" aria-label="Stax — home" className="shrink-0">
+          <Link
+            href="/"
+            aria-label="Stax — home"
+            className="-my-3 shrink-0 rounded-xs py-3"
+          >
             <Logo className="h-6 w-auto text-bone transition-colors hover:text-amber md:h-7" />
           </Link>
 
@@ -113,9 +117,21 @@ export function Nav() {
           </div>
 
           <div className="flex items-center gap-2">
+            {/* A phone link, and now it looks like one.
+
+                It was a bare low-contrast text node beside the REGISTER pill
+                with no underline, no hover state that read as a link, and no
+                tap target — the one element in the nav a reader could not
+                tell was clickable. Either it becomes a link or it goes; it
+                stays because a parent reading this page at 9pm wants a
+                number, and REGISTER is not that.
+
+                `py-3 -my-3` buys the 44px touch height without changing the
+                pill's alignment: the padding grows the hit area and the
+                negative margin gives the layout back the space. */}
             <a
               href="tel:+19050000000"
-              className="hidden text-[0.9375rem] font-medium text-grey/75 transition-colors duration-300 hover:text-amber lg:block"
+              className="hidden -my-3 rounded-xs py-3 text-[0.9375rem] font-medium text-grey/85 underline decoration-transparent decoration-1 underline-offset-4 transition-colors duration-300 hover:text-amber hover:decoration-amber lg:block"
             >
               Talk to us
             </a>

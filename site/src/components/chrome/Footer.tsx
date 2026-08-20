@@ -2,6 +2,19 @@ import Link from "next/link";
 import { Logo } from "@/components/brand/Logo";
 import { SITE } from "@/lib/site";
 
+/**
+ * One class for every link in a footer column, internal or external.
+ *
+ * It was written out five times and three of those copies drifted, which is
+ * how the mail, phone and social links ended up at a 40px hit area while the
+ * navigation ones were fixed. The padding is real rather than pulled back
+ * out with a negative margin: at `-my-2 py-2` a link's 40px target overhung
+ * its own row by 8px at each end against a 12px gap, so neighbouring targets
+ * overlapped before they were even large enough.
+ */
+const FOOTER_LINK =
+  "block rounded-xs py-2.5 text-grey/75 transition-colors duration-150 ease-[var(--ease-out-soft)] hover:text-amber";
+
 export function Footer() {
   const year = new Date().getFullYear();
 
@@ -12,8 +25,9 @@ export function Footer() {
           <div>
             <Logo className="h-9 w-auto text-grey md:h-11" />
 
-            {/* The trail's terminus. It has run down the left edge of every
-                section since the hero; this is where the walk ends. */}
+            {/* The sign-off. The route itself ends one section earlier, at
+                the X beside the Register form — this is the page saying
+                goodbye rather than the walk arriving. */}
             <p
               className="hand mt-4 text-hand text-amber"
               style={{ ["--hand-tilt" as string]: "-2deg" }}
@@ -50,7 +64,7 @@ export function Footer() {
             <li>
               <a
                 href={`mailto:${SITE.email}`}
-                className="-my-2 inline-block py-2 text-grey/75 transition-colors duration-150 ease-[var(--ease-out-soft)] hover:text-amber"
+                className={FOOTER_LINK}
               >
                 {SITE.email}
               </a>
@@ -58,7 +72,7 @@ export function Footer() {
             <li>
               <a
                 href={SITE.phoneHref}
-                className="-my-2 inline-block py-2 text-grey/75 transition-colors duration-150 ease-[var(--ease-out-soft)] hover:text-amber"
+                className={FOOTER_LINK}
               >
                 {SITE.phone}
               </a>
@@ -74,7 +88,7 @@ export function Footer() {
             <li>
               <a
                 href={SITE.social.instagram}
-                className="-my-2 inline-block py-2 text-grey/75 transition-colors duration-150 ease-[var(--ease-out-soft)] hover:text-amber"
+                className={FOOTER_LINK}
                 rel="noopener noreferrer"
                 target="_blank"
               >
@@ -84,7 +98,7 @@ export function Footer() {
             <li>
               <a
                 href={SITE.social.tiktok}
-                className="-my-2 inline-block py-2 text-grey/75 transition-colors duration-150 ease-[var(--ease-out-soft)] hover:text-amber"
+                className={FOOTER_LINK}
                 rel="noopener noreferrer"
                 target="_blank"
               >
@@ -99,10 +113,16 @@ export function Footer() {
             © {year} {SITE.legalName}. All rights reserved.
           </p>
           <div className="flex gap-6">
-            <Link href="/privacy" className="-my-2 inline-block py-2 transition-colors duration-150 ease-[var(--ease-out-soft)] hover:text-amber">
+            <Link
+              href="/privacy"
+              className="-mx-2 -my-3 inline-block rounded-xs px-2 py-3 transition-colors duration-150 ease-[var(--ease-out-soft)] hover:text-amber"
+            >
               Privacy
             </Link>
-            <Link href="/terms" className="-my-2 inline-block py-2 transition-colors duration-150 ease-[var(--ease-out-soft)] hover:text-amber">
+            <Link
+              href="/terms"
+              className="-mx-2 -my-3 inline-block rounded-xs px-2 py-3 transition-colors duration-150 ease-[var(--ease-out-soft)] hover:text-amber"
+            >
               Terms
             </Link>
           </div>
@@ -132,7 +152,13 @@ function FooterColumn({
       <p className="font-sans text-eyebrow font-semibold uppercase text-amber">
         {title}
       </p>
-      <ul className="mt-5 space-y-3">{children}</ul>
+      {/* The row gap is small because the links carry their own. Each one
+          used `-my-2 py-2`, which buys a 40px hit area *and* collapses it
+          back out of the layout — so with a 12px row gap the neighbouring
+          targets already overlapped by 4px, and growing the padding to reach
+          44px would only have deepened the overlap. Real padding and a small
+          gap gives every link a 44px target that is actually its own. */}
+      <ul className="mt-5 space-y-1">{children}</ul>
     </div>
   );
 }
@@ -140,7 +166,10 @@ function FooterColumn({
 function FooterLink({ href, children }: { href: string; children: React.ReactNode }) {
   return (
     <li>
-      <Link href={href} className="-my-2 inline-block py-2 text-grey/75 transition-colors duration-150 ease-[var(--ease-out-soft)] hover:text-amber">
+      <Link
+        href={href}
+        className={FOOTER_LINK}
+      >
         {children}
       </Link>
     </li>

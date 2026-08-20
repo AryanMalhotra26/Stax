@@ -1,4 +1,5 @@
 import { Render } from "@/components/ui/Render";
+import { TrailSegment, type TrailId } from "@/components/ui/Trail";
 import { media } from "@/content/generated/media";
 
 /**
@@ -12,11 +13,22 @@ import { media } from "@/content/generated/media";
  *
  * The image is oversized and drifts on the native scroll timeline, so the
  * band has parallax for no JavaScript.
+ *
+ * A band can also carry a trail segment. That placement is deliberate: the
+ * segment is drawn over the photograph but *under* the band's own dissolve
+ * gradients, so the route emerges out of the section above, crosses the
+ * render, and is swallowed by the section below. It is the reference's best
+ * depth move — their trail passes behind a photographic cutout of a hiker and
+ * re-emerges under her backpack — reproduced with the gradient this band
+ * already carries instead of with a second cut-out asset. And a decorative
+ * band is the one place on the page where a line physically cannot overprint
+ * a heading, a paragraph or a button.
  */
 export function Bridge({
   slug,
   from,
   to,
+  trail,
   className = "",
 }: {
   slug: string;
@@ -24,6 +36,8 @@ export function Bridge({
   from: "bone" | "paper" | "espresso" | "night" | "linen";
   /** Background of the section below. */
   to: "bone" | "paper" | "espresso" | "night" | "linen";
+  /** Optional trail segment, drawn between the render and the dissolve. */
+  trail?: TrailId;
   className?: string;
 }) {
   const stop = {
@@ -45,6 +59,14 @@ export function Bridge({
         className="sd-drift absolute inset-0 block h-[112%] w-full"
         imgClassName="h-full w-full object-cover"
       />
+      {trail && (
+        <TrailSegment
+          id={trail}
+          tone="chalk"
+          className="-top-[8%] -left-[6%] w-[112%]"
+        />
+      )}
+
       {/* Dissolve into the neighbouring sections so neither edge is a line. */}
       <div
         className="absolute inset-0"

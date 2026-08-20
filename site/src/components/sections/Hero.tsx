@@ -101,19 +101,32 @@ export function Hero() {
               "linear-gradient(to bottom, transparent 0%, #000 16%, #000 100%)",
           }}
         >
+          {/* Saturation and contrast are pushed on the plate itself rather
+              than lightened out of the scrim, because the problem was never
+              exposure — it was that a golden-hour gradient, a 35% night wash
+              and a 82% scrim stacked into one flat brown-blue band and the
+              blocks came out as grey silhouettes with no material. The lit
+              windows are the whole "arriving home" idea and they have to be
+              legible. Object-position drops 8% so the frame holds more
+              building and less empty sky. */}
           <Render
             media={media("exterior-street")}
             sizes="100vw"
             priority
             className="absolute inset-0 block h-full w-full"
-            imgClassName="h-full w-full object-cover object-[38%_62%] md:object-[50%_62%]"
+            imgClassName="h-full w-full object-cover object-[38%_70%] [filter:saturate(1.12)_contrast(1.08)] md:object-[50%_70%]"
           />
         </div>
 
         {/* The scene sits a stop under the type. Without this the render
             competes with the headline for the same pixels and the headline
-            loses — which is what a hero must never do. */}
-        <div className="absolute inset-0 bg-night/35" />
+            loses — which is what a hero must never do.
+
+            22%, not 35%. This wash and the scrim below it were each set in
+            isolation and multiply in practice; the headline's contrast is
+            carried by the scrim, which is where it belongs, and this layer
+            only has to take the edge off the sky. */}
+        <div className="absolute inset-0 bg-night/22" />
 
         {/* L4 — foreground planting, thrown out of focus. Travels furthest,
             so it reads as the metre of ground between you and the block. */}
@@ -144,7 +157,7 @@ export function Hero() {
         className="pointer-events-none absolute inset-x-0 bottom-0 z-7 h-[72vh]"
         style={{
           background:
-            "linear-gradient(to top, #171210 4%, rgb(23 18 16 / 0.82) 40%, rgb(23 18 16 / 0.35) 72%, transparent 100%)",
+            "linear-gradient(to top, #171210 4%, rgb(23 18 16 / 0.55) 55%, rgb(23 18 16 / 0.22) 78%, transparent 100%)",
         }}
       />
 
@@ -165,7 +178,12 @@ export function Hero() {
           under an asymmetric overlay — and it leaves the right third of the
           scene uninterrupted. */}
       <div className="relative z-10 flex flex-1 flex-col">
-        <div className="container-stax flex w-full flex-1 flex-col justify-end pt-[clamp(7rem,14vw,11rem)] pb-8">
+        {/* `justify-end` hangs the copy off the bottom of the fold, so the
+            bottom padding — not the top — is what sets where the headline
+            starts. At `pb-8` the H1 began at 39% of the viewport; this lands
+            it near 36%, which is as high as it goes before the sun-circle
+            starts crowding the proof band underneath it. */}
+        <div className="container-stax flex w-full flex-1 flex-col justify-end pt-[clamp(7rem,14vw,11rem)] pb-14">
           <h1
             data-px="headline"
             data-px-fade
@@ -175,36 +193,59 @@ export function Hero() {
             <span className="block">
               <SplitLetters text={LINE_1} />
             </span>
-            <span className="block text-stone">
+            {/* Sand, not stone.
+
+                The two-tone headline is the site's device and it stays, but
+                the quiet half has to survive the brighter render underneath
+                it now that the scrim is down from 82% to 55%. Stone (#9c877a)
+                over the lit facade measured about 2.8:1 — under the 3:1 that
+                large text needs — where sand holds the same warmth at
+                roughly 5.5:1 and is still unmistakably a step below bone. */}
+            <span className="block text-sand">
               <SplitLetters text={LINE_2} startIndex={LINE_1.length} />
             </span>
           </h1>
 
-          {/* The annotation and the single CTA share a row.
+          {/* The annotation and the single CTA share a row, and the row is
+              top-aligned.
 
-              The annotation used to sit at `mt-5` under a headline whose line
-              box overshoots its glyphs, so it overlapped the H1 by 53px and
-              rendered visually inside the descender of the last word. Its own
-              row clears it. */}
-          <div className="mt-10 flex items-end justify-between gap-8 md:mt-12">
+              It was `items-end`, which was the source of the ~200px void
+              under the headline: the row's height is set by the sun-circle,
+              which is 17ch across, so bottom-aligning the annotation parked
+              it at the foot of a 230px box while the headline ended at the
+              top of one. Nothing was wrong with the spacing value — the
+              annotation was being aligned against an object it has no
+              relationship to.
+
+              The annotation itself no longer carries the bed count. That
+              number moved to the proof band, and Pass 2's own rule applies:
+              carrying a fact in two places on one screen is the same
+              redundancy in a different face. Blocks and the move-in date are
+              the two things the band does not say. */}
+          <div className="mt-8 flex items-start justify-between gap-8 md:mt-10">
             <p
               data-px="hand"
               data-px-fade
               className="hand max-w-[42ch] text-hand text-amber"
               style={{ ["--hand-tilt" as string]: "-3deg" }}
             >
-              eight blocks. {SITE.facts.beds} beds. september 2027
+              eight blocks. september 2027
             </p>
 
             {/* The only CTA on the fold, and it points at Register — the
                 conversion goal — rather than at the floor plans, which the
                 nav already links and which section 02 is entirely made of.
                 That also kills the duplicate-destination bug: this circle and
-                the deleted FLOOR PLANS button both resolved to /residences. */}
+                the deleted FLOOR PLANS button both resolved to /residences.
+
+                `mr-16` because the glow is `0 12px 60px` and the container's
+                own inline padding is 40px: flush against the container edge
+                the lamp was being sheared off by the section's clip, which
+                is the one thing a light source must not be. */}
             <Link
               href="/register"
               data-px="sun-circle"
-              className="sun-circle hidden shrink-0 lg:grid"
+              className="sun-circle hidden shrink-0 lg:mr-16 lg:grid"
             >
               Register your interest
             </Link>
@@ -212,21 +253,29 @@ export function Hero() {
         </div>
 
         {/* ---- Proof band --------------------------------------------
-            Trimmed from five items to three: the suite count, bed count and
-            shuttle time all now live in the annotation above, and carrying
-            them in both places is the same redundancy in a different face. */}
+            Three groups, evenly weighted, spread across the full measure:
+            where it is, how big it is, who is building it.
+
+            Pass 2 cut this to two items and that left BROCK UNIVERSITY alone
+            at the left and the developer line far right with a void between
+            them — a rule with two labels on it rather than a band. Scale is
+            the missing third: it is the one claim of the three that the
+            headline does not already make, and it belongs here rather than
+            in the annotation because it is evidence, not an aside.
+
+            The second `.hand` note that used to open this row is gone. One
+            annotation per section is the rule and the fold already has one;
+            *minutes from* was also the fragment that read as a label with
+            its number missing, since the number is in the headline. */}
         <div className="container-stax relative z-10 w-full pb-8 md:pb-10">
-          <div className="flex flex-wrap items-center gap-x-8 gap-y-3 border-t border-sand/15 pt-6">
-            <p
-              className="hand shrink-0 text-hand-sm text-amber"
-              style={{ ["--hand-tilt" as string]: "-4deg" }}
-            >
-              minutes from
-            </p>
+          <div className="flex flex-wrap items-center justify-between gap-x-8 gap-y-3 border-t border-sand/15 pt-6">
             <span className="text-eyebrow text-grey/85 uppercase">
               Brock University
             </span>
-            <span className="text-eyebrow text-grey/75 uppercase md:ml-auto">
+            <span className="text-eyebrow tnum text-grey/85 uppercase">
+              {SITE.facts.units} suites · {SITE.facts.beds} beds
+            </span>
+            <span className="text-eyebrow text-grey/75 uppercase">
               A {SITE.developer.name} community
             </span>
           </div>

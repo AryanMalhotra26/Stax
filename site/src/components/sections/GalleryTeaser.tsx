@@ -33,21 +33,13 @@ const THUMBS = [
 export function GalleryTeaser() {
   return (
     <section
-      data-trail="about 7pm"
       className="relative overflow-clip bg-night text-grey section-y"
     >
       <Seam edge="top" color="espresso" size="16%" />
       <Seam edge="bottom" color="linen" size="18%" />
 
       <div className="container-stax relative z-2">
-        <div className="relative overflow-clip border-t border-sand/15 pt-5 md:pt-6">
-          <span
-            aria-hidden="true"
-            className="ghost-num top-1/2 hidden -translate-y-1/2 text-bone md:right-0 md:block"
-          >
-            04
-          </span>
-
+        <div className="relative border-t border-sand/15 pt-5 md:pt-6">
           <div className="relative z-2 flex flex-wrap items-end justify-between gap-x-8 gap-y-6">
             <div>
               <Eyebrow className="text-grey/75">
@@ -136,7 +128,7 @@ export function GalleryTeaser() {
           <p className="mt-8 text-[0.9375rem] text-grey/75">
             <Link
               href="/residences#gallery"
-              className="group inline-flex items-center gap-2 font-medium text-grey transition-colors duration-150 ease-[var(--ease-out-soft)] hover:text-amber"
+              className="group -my-3 inline-flex items-center gap-2 rounded-xs py-3 font-medium text-grey transition-colors duration-150 ease-[var(--ease-out-soft)] hover:text-amber"
             >
               See all 10 renders
               <span className="inline-block transition-transform duration-300 group-hover:translate-x-1.5">

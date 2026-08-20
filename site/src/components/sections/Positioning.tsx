@@ -50,7 +50,6 @@ export function Positioning() {
   return (
     <section
       id="main-story"
-      data-trail="the street"
       className="relative overflow-clip bg-bone section-y"
     >
       <Seam edge="bottom" color="paper" size="18%" />
@@ -109,9 +108,21 @@ export function Positioning() {
               <div className="relative flex flex-col items-start">
                 <div className="relative mb-1 flex flex-col items-start gap-2.5 md:gap-3.5">
                   {/* Left arm — the alternative. Unlit, and it points back
-                      the way you came. */}
+                      the way you came.
+
+                      Both arms now sit on near-solid panels. They were
+                      night/55 and night/80 with the text itself at 85%, and
+                      that stacks two transparencies over a photograph: the
+                      measured contrast came out at 2.20:1 and 2.97:1
+                      depending on what part of the facade was behind them.
+                      This is the section's entire argument — which of two
+                      ways to live you would rather choose — and it was the
+                      one thing on the page you could not read. A panel that
+                      is 88–92% opaque still reads as a board nailed to a
+                      post; one that lets the render through does not read
+                      at all. */}
                   <span
-                    className="hand -translate-x-[14%] rounded-sm border border-bone/25 bg-night/55 px-3 py-1 text-hand-sm whitespace-nowrap text-bone/85 backdrop-blur-[2px] md:px-4 md:py-1.5 md:text-hand"
+                    className="hand -translate-x-[14%] rounded-sm border border-bone/30 bg-night/88 px-3 py-1 text-hand-sm whitespace-nowrap text-bone backdrop-blur-[2px] md:px-4 md:py-1.5 md:text-hand"
                     style={{ ["--hand-tilt" as string]: "-6deg" }}
                   >
                     ← a room in someone&rsquo;s house
@@ -121,7 +132,7 @@ export function Positioning() {
                       composition emitting light, which is how the reader is
                       told which way to go without a word of instruction. */}
                   <span
-                    className="hand translate-x-[10%] rounded-sm border border-amber/45 bg-night/80 px-3 py-1 text-hand-sm whitespace-nowrap text-amber-hot shadow-glow backdrop-blur-[2px] md:px-4 md:py-1.5 md:text-hand"
+                    className="hand translate-x-[10%] rounded-sm border border-amber/45 bg-night/92 px-3 py-1 text-hand-sm whitespace-nowrap text-amber-hot shadow-glow backdrop-blur-[2px] md:px-4 md:py-1.5 md:text-hand"
                     style={{ ["--hand-tilt" as string]: "4deg" }}
                   >
                     your own front door →

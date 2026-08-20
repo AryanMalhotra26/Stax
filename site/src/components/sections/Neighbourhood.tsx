@@ -1,6 +1,7 @@
 import { SectionHead } from "@/components/ui";
 import { Reveal } from "@/components/motion/Reveal";
 import { Seam } from "@/components/ui/Edge";
+import { ArtCompass } from "@/components/ui/LineArt";
 import {
   FOOD_NEARBY,
   LANDMARKS,
@@ -30,7 +31,6 @@ export function Neighbourhood() {
 
   return (
     <section
-      data-trail="the walk"
       className="relative overflow-clip bg-espresso text-grey section-y"
     >
       <Seam edge="top" color="espresso" size="12%" />
@@ -231,9 +231,17 @@ function MapPlate({ featured }: { featured: typeof LANDMARKS }) {
         15 min shuttle
       </span>
 
-      {/* Not in Caveat: this is an accuracy disclaimer, and the hand makes a
-          disclaimer read as a joke. */}
-      <figcaption className="mt-4 text-right text-xs tracking-wide text-grey/75 uppercase">
+      {/* North, and the disclaimer, as one row.
+
+          They belong together: an arrow saying which way is up and a note
+          saying the distances are not measured are the two conventions that
+          make a schematic read as a *map* rather than as a diagram somebody
+          generated. Either alone is a stray mark; the pair is a legend.
+
+          Not in Caveat, and deliberately: this is an accuracy disclaimer,
+          and the hand makes a disclaimer read as a joke. */}
+      <figcaption className="mt-4 flex items-center justify-end gap-3 font-sans text-xs tracking-wide text-grey/75 uppercase">
+        <ArtCompass className="h-9 w-auto text-sand/55" />
         Not to scale
       </figcaption>
     </figure>
