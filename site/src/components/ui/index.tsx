@@ -5,18 +5,21 @@ import { SplitWords } from "@/components/motion/SplitWords";
 /* -------------------------------------------------------------------------
    Buttons — three types, no others (§6.1).
 
-   `primary` is brick because brick is what the building is made of;
-   `amber` exists for exactly one button on the site, the register form's
-   submit, which is the brightest object on the page and the thing everything
-   has been building toward. `secondary` is a hairline that resolves to amber
-   on hover — the one place a control is allowed to light up.
+   `primary` is brick because brick is what the building is made of. `lit` is
+   the same brick under a halo — it exists for the loudest object on a page,
+   the register form's submit, and the difference between it and `primary` is
+   now the glow rather than the fill. `secondary` is a hairline that resolves
+   to the brand red on hover.
+
+   Nothing here is amber any more. Amber is light: it survives in the two
+   shadow tokens these variants reference and nowhere else.
 
    Every one of them is a pill. Radius was an empty set across the entire
    previous stylesheet; a rectangle button is the single loudest signal that
    nothing on a page has been designed.
    ---------------------------------------------------------------------- */
 
-type ButtonVariant = "primary" | "secondary" | "amber" | "ghost";
+type ButtonVariant = "primary" | "secondary" | "lit" | "ghost";
 type ButtonSize = "md" | "lg";
 
 const BUTTON_BASE =
@@ -31,13 +34,18 @@ const BUTTON_VARIANTS: Record<ButtonVariant, string> = {
     "bg-brick text-bone hover:bg-brick-dark hover:-translate-y-0.5 " +
     "hover:shadow-glow [--glow-strength:0.3]",
   secondary:
-    "bg-transparent border border-current/30 hover:border-amber hover:text-amber " +
+    "bg-transparent border border-current/30 hover:border-brick hover:text-brick " +
     "duration-150 ease-[var(--ease-out-soft)]",
-  amber:
-    "bg-amber text-night shadow-glow hover:bg-amber-hot hover:-translate-y-0.5 " +
-    "hover:shadow-flare [--flare-strength:0.4]",
+  // The 1px rim is what stops a red disc in a yellow halo reading as a
+  // hazard sign — see `.sun-circle`. A red gains energy by deepening, so the
+  // hover goes to brick-dark rather than to something brighter; brightening
+  // a red only walks it toward pink.
+  lit:
+    "bg-brick text-white shadow-[var(--shadow-glow),0_0_0_1px_rgb(232_163_61_/_0.3)] " +
+    "hover:bg-brick-dark hover:-translate-y-0.5 " +
+    "hover:shadow-[var(--shadow-flare),0_0_0_1px_rgb(255_184_77_/_0.5)]",
   ghost:
-    "bg-transparent underline-offset-4 hover:text-amber duration-150 " +
+    "bg-transparent underline-offset-4 hover:text-brick duration-150 " +
     "ease-[var(--ease-out-soft)]",
 };
 
@@ -283,10 +291,12 @@ export function Input({
     "focus:shadow-[var(--shadow-focus-rule)]";
   const light = invalid
     ? "border-brick text-ink"
-    : "border-ink/25 text-ink focus:border-amber";
+    : "border-ink/25 text-ink focus:border-brick";
+  // Brick-light on the dark tiers: the pure brand red measures 2.83 against
+  // `bark`, under the 3:1 a focus indicator has to clear.
   const dark = invalid
-    ? "border-brick text-bone placeholder:text-grey/75"
-    : "border-sand/25 text-bone placeholder:text-grey/75 focus:border-amber";
+    ? "border-brick-light text-bone placeholder:text-grey/75"
+    : "border-sand/25 text-bone placeholder:text-grey/75 focus:border-brick-light";
   return <input className={`${base} ${onDark ? dark : light} ${className}`} {...props} />;
 }
 
@@ -329,7 +339,7 @@ export function PillGroup({
           : "bg-transparent text-ink border-ink/25 hover:border-ink";
         const dark = selected
           ? "bg-bone text-ink border-sand"
-          : "bg-transparent text-grey/85 border-sand/25 hover:border-amber";
+          : "bg-transparent text-grey/85 border-sand/25 hover:border-brick-light";
         return (
           <button
             key={opt.value}

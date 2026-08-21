@@ -1,0 +1,68 @@
+/**
+ * Cloudflare Workers deployment.
+ *
+ * Workers rather than Vercel, and the reason is licensing rather than
+ * preference: Vercel's Hobby tier is limited to non-commercial use, and this
+ * is a leasing site for a developer that will run paid traffic. Workers' free
+ * tier permits commercial use at 100k requests/day. GitHub Pages cannot host
+ * this at all — `/api/lead` is a server route and it is the whole conversion
+ * path.
+ *
+ * `nodejs_compat` is required. Next's server runtime reaches for Node
+ * built-ins (streams, crypto, buffer) even on routes that never touch them,
+ * and without the flag the Worker fails at import time rather than at
+ * request time — which looks like a broken deploy, not a missing flag.
+ */
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "stax",
+  "main": ".open-next/worker.js",
+  "compatibility_date": "2026-08-20",
+  "compatibility_flags": ["nodejs_compat", "global_fetch_strictly_public"],
+
+  "assets": {
+    "directory": ".open-next/assets",
+    "binding": "ASSETS"
+  },
+
+  /**
+   * Lead storage.
+   *
+   * The binding is `DB` rather than `stax_leads`, which is what the dashboard
+   * suggests. The name is local to this Worker — Cloudflare does not care what
+   * we call it — and `DB` is the convention the OpenNext docs, the generated
+   * types in src/cloudflare-env.d.ts and src/lib/leadStore.d1.ts all use. The
+   * database itself is still `stax-leads` in the dashboard.
+   */
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "stax-leads",
+      "database_id": "39cbb30f-fcd2-482f-90af-fcb1450e76cb",
+      "migrations_dir": "migrations"
+    }
+  ],
+
+  /**
+   * No workers.dev URL.
+   *
+   * The account never had a workers.dev subdomain registered, and claiming one
+   * is a manual dashboard step that kept blocking the deploy. It is only ever
+   * a staging convenience — the site does not need it — so the Worker is
+   * attached straight to the real domain instead and `workers_dev` is off.
+   *
+   * `custom_domain: true` means Cloudflare owns the DNS record for each
+   * hostname: it creates it, points it at this Worker and issues the
+   * certificate. That is why the old GoDaddy parking A records had to be
+   * deleted first — a hostname cannot have both.
+   */
+  "workers_dev": false,
+  "routes": [
+    { "pattern": "staxliving.ca", "custom_domain": true },
+    { "pattern": "www.staxliving.ca", "custom_domain": true }
+  ],
+
+  "observability": {
+    "enabled": true
+  }
+}

@@ -90,7 +90,12 @@ export default function AboutPage() {
           <div className="container-stax section-y">
             <div className="grid lg:grid-cols-2 gap-12 lg:gap-20">
               <Reveal>
-                <Eyebrow className="text-brick">{ABOUT_EXPERIENCE.eyebrow}</Eyebrow>
+                {/* The only eyebrow on this page that sits on a dark
+                    surface, so the only one that cannot be brick: 11px of
+                    the brand red on espresso is 3.24 against 4.5. */}
+                <Eyebrow className="text-light-grey">
+                  {ABOUT_EXPERIENCE.eyebrow}
+                </Eyebrow>
                 <h2 className="text-h2 mt-6 text-balance">
                   {ABOUT_EXPERIENCE.heading}
                 </h2>
@@ -109,7 +114,7 @@ export default function AboutPage() {
                       key={item}
                       className="flex items-baseline gap-4 py-3.5 border-b border-sand/10"
                     >
-                      <span className="text-eyebrow text-grey/30 tnum">
+                      <span className="text-eyebrow text-grey/60 tnum">
                         {String(i + 1).padStart(2, "0")}
                       </span>
                       <span className={i < 2 ? "text-bone font-medium" : "text-grey/75"}>

@@ -226,7 +226,7 @@ export function Hero() {
             <p
               data-px="hand"
               data-px-fade
-              className="hand max-w-[42ch] text-hand text-amber"
+              className="hand max-w-[42ch] text-hand text-brick-light"
               style={{ ["--hand-tilt" as string]: "-3deg" }}
             >
               eight blocks. september 2027

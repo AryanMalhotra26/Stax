@@ -79,7 +79,16 @@ export default function ThankYouPage() {
           <p className="text-grey text-h3 max-w-sm text-balance">
             248 suites. 551 beds. Fifteen minutes from Brock.
           </p>
-          <ButtonLink href="/residences" variant="secondary" className="mt-6">
+          {/* `secondary` is a hairline with no colour of its own — it takes
+              `currentColor` for both its border and its label. Nothing on
+              this panel set one, so it inherited ink from the document and
+              rendered at 1.05 against espresso: a button you could not see.
+              The panel's own grey is the right answer. */}
+          <ButtonLink
+            href="/residences"
+            variant="secondary"
+            className="mt-6 text-grey"
+          >
             See the floor plans
           </ButtonLink>
         </div>

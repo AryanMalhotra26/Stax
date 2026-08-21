@@ -26,13 +26,13 @@ export function MagneticLabel({
   label,
   children,
   className = "",
-  tone = "amber",
+  tone = "lit",
 }: {
   label: string;
   children: ReactNode;
   className?: string;
   /** Amber emits, brick is built — pick by what the area is (§3.1). */
-  tone?: "amber" | "brick";
+  tone?: "lit" | "brick";
 }) {
   const area = useRef<HTMLDivElement>(null);
   const dot = useRef<HTMLSpanElement>(null);
@@ -107,8 +107,8 @@ export function MagneticLabel({
         ref={dot}
         aria-hidden="true"
         className={`pointer-events-none absolute top-0 left-0 z-20 grid h-[10ch] w-[10ch] place-items-center rounded-full text-center text-eyebrow uppercase opacity-0 transition-opacity duration-300 will-change-transform ${
-          tone === "amber"
-            ? "bg-amber text-night shadow-glow"
+          tone === "lit"
+            ? "bg-brick text-white shadow-[var(--shadow-glow),0_0_0_1px_rgb(232_163_61_/_0.3)]"
             : "bg-brick text-bone"
         }`}
       >

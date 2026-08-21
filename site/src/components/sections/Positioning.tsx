@@ -118,9 +118,14 @@ export function Positioning() {
                       This is the section's entire argument — which of two
                       ways to live you would rather choose — and it was the
                       one thing on the page you could not read. A panel that
-                      is 88–92% opaque still reads as a board nailed to a
-                      post; one that lets the render through does not read
-                      at all. */}
+                      is opaque still reads as a board nailed to a post; one
+                      that lets the render through does not read at all.
+
+                      The lit arm went the last 8% to fully solid when the
+                      accent became red: brick-light on night/92 measures
+                      4.34 against the 4.5 it needs below `md`, where the
+                      label is still `text-hand-sm`. On solid night it is
+                      5.28. */}
                   <span
                     className="hand -translate-x-[14%] rounded-sm border border-bone/30 bg-night/88 px-3 py-1 text-hand-sm whitespace-nowrap text-bone backdrop-blur-[2px] md:px-4 md:py-1.5 md:text-hand"
                     style={{ ["--hand-tilt" as string]: "-6deg" }}
@@ -132,7 +137,7 @@ export function Positioning() {
                       composition emitting light, which is how the reader is
                       told which way to go without a word of instruction. */}
                   <span
-                    className="hand translate-x-[10%] rounded-sm border border-amber/45 bg-night/92 px-3 py-1 text-hand-sm whitespace-nowrap text-amber-hot shadow-glow backdrop-blur-[2px] md:px-4 md:py-1.5 md:text-hand"
+                    className="hand translate-x-[10%] rounded-sm border border-brick/50 bg-night px-3 py-1 text-hand-sm whitespace-nowrap text-brick-light shadow-glow backdrop-blur-[2px] md:px-4 md:py-1.5 md:text-hand"
                     style={{ ["--hand-tilt" as string]: "4deg" }}
                   >
                     your own front door →
@@ -176,7 +181,12 @@ export function Positioning() {
                 <Art className="pointer-events-none absolute -right-8 -bottom-10 h-[62%] w-auto opacity-8" />
 
                 <div className="relative z-2 flex flex-1 flex-col">
-                  <p className="text-eyebrow tnum text-amber uppercase">{n}</p>
+                  {/* 11px, and these two cards are `clay` and `espresso`.
+                      Brick lands at 3.00 and 3.24; Light Grey is 11.7 and
+                      14.0. */}
+                  <p className="text-eyebrow tnum text-light-grey uppercase">
+                    {n}
+                  </p>
                   <h3 className="mt-6 text-h2">{title}</h3>
                   <p className="mt-4 max-w-sm leading-relaxed opacity-80">
                     {body}
