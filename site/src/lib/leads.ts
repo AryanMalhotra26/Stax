@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { D1LeadStore, getD1 } from "@/lib/leadStore.d1";
 
 /**
  * Lead schema + scoring + storage. Mirrors the `leads` table (§5).
@@ -197,14 +198,28 @@ class FileLeadStore implements LeadStore {
 
 let store: LeadStore | null = null;
 
+/**
+ * D1 in production, a JSON file in development.
+ *
+ * The choice is made per call rather than cached across both branches,
+ * because the two runtimes are genuinely different processes: `next dev` has
+ * no Cloudflare context and must never try to open a binding, while the
+ * deployed Worker has no writable filesystem and must never try to open a
+ * file. The old unconditional `new FileLeadStore()` was correct locally and a
+ * guaranteed 500 in production — `.leads/leads.json` cannot be written on
+ * Workers, so every submitted form died at the one step the whole site
+ * exists to reach.
+ *
+ * Supabase is still the destination once there is a leasing team wanting a
+ * dashboard; D1 gets there first because it is on the same free tier as the
+ * Worker, adds no vendor and no credentials, and the column names match the
+ * Postgres schema so that migration stays a change of driver.
+ */
 export function getLeadStore(): LeadStore {
-  if (!store) {
-    // TODO(launch): when SUPABASE_URL + SUPABASE_SERVICE_KEY are present,
-    // return a SupabaseLeadStore here instead. Inserts must go through the
-    // service key on the server — `leads` gets no public select, or a
-    // competitor reads the whole list with one fetch (§5).
-    store = new FileLeadStore();
-  }
+  const db = getD1();
+  if (db) return new D1LeadStore(db);
+
+  if (!store) store = new FileLeadStore();
   return store;
 }
 

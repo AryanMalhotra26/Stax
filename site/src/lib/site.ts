@@ -11,7 +11,9 @@ export const SITE = {
   description:
     "Brand-new student rentals near Brock University, designed for convenience, comfort, and community. 248 units, 551 beds, September 2027.",
 
-  // TODO(client): confirm the registered domain before launch.
+  // Confirmed with the client, 21 Aug 2026: this is the registered domain on
+  // the GoDaddy account. It drives every canonical tag, the sitemap, robots
+  // and all OG metadata, so it is the one value here that cannot be a guess.
   url: "https://staxliving.ca",
 
   // TODO(client): replace with the real leasing contact details.

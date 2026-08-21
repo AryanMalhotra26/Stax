@@ -42,3 +42,8 @@ next-env.d.ts
 
 # local dev lead sink (see src/lib/leads.ts)
 .leads/
+
+# Cloudflare Workers build output + local secrets
+.open-next/
+.wrangler/
+.dev.vars
