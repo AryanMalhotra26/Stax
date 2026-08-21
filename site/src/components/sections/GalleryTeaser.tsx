@@ -83,7 +83,7 @@ export function GalleryTeaser() {
               />
 
               <p
-                className="hand absolute bottom-5 left-6 text-hand text-amber md:bottom-8 md:left-10"
+                className="hand absolute bottom-5 left-6 text-hand text-brick-light md:bottom-8 md:left-10"
                 style={{ ["--hand-tilt" as string]: "-5deg" }}
               >
                 september, about 7pm
@@ -128,7 +128,7 @@ export function GalleryTeaser() {
           <p className="mt-8 text-[0.9375rem] text-grey/75">
             <Link
               href="/residences#gallery"
-              className="group -my-3 inline-flex items-center gap-2 rounded-xs py-3 font-medium text-grey transition-colors duration-150 ease-[var(--ease-out-soft)] hover:text-amber"
+              className="group -my-3 inline-flex items-center gap-2 rounded-xs py-3 font-medium text-grey transition-colors duration-150 ease-[var(--ease-out-soft)] hover:text-brick-light"
             >
               See all 10 renders
               <span className="inline-block transition-transform duration-300 group-hover:translate-x-1.5">

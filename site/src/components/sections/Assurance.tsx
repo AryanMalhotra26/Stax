@@ -125,7 +125,7 @@ export function Assurance() {
                       enough of it left to name. */}
                   <span
                     aria-hidden="true"
-                    className="pointer-events-none absolute top-0 left-0 font-display text-[4.5rem] leading-[0.9] text-amber/40 select-none"
+                    className="pointer-events-none absolute top-0 left-0 font-display text-[4.5rem] leading-[0.9] text-brick/35 select-none"
                   >
                     {String(i + 1).padStart(2, "0")}
                   </span>

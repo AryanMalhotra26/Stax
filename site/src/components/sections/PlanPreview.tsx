@@ -158,7 +158,16 @@ export function PlanPreview() {
                     <Link
                       href={`/residences#${plan.slug}`}
                       data-card-chrome
-                      className="group mt-6 inline-flex w-fit items-center gap-3 rounded-full border border-current/35 px-7 py-3.5 text-[0.8125rem] font-bold tracking-[0.06em] uppercase transition-colors duration-150 ease-[var(--ease-out-soft)] hover:border-amber hover:text-amber"
+                      // The one control on the site with no accent on
+                      // hover, and the luminance ladder is why. These four
+                      // cards run espresso → clay → taupe → stone, and no
+                      // single colour clears 4.5:1 at 13px against all of
+                      // them: brick-light is 4.96 on espresso but 1.77 on
+                      // taupe, and brick is worse. The affordance is the
+                      // hairline going to full strength instead — which is
+                      // legible on every tier by construction, because it is
+                      // the card's own text colour.
+                      className="group mt-6 inline-flex w-fit items-center gap-3 rounded-full border border-current/35 px-7 py-3.5 text-[0.8125rem] font-bold tracking-[0.06em] uppercase transition-colors duration-150 ease-[var(--ease-out-soft)] hover:border-current"
                     >
                       See this plan
                       <svg
@@ -178,7 +187,7 @@ export function PlanPreview() {
                       // has a dark surface to emit against.
                       <p
                         data-card-chrome
-                        className="hand mt-8 w-fit max-w-[26ch] rounded-sm bg-night/85 px-3 py-1.5 text-hand-sm text-amber"
+                        className="hand mt-8 w-fit max-w-[26ch] rounded-sm bg-night/85 px-3 py-1.5 text-hand-sm text-brick-light"
                         style={{ ["--hand-tilt" as string]: "-6deg" }}
                       >
                         {NOTES[i]}

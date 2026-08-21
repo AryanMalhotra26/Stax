@@ -22,8 +22,8 @@ const STATIC_DEMO = process.env.NEXT_PUBLIC_STATIC_DEMO === "1";
  * page instead, from someone who has already said yes once.
  *
  * The surface is architectural rather than boxed (§5.9): inputs are a single
- * bottom rule that lights amber on focus, choices are pills, and the submit
- * is the one amber-filled button on the site — the brightest object on the
+ * bottom rule that lights on focus, choices are pills, and the submit is the
+ * one glowing button on the site — the brightest object on the
  * whole page, which everything from the hero down has been building toward.
  *
  * No focus-ring glow on the inputs. A glow there would put a second emitting
@@ -132,11 +132,21 @@ export function CaptureForm({
   /* --- surface tokens, light vs dark --- */
   const rule = onDark ? "border-sand/25" : "border-ink/20";
   const stepText = onDark ? "text-grey" : "text-ink";
+  /**
+   * The step index takes the brand red on light surfaces and the brand grey
+   * on dark ones, and it has to vary because this form renders on both: the
+   * Register section is `night`, but the residences plan pack and the
+   * enrichment step are `bone`. Brick measures 5.24 on bone and 3.24 on the
+   * dark panel; Light Grey is 14.86 on the panel and 1.12 on bone. Neither
+   * one works in both places, and a constant here is invisible in one of
+   * them.
+   */
+  const stepIndex = onDark ? "text-light-grey" : "text-brick";
 
   const inputBase =
     "w-full min-h-14 rounded-xs border-b bg-transparent px-1 py-4 text-lead " +
     "outline-none transition-[border-color,box-shadow] duration-150 " +
-    "ease-[var(--ease-out-soft)] focus:border-amber " +
+    "ease-[var(--ease-out-soft)] focus:border-brick-light " +
     "focus:shadow-[var(--shadow-focus-rule)]";
   const inputTone = emailError
     ? "border-brick text-inherit placeholder:text-ink-faint/70"
@@ -155,10 +165,10 @@ export function CaptureForm({
         }`}
       >
         <span
-          className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-amber shadow-glow"
+          className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-brick shadow-[var(--shadow-glow),0_0_0_1px_rgb(232_163_61_/_0.3)]"
           aria-hidden="true"
         >
-          <svg viewBox="0 0 20 20" className="h-5 w-5 fill-none stroke-night" strokeWidth={2.5}>
+          <svg viewBox="0 0 20 20" className="h-5 w-5 fill-none stroke-white" strokeWidth={2.5}>
             <path d="M4 10.5 L8 14.5 L16 6" strokeLinecap="round" />
           </svg>
         </span>
@@ -176,7 +186,9 @@ export function CaptureForm({
           {/* 01 — email */}
           <div>
             <div className={`mb-3 flex items-center gap-3 border-b pb-2 ${rule}`}>
-              <span className="text-eyebrow tnum text-amber uppercase">01</span>
+              <span className={`text-eyebrow tnum uppercase ${stepIndex}`}>
+                01
+              </span>
               <label
                 htmlFor={`email-${uid}`}
                 className={`text-eyebrow uppercase ${stepText}`}
@@ -205,7 +217,7 @@ export function CaptureForm({
             {emailError && (
               <p
                 id={`email-error-${uid}`}
-                className={`mt-2.5 text-sm font-medium ${onDark ? "text-amber" : "text-brick"}`}
+                className={`mt-2.5 text-sm font-medium ${onDark ? "text-brick-light" : "text-brick"}`}
               >
                 {emailError}
               </p>
@@ -215,7 +227,9 @@ export function CaptureForm({
           {/* 02 — move-in term */}
           <div>
             <div className={`mb-3 flex items-center gap-3 border-b pb-2 ${rule}`}>
-              <span className="text-eyebrow tnum text-amber uppercase">02</span>
+              <span className={`text-eyebrow tnum uppercase ${stepIndex}`}>
+                02
+              </span>
               <span className={`text-eyebrow uppercase ${stepText}`}>
                 When are you moving in?
               </span>
@@ -230,10 +244,10 @@ export function CaptureForm({
                   "transition-[background-color,color,border-color,box-shadow,transform] " +
                   "duration-300 active:translate-y-px";
                 const tone = selected
-                  ? "border-transparent bg-amber text-night shadow-glow [--glow-strength:0.25]"
+                  ? "border-transparent bg-brick text-white shadow-[var(--shadow-glow),0_0_0_1px_rgb(232_163_61_/_0.28)] [--glow-strength:0.25]"
                   : onDark
-                    ? "border-sand/25 bg-transparent text-grey/80 hover:border-amber hover:text-amber"
-                    : "border-ink/25 bg-transparent text-ink hover:border-amber hover:text-brick";
+                    ? "border-sand/25 bg-transparent text-grey/80 hover:border-brick-light hover:text-brick-light"
+                    : "border-ink/25 bg-transparent text-ink hover:border-brick hover:text-brick";
                 return (
                   <button
                     key={opt.value}
@@ -263,13 +277,18 @@ export function CaptureForm({
             </p>
           )}
 
-          {/* Submit. The brightest object on the entire site — the only
-              amber fill, and the end of the light the hero's sun-circle
-              started. Everything has been building to it. */}
+          {/* Submit. The brightest object on the entire site, and the end of
+              the light the hero's sun-circle started.
+
+              The fill is the brand red and the halo around it is still amber
+              — the object changes colour, the light does not. Hover deepens
+              to brick-dark rather than brightening: for a red, more energy
+              is deeper, and brightening one only walks it toward pink. Night
+              on brick measures 2.62, so the label is white at 5.37. */}
           <button
             type="submit"
             disabled={state === "sending"}
-            className="group flex min-h-16 w-full items-center justify-between gap-3 rounded-full bg-amber px-7 text-left text-sm font-bold tracking-[0.06em] text-night uppercase shadow-glow transition-[background-color,box-shadow,transform] duration-300 hover:-translate-y-0.5 hover:bg-amber-hot hover:shadow-flare [--flare-strength:0.4] active:translate-y-px disabled:opacity-60 sm:gap-4 sm:px-8 sm:text-base"
+            className="group flex min-h-16 w-full items-center justify-between gap-3 rounded-full bg-brick px-7 text-left text-sm font-bold tracking-[0.06em] text-white uppercase shadow-[var(--shadow-glow),0_0_0_1px_rgb(232_163_61_/_0.28)] transition-[background-color,box-shadow,transform] duration-300 hover:-translate-y-0.5 hover:bg-brick-dark hover:shadow-[var(--shadow-flare),0_0_0_1px_rgb(255_184_77_/_0.5)] [--flare-strength:0.4] active:translate-y-px disabled:opacity-60 sm:gap-4 sm:px-8 sm:text-base"
           >
             <span>{state === "sending" ? "Sending…" : ctaLabel}</span>
             <svg

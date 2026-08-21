@@ -83,7 +83,7 @@ export function Nav() {
             aria-label="Stax — home"
             className="-my-3 shrink-0 rounded-xs py-3"
           >
-            <Logo className="h-6 w-auto text-bone transition-colors hover:text-amber md:h-7" />
+            <Logo className="h-6 w-auto text-bone transition-colors hover:text-brick-light md:h-7" />
           </Link>
 
           <div className="hidden items-center gap-1 md:flex">
@@ -95,11 +95,16 @@ export function Nav() {
                   href={link.href}
                   aria-current={active ? "page" : undefined}
                   className={`relative rounded-full px-4 py-2 text-[0.9375rem] font-medium transition-colors duration-300 ${
-                    active ? "text-amber" : "text-grey hover:text-amber"
+                    active
+                      ? "text-brick-light"
+                      : "text-grey hover:text-brick-light"
                   }`}
                 >
                   {/* Active state is a soft lamp behind the label rather than
-                      a rule under it — amber emits, it never fills. */}
+                      a rule under it. The lamp is still amber because a
+                      radial gradient is light; the label on top of it is
+                      brick-light, because the brand red at 15px on this
+                      glass measures 3.24 against a 4.5 requirement. */}
                   {active && (
                     <span
                       aria-hidden="true"
@@ -131,7 +136,7 @@ export function Nav() {
                 negative margin gives the layout back the space. */}
             <a
               href="tel:+19050000000"
-              className="hidden -my-3 rounded-xs py-3 text-[0.9375rem] font-medium text-grey/85 underline decoration-transparent decoration-1 underline-offset-4 transition-colors duration-300 hover:text-amber hover:decoration-amber lg:block"
+              className="hidden -my-3 rounded-xs py-3 text-[0.9375rem] font-medium text-grey/85 underline decoration-transparent decoration-1 underline-offset-4 transition-colors duration-300 hover:text-brick-light hover:decoration-brick-light lg:block"
             >
               Talk to us
             </a>

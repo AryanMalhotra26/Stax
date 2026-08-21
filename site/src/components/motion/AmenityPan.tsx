@@ -240,7 +240,11 @@ export function AmenityPan() {
         >
           {/* Intro panel — carries the heading so the pan starts with context */}
           <div className="walk-intro flex flex-col">
-            <Eyebrow className="text-brick">What&rsquo;s included</Eyebrow>
+            {/* Light Grey, not brick: 11px on espresso, where the brand
+                red measures 3.24 against a 4.5 requirement. */}
+            <Eyebrow className="text-light-grey">
+              What&rsquo;s included
+            </Eyebrow>
             <h2 id="amenities-heading" className="mt-6 text-h2 text-balance">
               The parts that decide whether a year goes well.
             </h2>
@@ -253,7 +257,7 @@ export function AmenityPan() {
                 through sideways, and an instruction for a gesture that does
                 not exist is worse than no instruction. */}
             <p
-              className="walk-cue hand mt-10 items-center gap-3 text-hand text-amber"
+              className="walk-cue hand mt-10 items-center gap-3 text-hand text-brick"
               style={{ ["--hand-tilt" as string]: "-4deg" }}
             >
               scroll to walk through

@@ -54,7 +54,7 @@ export function Neighbourhood() {
               {LANDMARKS.map((landmark) => (
                 <li
                   key={landmark.name}
-                  className="group flex items-baseline justify-between gap-4 border-b border-sand/12 px-3 py-2.5 transition-colors duration-150 ease-[var(--ease-out-soft)] hover:bg-amber/6"
+                  className="group flex items-baseline justify-between gap-4 border-b border-sand/12 px-3 py-2.5 transition-colors duration-150 ease-[var(--ease-out-soft)] hover:bg-brick/10"
                 >
                   <span
                     className={
@@ -65,7 +65,7 @@ export function Neighbourhood() {
                   >
                     {landmark.name}
                   </span>
-                  <span className="shrink-0 text-sm tnum whitespace-nowrap text-grey/70 transition-colors duration-150 ease-[var(--ease-out-soft)] group-hover:text-amber">
+                  <span className="shrink-0 text-sm tnum whitespace-nowrap text-grey/70 transition-colors duration-150 ease-[var(--ease-out-soft)] group-hover:text-brick-light">
                     {landmark.time}{" "}
                     {landmark.mode === "shuttle"
                       ? "shuttle"
@@ -88,7 +88,7 @@ export function Neighbourhood() {
             {/* The section's one annotation — and the only line on the page
                 that admits what the neighbourhood is actually for. */}
             <p
-              className="hand mt-9 max-w-[24ch] text-hand text-amber"
+              className="hand mt-9 max-w-[24ch] text-hand text-brick"
               style={{ ["--hand-tilt" as string]: "-7deg" }}
             >
               you will use the Starbucks more than the library
@@ -116,6 +116,14 @@ function MapPlate({ featured }: { featured: typeof LANDMARKS }) {
         role="img"
         aria-label="Schematic map showing Stax relative to Brock University, Starbucks, No Frills and Walmart"
       >
+        <defs>
+          <radialGradient id="pin-glow">
+            <stop offset="0%" stopColor="#e8a33d" stopOpacity="0.45" />
+            <stop offset="55%" stopColor="#e8a33d" stopOpacity="0.16" />
+            <stop offset="100%" stopColor="#e8a33d" stopOpacity="0" />
+          </radialGradient>
+        </defs>
+
         <rect width="600" height="460" rx="14" className="fill-bone/3" />
 
         {/* Road grid — a whisper. It is context, not content. */}
@@ -196,10 +204,16 @@ function MapPlate({ featured }: { featured: typeof LANDMARKS }) {
           const cy = (landmark.y / 100) * 460;
           return (
             <g key={landmark.name}>
-              {/* Every destination is a lit point. Amber emits; that is the
-                  only job it has anywhere on this site. */}
-              <circle cx={cx} cy={cy} r={13} className="fill-amber/18" />
-              <circle cx={cx} cy={cy} r={4.5} className="fill-amber" />
+              {/* Every destination is a lit point: a brick dot with light
+                  coming off it.
+
+                  The halo used to be a flat `fill-amber/18` disc, which is a
+                  fill — and amber may only ever be light. Drawn as a real
+                  radial gradient it is both honest and better: a hard-edged
+                  18% disc reads as a second ring around the pin, where a
+                  gradient reads as glow. */}
+              <circle cx={cx} cy={cy} r={15} fill="url(#pin-glow)" />
+              <circle cx={cx} cy={cy} r={4.5} className="fill-brick" />
               <text
                 x={cx}
                 y={cy - 18}
@@ -225,7 +239,7 @@ function MapPlate({ featured }: { featured: typeof LANDMARKS }) {
           something written on the map; the same words in the UI sans read as
           a data field. */}
       <span
-        className="hand pointer-events-none absolute top-[36%] left-[52%] text-hand-sm whitespace-nowrap text-amber-hot"
+        className="hand pointer-events-none absolute top-[36%] left-[52%] text-hand-sm whitespace-nowrap text-brick-light"
         style={{ ["--hand-tilt" as string]: "-24deg" }}
       >
         15 min shuttle

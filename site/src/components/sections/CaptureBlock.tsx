@@ -66,12 +66,11 @@ export function CaptureBlock({
           should look like it continues past its frame; a *destination* that
           runs off the edge is not a destination.
 
-          And it is lit. Brick is the ink the other three are drawn in — the
-          route as something marked on a map — where this one is amber at full
-          strength, the site's one light source, spending itself in the one
-          place it is worth spending. The X stays in sand: on the night
-          surface sand is what ink is, and a mark that glows would be a second
-          light source competing with the arrival it is marking.
+          And it is lit. The other segments are drawn in the brand red at
+          just over half strength, or in chalk on the dark tiers; this one is
+          the lightened red at full strength. The route deepens the whole way
+          down the page and brightens once, here. The X is Light Grey — a
+          destination mark reads as ink on the map, not as more route.
 
           It sits at `z-1` — above the render and its gradient, below the
           content at `z-2`. In front of the section's own art is as far
@@ -121,7 +120,7 @@ export function CaptureBlock({
 function Stat({ value, label }: { value: string | number; label: string }) {
   return (
     <div>
-      <dd className="font-display text-stat tnum text-amber">
+      <dd className="font-display text-stat tnum text-brick-light">
         {typeof value === "number" ? value.toLocaleString() : value}
       </dd>
       <dt className="mt-3 font-sans text-eyebrow text-grey/75 uppercase">

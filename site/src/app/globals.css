@@ -9,14 +9,48 @@
 
    Two rules govern the whole palette and neither may be broken:
 
-     1. AMBER IS LIGHT. BRICK IS MATERIAL.
-        Amber only ever appears as something *emitting* — a glow, a lit
-        window, the sun-circle, a hover flare, the active state of a control.
-        It never fills a large flat shape. Brick only ever appears as
-        something *built* — eyebrow squares, the map marker, primary button
-        fill, the trail. It never glows. The moment amber starts filling
-        panels or brick starts glowing there are two competing accents and the
-        page has lost its light source.
+     1. BRICK IS THE OBJECT. AMBER IS THE LIGHT.
+        Brick — the brand red, #B8433D straight out of the brand file — is
+        every *thing*: it fills, it strokes, it borders, and it sets type.
+        Amber is only ever the *light coming off* a thing: it may appear in a
+        `box-shadow` or a `radial-gradient` and nowhere else. Not a fill, not
+        a stroke, not a border, not a colour on text.
+
+        This is stricter than the rule it replaces, which let amber own the
+        sun-circle, the submit button and most of the annotations. Two greps
+        enforce it:
+
+          rg "(text|bg|border|fill|stroke|decoration)-amber"   → 0
+          rg "shadow[^\"]*(b8433d|color-brick)"                → 1
+
+        The second returns exactly one line, `--shadow-focus-rule`, and that
+        is correct rather than a leak. It is `0 2px 0 0` — no blur, no
+        spread, nothing lifted — a hairline that is cheapest to express as a
+        shadow. The rule is about what amber may *be*, not about which CSS
+        property it happens to be written in, and a border does not become
+        light by being implemented as a box-shadow. Any other hit is a bug.
+
+        A red object inside a warm halo is physically coherent — a glow is
+        always warmer and lighter than its source, which is what a lamp
+        behind a red shade does. It only reads as a hazard sign if the
+        transition is abrupt, which is what the 1px warm rim on `.sun-circle`
+        exists to prevent.
+
+     1b. BRICK DOES NOT WORK AS SMALL TEXT ON DARK, and no amount of wanting
+        it to will change the arithmetic. Brick measures 3.46 on night and
+        3.24 on espresso, against the 4.5 that WCAG AA requires under 24px —
+        where the amber it replaces measured 8.61 and 8.07. So the swap has
+        three destinations, not one, and all three are brand-legal:
+
+          shapes, and text ≥24px          → brick        #B8433D
+          text <24px on a light surface   → brick        #B8433D  (5.24 ✅)
+          text <24px on a dark surface    → light-grey   #E5E6E6  (14.86 ✅)
+                                          or brick-light #CC6B66  (4.86 ✅)
+
+        Light Grey is the brand's own third colour. Brick-light is not a new
+        colour: it is #B8433D with hue and saturation held and lightness
+        raised from 0.48 to 0.60, and it exists so an accent that has to be
+        *red* rather than merely legible still clears AA on the dark tiers.
 
      2. THE SURFACES ARE WARM, NOT NEUTRAL.
         The old base dark was #3E3D3D, which is not a colour — it is the
@@ -38,11 +72,16 @@
   --color-paper: #f6f2ee;      /* [KEEP]                                   */
   --color-bone: #fdfcfb;       /* [KEEP]                                   */
 
-  /* --- light — one source. Amber emits; brick is built. ---------------- */
-  --color-amber: #e8a33d;      /* lamplight. Glows, sun-circle, accents.   */
-  --color-amber-hot: #ffb84d;  /* HOVER ONLY. Never a resting state.       */
-  --color-brick: #b8433d;      /* [KEEP] structural/brand                  */
-  --color-brick-dark: #9c352f; /* [KEEP]                                   */
+  /* --- the brand, from Logos and Branding.pdf -------------------------- */
+  --color-brick: #b8433d;      /* THE brand red. Fills, strokes, sets type */
+  --color-brick-dark: #9c352f; /* hover — a red gains energy by deepening  */
+  --color-brick-light: #cc6b66;/* the same red, lightened for small text
+                                  on the dark tiers. 4.86 on espresso.     */
+  --color-light-grey: #e5e6e6; /* brand grey. Small text on dark: 14.86.   */
+
+  /* --- light. Shadows and gradients ONLY — see rule 1 above. ----------- */
+  --color-amber: #e8a33d;      /* the halo. Never fills, strokes or types. */
+  --color-amber-hot: #ffb84d;  /* the hover flare. Same restriction.       */
 
   /* --- ink — warmed off neutral to match the surfaces ------------------ */
   --color-ink: #241d1a;
@@ -160,10 +199,16 @@
   --shadow-flare: 0 0 150px 10px rgb(255 184 77 / var(--flare-strength, 0.55));
   --shadow-lift: 0 24px 50px 5px rgb(23 18 16 / 0.4);         /* chrome only */
 
-  /* Not an elevation: the 2px amber rule an input draws under itself on
-     focus (§5.9). It is a hairline that happens to be cheapest as a shadow —
-     there is no blur, no offset and nothing is lifted. */
-  --shadow-focus-rule: 0 2px 0 0 var(--color-amber);
+  /* Not an elevation, and not light either: the 2px rule an input draws
+     under itself on focus (§5.9). It is a hairline that happens to be
+     cheapest as a shadow — no blur, no offset, nothing lifted — so the
+     amber-lives-only-in-shadows rule does not apply to it and it takes the
+     object colour like any other border.
+
+     Brick-light rather than brick, because this indicator has to clear 3:1
+     against every surface it lands on and brick measures 2.83 on `bark`,
+     which is exactly the surface the Register form panel is made of. */
+  --shadow-focus-rule: 0 2px 0 0 var(--color-brick-light);
 
   /* --- motion --- */
   --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
@@ -247,16 +292,20 @@
     color: #fff;
   }
 
-  /* Every interactive element gets a visible keyboard focus state. Amber
-     because it is the only accent that holds against both the light surfaces
-     and the night/espresso ones — brick disappears into the dark tiers.
-     
+  /* Every interactive element gets a visible keyboard focus state.
+  
+     Brick-light, and it is the only one of the four reds that works. A focus
+     ring has to clear 3:1 against whatever it happens to land on, and this
+     one lands on everything from `bone` to `night`. Brick fails on `bark`
+     at 2.83; amber — which this used to be — fails on every light surface at
+     2.11, so the ring was invisible on more than half the page. Brick-light
+     is 3.48 at its worst (on bone) and 5.28 at its best.
+
      The Pass 1 note about "no focus ring glow" on the form inputs was about
      the *glow*, not about removing focus indication: those inputs draw a 2px
-     amber rule instead, which is the same signal in the section's own
-     language. */
+     rule instead, which is the same signal in the section's own language. */
   :focus-visible {
-    outline: 2px solid var(--color-amber);
+    outline: 2px solid var(--color-brick-light);
     outline-offset: 3px;
     border-radius: var(--radius-xs);
   }
@@ -807,7 +856,16 @@
   /* ---- The sun-circle (§5.1.4). ----------------------------------------
      The single light source above the fold, and the element the page was most
      conspicuously missing. Sized in `ch` so the circle grows with its label
-     rather than needing a magic pixel width. Maximum two per page. */
+     rather than needing a magic pixel width. Maximum two per page.
+
+     The disc is the brand red and the halo around it stays amber, and the
+     two are bridged by a 1px warm rim. That rim is the whole trick. A flat
+     red disc dropped onto a yellow smudge reads as a hazard sign; the same
+     disc with a hairline of the halo's own colour around its edge reads as
+     a lit object, because that is what light does at the boundary of the
+     thing emitting it. Without the rim this component looks like a mistake.
+
+     Night on brick measures 2.62 and fails, so the label is white: 5.37. */
   .sun-circle {
     display: grid;
     place-items: center;
@@ -816,9 +874,11 @@
     padding: 1rem;
     border: 1px solid rgb(255 255 255 / 0.3);
     border-radius: var(--radius-full);
-    background: var(--color-amber);
-    color: var(--color-night);
-    box-shadow: var(--shadow-glow);
+    background: var(--color-brick);
+    color: #fff;
+    box-shadow:
+      var(--shadow-glow),
+      0 0 0 1px rgb(232 163 61 / 0.3);
     font-family: var(--font-sans);
     font-size: clamp(0.8rem, 1.2vw, 1rem);
     font-weight: 700;
@@ -839,15 +899,27 @@
     height: 13ch;
   }
 
+  /* Hover stays amber, and stays light: the flare is the lamp brightening,
+     not the object changing colour. The rim rides along at full strength so
+     the fill never separates from the glow mid-transition. */
   .sun-circle:hover,
   .sun-circle:focus-visible {
-    box-shadow: var(--shadow-flare);
+    box-shadow:
+      var(--shadow-flare),
+      0 0 0 1px rgb(255 184 77 / 0.5);
     transform: rotate(calc(var(--sun-tilt, -14deg) / 2));
   }
 
   /* ---- Glass. Floating chrome only — never on content. ------------------ */
+
+  /* The nav pill floats over everything from the espresso hero to the bone
+     About page, and its label colours have to clear AA against all of it.
+     At 94% over a light section the backdrop lifted far enough that the
+     active link — brick-light at 15px — measured 4.13 against a 4.5
+     requirement. Night at 97% holds the pill within a point of solid on
+     every surface; the blur still does the work of reading as glass. */
   .chrome-glass {
-    background: rgb(30 25 23 / 0.94);
+    background: rgb(23 18 16 / 0.97);
     backdrop-filter: blur(10px);
   }
 

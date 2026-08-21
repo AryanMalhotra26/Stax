@@ -13,7 +13,7 @@ import { SITE } from "@/lib/site";
  * overlapped before they were even large enough.
  */
 const FOOTER_LINK =
-  "block rounded-xs py-2.5 text-grey/75 transition-colors duration-150 ease-[var(--ease-out-soft)] hover:text-amber";
+  "block rounded-xs py-2.5 text-grey/75 transition-colors duration-150 ease-[var(--ease-out-soft)] hover:text-brick-light";
 
 export function Footer() {
   const year = new Date().getFullYear();
@@ -29,7 +29,7 @@ export function Footer() {
                 the X beside the Register form — this is the page saying
                 goodbye rather than the walk arriving. */}
             <p
-              className="hand mt-4 text-hand text-amber"
+              className="hand mt-4 text-hand text-brick-light"
               style={{ ["--hand-tilt" as string]: "-2deg" }}
             >
               see you in september.
@@ -45,7 +45,7 @@ export function Footer() {
                 href={SITE.developer.url}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="-my-2 inline-block py-2 text-grey/75 underline underline-offset-4 transition-colors duration-150 ease-[var(--ease-out-soft)] hover:text-amber"
+                className="-my-2 inline-block py-2 text-grey/75 underline underline-offset-4 transition-colors duration-150 ease-[var(--ease-out-soft)] hover:text-brick-light"
               >
                 {SITE.developer.name}
               </a>{" "}
@@ -115,13 +115,13 @@ export function Footer() {
           <div className="flex gap-6">
             <Link
               href="/privacy"
-              className="-mx-2 -my-3 inline-block rounded-xs px-2 py-3 transition-colors duration-150 ease-[var(--ease-out-soft)] hover:text-amber"
+              className="-mx-2 -my-3 inline-block rounded-xs px-2 py-3 transition-colors duration-150 ease-[var(--ease-out-soft)] hover:text-brick-light"
             >
               Privacy
             </Link>
             <Link
               href="/terms"
-              className="-mx-2 -my-3 inline-block rounded-xs px-2 py-3 transition-colors duration-150 ease-[var(--ease-out-soft)] hover:text-amber"
+              className="-mx-2 -my-3 inline-block rounded-xs px-2 py-3 transition-colors duration-150 ease-[var(--ease-out-soft)] hover:text-brick-light"
             >
               Terms
             </Link>
@@ -149,7 +149,10 @@ function FooterColumn({
     <div>
       {/* Not an <h2>: these are navigation labels, not document headings, and
           an 11px high-contrast serif goes muddy — the hairlines drop out. */}
-      <p className="font-sans text-eyebrow font-semibold uppercase text-amber">
+      {/* 11px on `night`. The brand red measures 3.46 here and needs 4.5, so
+          the column headings take Light Grey — the brand's own third colour,
+          at 14.86. */}
+      <p className="font-sans text-eyebrow font-semibold uppercase text-light-grey">
         {title}
       </p>
       {/* The row gap is small because the links carry their own. Each one

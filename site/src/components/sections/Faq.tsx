@@ -124,14 +124,15 @@ function Item({ faq, n }: { faq: Faq; n: number }) {
           {faq.question}
         </h3>
 
-        {/* Plus rotates 45° into a cross; the circle fills amber when open —
-            the lamp coming on beside the answer. */}
+        {/* Plus rotates 45° into a cross; the circle fills with the brand
+            red when open. The cross flips to white with it — ink on brick
+            measures 2.4 and would vanish at 1.5px. */}
         <span
           aria-hidden="true"
-          className="relative grid h-8 w-8 shrink-0 place-items-center rounded-full border border-line transition-[background-color,border-color] duration-300 group-open:border-transparent group-open:bg-amber"
+          className="relative grid h-8 w-8 shrink-0 place-items-center rounded-full border border-line transition-[background-color,border-color] duration-300 group-open:border-transparent group-open:bg-brick"
         >
-          <span className="absolute h-[1.5px] w-3.5 bg-ink transition-transform duration-300 ease-[var(--ease-out-expo)] group-open:rotate-45 group-open:bg-night" />
-          <span className="absolute h-[1.5px] w-3.5 rotate-90 bg-ink transition-transform duration-300 ease-[var(--ease-out-expo)] group-open:rotate-45 group-open:bg-night" />
+          <span className="absolute h-[1.5px] w-3.5 bg-ink transition-transform duration-300 ease-[var(--ease-out-expo)] group-open:rotate-45 group-open:bg-white" />
+          <span className="absolute h-[1.5px] w-3.5 rotate-90 bg-ink transition-transform duration-300 ease-[var(--ease-out-expo)] group-open:rotate-45 group-open:bg-white" />
         </span>
       </summary>
 

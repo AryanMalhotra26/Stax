@@ -55,7 +55,7 @@ export function PlanSelector({
                 className={`shrink-0 min-h-11 rounded-full border px-5 text-[0.9375rem] font-medium transition-colors duration-150 ease-[var(--ease-out-soft)] ${
                   active
                     ? "border-ink bg-ink text-bone"
-                    : "border-ink/20 bg-transparent text-ink hover:border-amber hover:text-brick"
+                    : "border-ink/20 bg-transparent text-ink hover:border-brick hover:text-brick"
                 }`}
               >
                 {f.label}

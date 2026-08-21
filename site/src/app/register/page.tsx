@@ -157,7 +157,11 @@ function Step({ n, title, body }: { n: string; title: string; body: string }) {
   return (
     <li>
       <div className="flex items-center gap-3 border-b border-sand/15 pb-3">
-        <span className="text-eyebrow tnum text-brick">{n}</span>
+        {/* Light Grey on the numeral, brick on the mark beside it. Same
+            rule as everywhere: 11px of the brand red on a dark surface is
+            3.09 against a 4.5 requirement, but a 6px square is a shape and
+            has no contrast requirement at all. */}
+        <span className="text-eyebrow tnum text-light-grey">{n}</span>
         <span className="h-1.5 w-1.5 bg-brick" aria-hidden="true" />
       </div>
       <h2 className="text-h3 mt-5 text-bone">{title}</h2>

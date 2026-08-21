@@ -55,21 +55,41 @@
  */
 
 /**
- * Stroke language.
+ * Stroke language. Three tones, and none of them is amber.
  *
- * Amber is light and brick is material (§ palette rule 1), and a route drawn
- * on a map is neither — so the tone is chosen by surface, not by meaning.
- * Brick is the ink of the light sections; on the dark tiers brick at 55% goes
- * muddy against espresso, so sand stands in as ink there.
+ * The route is an object — a line drawn on a map — so it takes the object
+ * colour, and under the palette's first rule amber cannot appear in a stroke
+ * at all. What changes across the three tones is not the hue but how much of
+ * it there is, which is how a drawn line behaves anyway.
  *
- * `lit` is the exception, and it exists exactly once: the final segment
- * arrives at the Register form in amber at full strength. One colour change,
- * once, at the point of conversion — the same trick as the sun-circle hover.
+ * `ink` is the brand red at just over half strength, for the light sections.
+ * Full-strength brick on bone is the loudest thing on the page and a large
+ * part of why the old line grated.
+ *
+ * `chalk` is Light Grey, the brand's third colour, at 35%. Brick on the dark
+ * tiers goes muddy — 2.83 on bark, 1.18 on taupe — and a route you have to
+ * hunt for is not wayfinding. A pale line on a dark ground also happens to
+ * be exactly what chalk on a slate map looks like.
+ *
+ * `lit` is the arrival, and it exists exactly once. It is still red, just
+ * the lightened one, at full strength: the route deepens all the way down
+ * the page and then brightens at the point of conversion. That beat used to
+ * be carried by switching to amber, which the brand change rules out — and
+ * keeping it inside the red family is the better version of the idea, since
+ * a route that changes hue at the end reads as a different route.
  */
 const TONES = {
   ink: { stroke: "var(--color-brick)", opacity: 0.55, mark: "var(--color-ink)" },
-  chalk: { stroke: "var(--color-sand)", opacity: 0.4, mark: "var(--color-sand)" },
-  lit: { stroke: "var(--color-amber)", opacity: 1, mark: "var(--color-sand)" },
+  chalk: {
+    stroke: "var(--color-light-grey)",
+    opacity: 0.35,
+    mark: "var(--color-light-grey)",
+  },
+  lit: {
+    stroke: "var(--color-brick-light)",
+    opacity: 1,
+    mark: "var(--color-light-grey)",
+  },
 } as const;
 
 export type TrailTone = keyof typeof TONES;
@@ -240,12 +260,12 @@ export function TrailSegment({
           it lands exactly on the terminus at every viewport width rather
           than being positioned against it and drifting.
 
-          It takes the tone's `mark` colour rather than its stroke. On the
-          night surface at Register the route is amber — it is arriving, and
-          arriving is the one thing on this site worth lighting — but the X
-          is sand, because sand is what ink is on a dark surface. A mark that
-          glowed would be a second light source competing with the very
-          thing it marks.
+          It takes the tone's `mark` colour rather than its stroke. At
+          Register the route arrives in the lightened brand red; the X itself
+          is Light Grey, because a destination mark should read as ink on the
+          map rather than as more of the route. It is also the highest
+          contrast thing in that corner at 14.86, which is correct for the
+          one X on the site.
 
           Two crossed strokes rather than a glyph, and neither is straight —
           each has a slight bow, because a hand does not draw a straight
