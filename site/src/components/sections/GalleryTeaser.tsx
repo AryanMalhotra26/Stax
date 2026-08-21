@@ -3,7 +3,6 @@ import { Render } from "@/components/ui/Render";
 import { Eyebrow } from "@/components/ui";
 import { Reveal } from "@/components/motion/Reveal";
 import { SplitWords } from "@/components/motion/SplitWords";
-import { Seam } from "@/components/ui/Edge";
 import { MagneticLabel } from "@/components/motion/MagneticLabel";
 import { media } from "@/content/generated/media";
 
@@ -35,8 +34,11 @@ export function GalleryTeaser() {
     <section
       className="relative overflow-clip bg-night text-grey section-y"
     >
-      <Seam edge="top" color="espresso" size="16%" />
-      <Seam edge="bottom" color="linen" size="18%" />
+      {/* No strips. The band above already dissolves espresso into night,
+          and the linen strip that used to sit at the bottom of this section
+          was the worst seam on the site: it finished a near-black section in
+          cream, directly above a light section that opened in near-black.
+          Commitments now owns that boundary from its own top edge. */}
 
       <div className="container-stax relative z-2">
         <div className="relative border-t border-sand/15 pt-5 md:pt-6">

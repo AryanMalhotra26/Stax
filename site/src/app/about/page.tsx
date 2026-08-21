@@ -105,9 +105,18 @@ export default function AboutPage() {
               </Reveal>
 
               <Reveal delay={0.1} className="lg:pt-4">
-                <h3 className="text-eyebrow uppercase text-grey/75">
+                {/* A <p>, not an <h3>.
+                
+                    The base layer sets every h1-h4 in Instrument Serif, so an
+                    <h3> at `text-eyebrow` rendered an 11px high-contrast
+                    display serif — a face whose hairlines simply disappear at
+                    that size. It was also wrong semantically: this is a label
+                    on a list, not a section heading, and it put a bare rung on
+                    the document outline. Same bug as the footer column
+                    headings. */}
+                <p className="font-sans text-eyebrow uppercase text-grey/75">
                   Built across
-                </h3>
+                </p>
                 <ul className="mt-6 border-t border-sand/10">
                   {ABOUT_EXPERIENCE.assetClasses.map((item, i) => (
                     <li
@@ -236,12 +245,21 @@ export default function AboutPage() {
                       )}
                     </div>
                     <div>
+                      {/* The badge needs a real space in front of it, not
+                          just a margin. `ml-3` separates it visually but the
+                          text content still concatenates — a screen reader
+                          reads "Registration opensNow", and so does anything
+                          else that extracts text, including search engines
+                          and the social preview crawlers. */}
                       <h3 className="text-h3">
                         {item.title}
                         {item.state === "current" && (
-                          <span className="ml-3 text-eyebrow uppercase text-brick align-middle">
-                            Now
-                          </span>
+                          <>
+                            {" "}
+                            <span className="ml-3 align-middle text-eyebrow text-brick uppercase">
+                              Now
+                            </span>
+                          </>
                         )}
                       </h3>
                       <p className="mt-2 text-ink-soft max-w-xl">{item.body}</p>

@@ -62,8 +62,13 @@ export function Assurance() {
     <section
       className="relative overflow-clip bg-linen section-y"
     >
-      <Seam edge="top" color="night" size="14%" />
-      <Seam edge="bottom" color="bone" size="16%" />
+      {/* The single strip for the site's second-biggest jump, Δ 0.75 from
+          night to linen. `lg` because at 14% of this section it was still a
+          visible edge — the eye needs distance in proportion to the tonal
+          gap, and 24rem is the shortest ramp that absorbs this one.
+
+          No bottom strip: the FAQ paints its own top edge in linen. */}
+      <Seam edge="top" color="night" size="lg" />
 
       {/* The ground the route is drawn on (§ map vocabulary).
       

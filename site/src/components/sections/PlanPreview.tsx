@@ -48,8 +48,15 @@ const NOTES: Record<number, string> = {
 export function PlanPreview() {
   return (
     <section className="relative overflow-clip bg-paper section-y">
-      <Seam edge="top" color="bone" size="14%" />
-      <Seam edge="bottom" color="espresso" size="20%" />
+      {/* Entered from bone, so bone bleeds in here — and nowhere else. The
+          Idea section used to paint the same join from its own bottom edge in
+          paper, so the two ramps met and inverted.
+
+          No bottom strip: the image band below carries its own
+          paper → transparent → espresso gradient, which already completes the
+          transition. A second one on this side gave that boundary five
+          luminance reversals in 440px, the worst on the page. */}
+      <Seam edge="top" color="bone" size="sm" />
 
       <div className="container-stax relative z-2">
         <div className="relative border-t border-ink/15 pt-5 md:pt-6">

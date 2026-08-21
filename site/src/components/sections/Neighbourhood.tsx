@@ -1,6 +1,5 @@
 import { SectionHead } from "@/components/ui";
 import { Reveal } from "@/components/motion/Reveal";
-import { Seam } from "@/components/ui/Edge";
 import { ArtCompass } from "@/components/ui/LineArt";
 import {
   FOOD_NEARBY,
@@ -33,8 +32,9 @@ export function Neighbourhood() {
     <section
       className="relative overflow-clip bg-espresso text-grey section-y"
     >
-      <Seam edge="top" color="espresso" size="12%" />
-      <Seam edge="bottom" color="night" size="18%" />
+      {/* Neither end needs one. Above is the walkthrough, also espresso —
+          bleeding espresso into espresso paints nothing. Below is an image
+          band that already ends in night. */}
 
       <div className="container-stax relative z-2">
         <SectionHead

@@ -1,7 +1,6 @@
 import { Render } from "@/components/ui/Render";
 import { Reveal, CountUp } from "@/components/motion/Reveal";
 import { SplitWords } from "@/components/motion/SplitWords";
-import { Seam } from "@/components/ui/Edge";
 import { ArtArrow, ArtDoor, ArtKey, ArtSignpost } from "@/components/ui/LineArt";
 import { media } from "@/content/generated/media";
 import { SITE } from "@/lib/site";
@@ -52,7 +51,16 @@ export function Positioning() {
       id="main-story"
       className="relative overflow-clip bg-bone section-y"
     >
-      <Seam edge="bottom" color="paper" size="18%" />
+      {/* No bleed at either end.
+
+          Above: the hero already tears into this section with a `TornEdge`,
+          which IS the transition — an irregular edge the eye reads as
+          material. A gradient underneath it would run dark→light→dark→light
+          in 300px, which is the strobe this rule exists to remove. The
+          biggest tonal jump on the page deserves one strong device, not two
+          competing ones.
+
+          Below: Floor Plans carries the bone bleed on its own top edge. */}
 
       <div className="container-stax relative z-2">
         {/* The section's one annotation. Lowercase, rotated, in a student's

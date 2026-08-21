@@ -57,7 +57,11 @@ export default function ResidencesPage() {
 
         <ResidencesClient />
 
-        <FaqSection tone="paper" heading="Before you ask" />
+        <FaqSection
+          tone="paper"
+          heading="Before you ask,"
+          quiet="the questions the plans raise most."
+        />
       </main>
       <Footer />
 
