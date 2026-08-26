@@ -89,7 +89,43 @@ const CATALOG = [
     file: "PÓS_SITE PLAN.jpg",
     slug: "site-plan",
     category: "neighbourhood",
-    alt: "Aerial site plan showing the eight Stax residential blocks arranged around landscaped courtyards and surface parking.",
+    alt: "Aerial site plan showing the Stax residential blocks arranged around landscaped courtyards and surface parking.",
+  },
+
+  /* ---- Added from the developer's asset drop, Aug 2026 ----------------- */
+
+  {
+    // The cross-section, and the single most explanatory image in the set:
+    // it shows the stacked-townhouse form in one frame — basement walkout,
+    // ground, second and third — which is the thing the whole site argues
+    // for and has so far only described in words.
+    file: "DOLL HOUSE.jpg",
+    slug: "cutaway",
+    category: "exterior",
+    alt: "Cutaway cross-section through a Stax block showing four levels of stacked townhouse suites — a basement walkout, a ground-floor suite, and a two-storey suite above — each fully furnished.",
+  },
+  /* NOT ENABLED — "SITE PLAN.jpg" (9054x6700), a second and much cleaner
+     overhead than PÓS_SITE PLAN. The source sits in ../Images ready to go,
+     but nothing references it yet and generating four widths of an unused
+     image is 1.5MB of upload nothing ever requests. Re-enable it with the
+     Section 03 rebuild, where the plan is for the map to go full-bleed and
+     become the section background — this is the image for that. */
+  {
+    // A real photograph, not a render — drone, 19 June 2024. The
+    // neighbourhood section argues that everything is close by and until now
+    // contained no evidence the neighbourhood exists.
+    file: "NEIGHBOURHOOD AERIAL.jpg",
+    slug: "neighbourhood-aerial",
+    category: "neighbourhood",
+    alt: "Aerial photograph looking along Welland Avenue in St. Catharines, with the commercial strip, plazas and residential streets that surround the Stax site.",
+  },
+  {
+    // The shuttle exists and here it is. Three sections of the site promise
+    // it; the commitments card illustrating it was a line-art wifi symbol.
+    file: "STAX SHUTTLE.png",
+    slug: "shuttle",
+    category: "amenity",
+    alt: "The Stax shuttle — a red minibus with the Stax logo and “Student Living Reimagined” on the side, parked on a sunny afternoon.",
   },
 ];
 

@@ -236,7 +236,7 @@ export const MEDIA = [
     "id": "site-plan",
     "slug": "site-plan",
     "category": "neighbourhood",
-    "alt": "Aerial site plan showing the eight Stax residential blocks arranged around landscaped courtyards and surface parking.",
+    "alt": "Aerial site plan showing the Stax residential blocks arranged around landscaped courtyards and surface parking.",
     "width": 4527,
     "height": 3350,
     "variants": {
@@ -254,6 +254,71 @@ export const MEDIA = [
       }
     },
     "placeholder": "data:image/webp;base64,UklGRnIAAABXRUJQVlA4IGYAAADwAwCdASoUAA8APzmEuVOvKKWisAgB4CcJQBOmUABYOzliUx5pFcxgAP6EWrkzbQ6gUrCcjYOtKzzbgziFt/86jXoVRcy188EBj02khR40gKDOPxxx27y8dmzbJtQaTugY9bsAAAA="
+  },
+  {
+    "id": "cutaway",
+    "slug": "cutaway",
+    "category": "exterior",
+    "alt": "Cutaway cross-section through a Stax block showing four levels of stacked townhouse suites — a basement walkout, a ground-floor suite, and a two-storey suite above — each fully furnished.",
+    "width": 11504,
+    "height": 6456,
+    "variants": {
+      "avif": {
+        "640": "/renders/cutaway-640.avif",
+        "1024": "/renders/cutaway-1024.avif",
+        "1600": "/renders/cutaway-1600.avif",
+        "2400": "/renders/cutaway-2400.avif"
+      },
+      "webp": {
+        "640": "/renders/cutaway-640.webp",
+        "1024": "/renders/cutaway-1024.webp",
+        "1600": "/renders/cutaway-1600.webp",
+        "2400": "/renders/cutaway-2400.webp"
+      }
+    },
+    "placeholder": "data:image/webp;base64,UklGRnIAAABXRUJQVlA4IGYAAADQAwCdASoUAAsAPzmGuVOvKSWisAgB4CcJQAAKMJSpNMCit4rrYcAA/o4Zx+8AVKCat7yBSgOHzmXuSpu+J/4XCLXavaewIHO8/viAr555OSRJeMeXXhOQILMHrQYyh4N/kyFAAAA="
+  },
+  {
+    "id": "neighbourhood-aerial",
+    "slug": "neighbourhood-aerial",
+    "category": "neighbourhood",
+    "alt": "Aerial photograph looking along Welland Avenue in St. Catharines, with the commercial strip, plazas and residential streets that surround the Stax site.",
+    "width": 5272,
+    "height": 3948,
+    "variants": {
+      "avif": {
+        "640": "/renders/neighbourhood-aerial-640.avif",
+        "1024": "/renders/neighbourhood-aerial-1024.avif",
+        "1600": "/renders/neighbourhood-aerial-1600.avif",
+        "2400": "/renders/neighbourhood-aerial-2400.avif"
+      },
+      "webp": {
+        "640": "/renders/neighbourhood-aerial-640.webp",
+        "1024": "/renders/neighbourhood-aerial-1024.webp",
+        "1600": "/renders/neighbourhood-aerial-1600.webp",
+        "2400": "/renders/neighbourhood-aerial-2400.webp"
+      }
+    },
+    "placeholder": "data:image/webp;base64,UklGRmwAAABXRUJQVlA4IGAAAADQAwCdASoUAA8APzmGuVOvKSWisAgB4CcJYwCsACHettgQi3RdxQAA/eJO2BEMOAKSMmUoS79yXbt163Wd9D9fJBwBy0JKKc7p+y5DHLmrMzgRy7dpfUHP82yvGiUBZAA="
+  },
+  {
+    "id": "shuttle",
+    "slug": "shuttle",
+    "category": "amenity",
+    "alt": "The Stax shuttle — a red minibus with the Stax logo and “Student Living Reimagined” on the side, parked on a sunny afternoon.",
+    "width": 1524,
+    "height": 920,
+    "variants": {
+      "avif": {
+        "640": "/renders/shuttle-640.avif",
+        "1024": "/renders/shuttle-1024.avif"
+      },
+      "webp": {
+        "640": "/renders/shuttle-640.webp",
+        "1024": "/renders/shuttle-1024.webp"
+      }
+    },
+    "placeholder": "data:image/webp;base64,UklGRnQAAABXRUJQVlA4IGgAAAAwBACdASoUAAwAPzmEuVOvKKWisAgB4CcJaAC7ACHuxi3k8BNKj/nc4AAA8mgnxLbKc4W3GnOPZABZ36oidZTz1g6yCfRZ7saAUL0HhCpC3sIKsouMFpTglcP26jnvgLYWfd7VdAAAAA=="
   }
 ] as const satisfies readonly Media[];
 

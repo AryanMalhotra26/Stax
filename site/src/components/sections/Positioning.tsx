@@ -165,15 +165,44 @@ export function Positioning() {
 
         {/* The argument, stated before the two cards rather than after them.
             It was centred, low-contrast and sitting underneath — which made
-            the section's actual thesis read as a footnote to its examples. */}
-        <Reveal delay={0.08}>
-          <p className="mt-10 max-w-[52ch] text-lead text-ink-soft md:mt-14">
-            Stax is {SITE.facts.blocks} purpose-built blocks in a
-            stacked-townhouse form — private entries, real kitchens, balconies —
-            with a complimentary shuttle that removes the reason anyone puts up
-            with the alternative.
-          </p>
-        </Reveal>
+            the section's actual thesis read as a footnote to its examples.
+
+            It now sits beside the cutaway, because "stacked-townhouse form"
+            is the one phrase on this page that a reader cannot picture from
+            words. The cross-section shows it in a single frame — a basement
+            walkout, a ground-floor suite, and a two-storey suite stacked on
+            top, each with its own front door — and it makes the paragraph's
+            claim checkable rather than assertable. */}
+        <div className="mt-10 grid items-center gap-8 md:mt-14 lg:grid-cols-[minmax(0,42ch)_1fr] lg:gap-14">
+          <Reveal delay={0.08}>
+            <p className="text-lead text-ink-soft">
+              Stax is {SITE.facts.blocks} purpose-built blocks in a
+              stacked-townhouse form — private entries, real kitchens,
+              balconies — with a complimentary shuttle that removes the reason
+              anyone puts up with the alternative.
+            </p>
+          </Reveal>
+
+          <Reveal delay={0.12}>
+            {/* The crop lives on an inner element, not on the <figure>.
+                With `overflow-clip` and a radius on the figure itself the
+                caption is inside the clip box, and the rounded corner shaves
+                the first character off it. */}
+            <figure>
+              <div className="sd-mask relative overflow-clip rounded-md">
+                <Render
+                  media={media("cutaway")}
+                  sizes="(max-width: 1023px) 100vw, 58vw"
+                  className="block w-full"
+                  imgClassName="h-full w-full object-cover"
+                />
+              </div>
+              <figcaption className="mt-3 font-sans text-eyebrow text-ink-faint uppercase">
+                One block, cut through
+              </figcaption>
+            </figure>
+          </Reveal>
+        </div>
 
         {/* ---- The two concerns ---------------------------------------- */}
         <div className="mt-10 grid items-stretch gap-6 md:mt-14 md:grid-cols-2 md:gap-8">

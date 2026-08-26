@@ -1,4 +1,6 @@
 import { SectionHead } from "@/components/ui";
+import { Render } from "@/components/ui/Render";
+import { media } from "@/content/generated/media";
 import { Reveal } from "@/components/motion/Reveal";
 import { ArtCompass } from "@/components/ui/LineArt";
 import {
@@ -93,6 +95,28 @@ export function Neighbourhood() {
             >
               you will use the Starbucks more than the library
             </p>
+
+            {/* A photograph, and the first one this section has ever had.
+            
+                Every other section on the page is imagery-led; this one
+                argued that everything is close by using a table and a
+                schematic, and contained no evidence the neighbourhood
+                exists. This is Welland Avenue from the air — the plazas, the
+                strip, the streets behind it — shot in June 2024. A drawn map
+                shows where things are; a photograph shows what it is like. */}
+            <figure className="mt-10">
+              <div className="overflow-clip rounded-md">
+                <Render
+                  media={media("neighbourhood-aerial")}
+                  sizes="(max-width: 1023px) 100vw, 42vw"
+                  className="sd-drift block w-full"
+                  imgClassName="h-full w-full object-cover"
+                />
+              </div>
+              <figcaption className="mt-3 font-sans text-xs tracking-wide text-grey/75 uppercase">
+                Welland Avenue, looking east
+              </figcaption>
+            </figure>
           </Reveal>
 
           <Reveal delay={0.1}>

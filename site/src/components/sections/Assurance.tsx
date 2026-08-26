@@ -37,18 +37,25 @@ const COMMITMENTS = [
   {
     title: "The shuttle is included",
     body: "Round-trip to Brock, in the rent. Not a discounted pass, not a partner service you pay separately — included.",
+    // The shuttle exists and there is a photograph of it, so the card shows
+    // the photograph. It was illustrated with a wifi symbol — line art picked
+    // from the set for its shape rather than its meaning, on the one card
+    // that could be proved rather than asserted.
+    photo: "shuttle",
     Art: ArtWifi,
     tilt: "-1deg",
   },
   {
     title: "Furnished means furnished",
     body: "Bed, desk, seating and dining are in the suite on day one, along with a full-size kitchen. You are not buying a couch in August.",
+    photo: undefined,
     Art: ArtKey,
     tilt: "0.8deg",
   },
   {
     title: "Pricing when it's real",
     body: "We publish rents in Spring 2027, when they are set. You will not find a number on this site today that changes before you can sign.",
+    photo: undefined,
     Art: ArtDoorKey,
     tilt: "-0.6deg",
   },
@@ -111,13 +118,26 @@ export function Assurance() {
           />
 
           <div className="relative z-2 grid gap-6 md:grid-cols-3">
-            {COMMITMENTS.map(({ title, body, Art, tilt }, i) => (
+            {COMMITMENTS.map(({ title, body, Art, tilt, photo }, i) => (
               <Reveal key={title} delay={i * 0.08} as="article">
                 <div
                   className="card block-pad h-full bg-bone"
                   style={{ ["--tilt" as string]: tilt }}
                 >
-                  <Art className="pointer-events-none absolute -right-8 -bottom-10 h-[55%] w-auto text-ink opacity-7" />
+                    {photo ? (
+                    /* A real photograph beats a watermark. Bled off the
+                       bottom-right the same way the line art was, and held
+                       under the copy at low contrast so the card still reads
+                       as a card rather than as an image tile. */
+                    <Render
+                      media={media(photo)}
+                      sizes="(max-width: 767px) 90vw, 30vw"
+                      className="pointer-events-none absolute -right-10 -bottom-8 block w-[78%]"
+                      imgClassName="h-full w-full object-contain opacity-25"
+                    />
+                  ) : (
+                    <Art className="pointer-events-none absolute -right-8 -bottom-10 h-[55%] w-auto text-ink opacity-7" />
+                  )}
 
                   {/* Sits inside the card, not bled off it.
                 
