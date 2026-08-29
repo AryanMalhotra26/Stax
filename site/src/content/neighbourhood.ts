@@ -9,11 +9,12 @@
 export type Landmark = {
   name: string;
   category: "campus" | "grocery" | "essentials" | "food" | "coffee";
+  /* `x` / `y` removed with the schematic map they positioned. The section
+     shows a photograph of the neighbourhood now; the walk times beside it
+     were always the real content, and they never needed coordinates. */
   time: string;
   mode: "shuttle" | "walk" | "drive";
   /** Position on the schematic map, as % of the plate. */
-  x: number;
-  y: number;
   featured?: boolean;
 };
 
@@ -23,18 +24,15 @@ export const LANDMARKS: Landmark[] = [
     category: "campus",
     time: "15 min",
     mode: "shuttle",
-    x: 78,
-    y: 20,
     featured: true,
   },
-  { name: "Starbucks", category: "coffee", time: "2 min", mode: "walk", x: 40, y: 38, featured: true },
-  // Kept clear of the site block, which occupies roughly x 23–51 / y 52–65
-  { name: "No Frills", category: "grocery", time: "6 min", mode: "walk", x: 13, y: 76, featured: true },
-  { name: "FreshCo", category: "grocery", time: "9 min", mode: "walk", x: 17, y: 33 },
-  { name: "Walmart", category: "essentials", time: "8 min", mode: "walk", x: 62, y: 62, featured: true },
-  { name: "Canadian Tire", category: "essentials", time: "9 min", mode: "walk", x: 72, y: 74 },
-  { name: "Shoppers Drug Mart", category: "essentials", time: "5 min", mode: "walk", x: 47, y: 71 },
-  { name: "Pet Valu", category: "essentials", time: "6 min", mode: "walk", x: 33, y: 78 },
+  { name: "Starbucks", category: "coffee", time: "2 min", mode: "walk", featured: true },
+  { name: "No Frills", category: "grocery", time: "6 min", mode: "walk", featured: true },
+  { name: "FreshCo", category: "grocery", time: "9 min", mode: "walk" },
+  { name: "Walmart", category: "essentials", time: "8 min", mode: "walk", featured: true },
+  { name: "Canadian Tire", category: "essentials", time: "9 min", mode: "walk" },
+  { name: "Shoppers Drug Mart", category: "essentials", time: "5 min", mode: "walk" },
+  { name: "Pet Valu", category: "essentials", time: "6 min", mode: "walk" },
 ];
 
 /** Rendered as a plain list under the map — no pin, no coordinates needed. */

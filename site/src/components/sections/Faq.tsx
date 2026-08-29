@@ -49,7 +49,7 @@ export function FaqSection({
   return (
     <section
       id="faq"
-      className={`relative overflow-clip section-y ${tone === "paper" ? "bg-paper" : "bg-bone"}`}
+      className={`relative overflow-clip pt-normal pb-tight ${tone === "paper" ? "bg-paper" : "bg-bone"}`}
       aria-labelledby="faq-heading"
     >
       {/* linen → bone is the smallest step on the page, so the shortest

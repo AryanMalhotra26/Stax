@@ -422,18 +422,47 @@
    one screen.
    ========================================================================== */
 
+/**
+ * Section rhythm.
+ *
+ * `section-y` was on every section of every page at an identical
+ * clamp(6rem, 11vw, 14rem) — 166px top AND bottom at desktop, so 332px
+ * between the last ink of one section and the first ink of the next,
+ * everywhere, regardless of what those sections contained. Uniform padding is
+ * one of the strongest "nobody made a decision here" tells there is; the
+ * reference runs seven distinct values, from 40px to 480px.
+ *
+ * The bigger problem is that it is a single `padding-block`, so top and
+ * bottom can never differ. A section that follows a full-bleed image band has
+ * already been given all the air it needs and wants almost no top padding; a
+ * section that runs into a torn edge wants none at the bottom. With one value
+ * those cases are unexpressable, which is why the page had 300px voids under
+ * the stat row and above the Commitments heading.
+ *
+ * Four steps, and separate top/bottom utilities so a section can be tight at
+ * one end and open at the other.
+ */
 @utility section-y {
-  padding-block: clamp(6rem, 11vw, 14rem);
+  padding-block: clamp(5rem, 8vw, 10rem);
 }
 
 /* Hero-adjacent and the two arrival moments. */
 @utility section-y-lg {
-  padding-block: clamp(8rem, 16vw, 22rem);
+  padding-block: clamp(7rem, 12vw, 15rem);
 }
 
 @utility section-y-sm {
-  padding-block: clamp(3.5rem, 6vw, 7rem);
+  padding-block: clamp(3rem, 5vw, 6rem);
 }
+
+/* --- single-edge, for when the two ends want different amounts --------- */
+
+@utility pt-tight  { padding-top: clamp(3rem, 5vw, 6rem); }
+@utility pb-tight  { padding-bottom: clamp(3rem, 5vw, 6rem); }
+@utility pt-normal { padding-top: clamp(5rem, 8vw, 10rem); }
+@utility pb-normal { padding-bottom: clamp(5rem, 8vw, 10rem); }
+@utility pt-loose  { padding-top: clamp(7rem, 12vw, 15rem); }
+@utility pb-loose  { padding-bottom: clamp(7rem, 12vw, 15rem); }
 
 /* ==========================================================================
    Structure

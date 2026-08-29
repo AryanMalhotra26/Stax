@@ -47,7 +47,7 @@ const NOTES: Record<number, string> = {
 
 export function PlanPreview() {
   return (
-    <section className="relative overflow-clip bg-paper section-y">
+    <section className="relative overflow-clip bg-paper pt-normal pb-tight">
       {/* Entered from bone, so bone bleeds in here — and nowhere else. The
           Idea section used to paint the same join from its own bottom edge in
           paper, so the two ramps met and inverted.

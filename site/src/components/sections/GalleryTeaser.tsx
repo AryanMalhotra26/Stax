@@ -32,7 +32,7 @@ const THUMBS = [
 export function GalleryTeaser() {
   return (
     <section
-      className="relative overflow-clip bg-night text-grey section-y"
+      className="relative overflow-clip bg-night text-grey pt-tight pb-tight"
     >
       {/* No strips. The band above already dissolves espresso into night,
           and the linen strip that used to sit at the bottom of this section

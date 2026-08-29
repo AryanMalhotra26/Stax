@@ -49,7 +49,7 @@ export function Positioning() {
   return (
     <section
       id="main-story"
-      className="relative overflow-clip bg-bone section-y"
+      className="relative overflow-clip bg-bone pt-loose pb-tight"
     >
       {/* No bleed at either end.
 

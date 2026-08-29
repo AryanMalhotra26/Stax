@@ -67,7 +67,7 @@ const FACES = ABOUT_TEAM.filter((m) => m.photo).slice(0, 2);
 export function Assurance() {
   return (
     <section
-      className="relative overflow-clip bg-linen section-y"
+      className="relative overflow-clip bg-linen pt-tight pb-normal"
     >
       {/* The single strip for the site's second-biggest jump, Δ 0.75 from
           night to linen. `lg` because at 14% of this section it was still a
