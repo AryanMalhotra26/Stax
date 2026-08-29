@@ -1,7 +1,6 @@
 import { Render } from "@/components/ui/Render";
 import { Reveal, CountUp } from "@/components/motion/Reveal";
 import { SplitWords } from "@/components/motion/SplitWords";
-import { Seam } from "@/components/ui/Edge";
 import { ArtArrow, ArtDoor, ArtKey, ArtSignpost } from "@/components/ui/LineArt";
 import { media } from "@/content/generated/media";
 import { SITE } from "@/lib/site";
@@ -50,9 +49,18 @@ export function Positioning() {
   return (
     <section
       id="main-story"
-      className="relative overflow-clip bg-bone section-y"
+      className="relative overflow-clip bg-bone pt-loose pb-tight"
     >
-      <Seam edge="bottom" color="paper" size="18%" />
+      {/* No bleed at either end.
+
+          Above: the hero already tears into this section with a `TornEdge`,
+          which IS the transition — an irregular edge the eye reads as
+          material. A gradient underneath it would run dark→light→dark→light
+          in 300px, which is the strobe this rule exists to remove. The
+          biggest tonal jump on the page deserves one strong device, not two
+          competing ones.
+
+          Below: Floor Plans carries the bone bleed on its own top edge. */}
 
       <div className="container-stax relative z-2">
         {/* The section's one annotation. Lowercase, rotated, in a student's
@@ -157,15 +165,44 @@ export function Positioning() {
 
         {/* The argument, stated before the two cards rather than after them.
             It was centred, low-contrast and sitting underneath — which made
-            the section's actual thesis read as a footnote to its examples. */}
-        <Reveal delay={0.08}>
-          <p className="mt-10 max-w-[52ch] text-lead text-ink-soft md:mt-14">
-            Stax is {SITE.facts.blocks} purpose-built blocks in a
-            stacked-townhouse form — private entries, real kitchens, balconies —
-            with a complimentary shuttle that removes the reason anyone puts up
-            with the alternative.
-          </p>
-        </Reveal>
+            the section's actual thesis read as a footnote to its examples.
+
+            It now sits beside the cutaway, because "stacked-townhouse form"
+            is the one phrase on this page that a reader cannot picture from
+            words. The cross-section shows it in a single frame — a basement
+            walkout, a ground-floor suite, and a two-storey suite stacked on
+            top, each with its own front door — and it makes the paragraph's
+            claim checkable rather than assertable. */}
+        <div className="mt-10 grid items-center gap-8 md:mt-14 lg:grid-cols-[minmax(0,42ch)_1fr] lg:gap-14">
+          <Reveal delay={0.08}>
+            <p className="text-lead text-ink-soft">
+              Stax is {SITE.facts.blocks} purpose-built blocks in a
+              stacked-townhouse form — private entries, real kitchens,
+              balconies — with a complimentary shuttle that removes the reason
+              anyone puts up with the alternative.
+            </p>
+          </Reveal>
+
+          <Reveal delay={0.12}>
+            {/* The crop lives on an inner element, not on the <figure>.
+                With `overflow-clip` and a radius on the figure itself the
+                caption is inside the clip box, and the rounded corner shaves
+                the first character off it. */}
+            <figure>
+              <div className="sd-mask relative overflow-clip rounded-md">
+                <Render
+                  media={media("cutaway")}
+                  sizes="(max-width: 1023px) 100vw, 58vw"
+                  className="block w-full"
+                  imgClassName="h-full w-full object-cover"
+                />
+              </div>
+              <figcaption className="mt-3 font-sans text-eyebrow text-ink-faint uppercase">
+                One block, cut through
+              </figcaption>
+            </figure>
+          </Reveal>
+        </div>
 
         {/* ---- The two concerns ---------------------------------------- */}
         <div className="mt-10 grid items-stretch gap-6 md:mt-14 md:grid-cols-2 md:gap-8">

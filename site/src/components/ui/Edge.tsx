@@ -28,24 +28,62 @@ export type SeamColor = keyof typeof STOPS;
  * (a) Gradient bleed — the default, and what most joins should use.
  *
  * The neighbouring surface is carried *into* this section as a gradient to
- * transparency, so the boundary belongs to neither section. Stacking one at
- * each end of every section is what makes the page read as one descent.
+ * transparency, so the boundary belongs to neither section.
+ *
+ * ONE BLEED PER BOUNDARY, AND IT LIVES ON THE SECTION BEING ENTERED, PAINTED
+ * IN THE COLOUR OF THE SECTION BEING LEFT.
+ *
+ * That rule is the whole component and it was being broken everywhere. Nearly
+ * every section carried a strip at *both* ends, and each strip on its own
+ * completes the entire A→B transition — so the dark section finished in linen
+ * while the light section began in night, and at the join you got linen laid
+ * directly on top of night: the exact inverse of the true stacking order.
+ * Measured across Gallery → Commitments the eye met dark, light, dark, light
+ * inside 450px. Not a merge, a strobe. The Floor Plans → image band boundary
+ * managed five direction reversals in 440px.
+ *
+ * Two strips do not add up to a smoother transition than one. They cancel
+ * into a hard flip with a soft ramp either side of it. One strip, whose top
+ * pixel is identical to the colour immediately above it, is seamless.
+ *
+ * A boundary already handled by another device — a `TornEdge`, or a `Bridge`
+ * carrying its own from→to gradient — needs no strip at all. Adding one there
+ * reintroduces exactly the reversal this rule exists to remove.
  *
  * Rendered as an overlay rather than a background-image so a section can
- * carry a texture, a lamp radial and both bleeds without four background
- * layers fighting over one shorthand.
+ * carry a texture, a lamp radial and a bleed without three background layers
+ * fighting over one shorthand.
  */
+
+/**
+ * Ramp height, chosen by how far the luminance has to travel.
+ *
+ * These were percentages of section height, which is the wrong unit: it made
+ * the ramp a function of how much copy a section happened to contain rather
+ * than of the tonal distance it had to cover, so a short section got an
+ * abrupt edge and a long one got half a screen of gradient. The eye needs
+ * distance in proportion to the jump, not to the page.
+ */
+const RAMP = {
+  /** Δ < 0.10 — linen↔bone, bone↔paper. */
+  sm: "10rem",
+  /** Δ 0.10–0.40. */
+  md: "15rem",
+  /** Δ > 0.40 — night↔linen, espresso↔bone. Anything less reads as an edge. */
+  lg: "24rem",
+} as const;
+
 export function Seam({
   edge,
   color,
-  size = "22%",
+  size = "md",
   className = "",
 }: {
   edge: "top" | "bottom";
   /** The surface on the other side of the join. */
   color: SeamColor;
-  /** How far the neighbour bleeds in. 22–30% is the reference's range. */
-  size?: string;
+  /** Ramp length, by luminance gap. */
+  size?: keyof typeof RAMP;
   className?: string;
 }) {
   return (
@@ -56,8 +94,7 @@ export function Seam({
       } ${className}`}
       style={
         {
-          height: size,
-          maxHeight: "34rem",
+          height: RAMP[size],
           background: `linear-gradient(to ${edge === "top" ? "bottom" : "top"}, ${
             STOPS[color]
           }, transparent)`,

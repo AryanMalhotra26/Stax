@@ -33,3 +33,9 @@ Images/
 
 # Static export output
 out/
+
+# Source assets from the developer, kept out of the repo for the same reason
+# as Images/: 1.7GB of 8K renders, 94 drone photos and a 118MB teaser. Only
+# the generated variants under site/public/renders/ ship. Re-run
+# `npm run images` after adding anything here.
+STAX Living/

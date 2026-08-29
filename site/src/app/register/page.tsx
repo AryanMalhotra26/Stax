@@ -63,20 +63,37 @@ export default function RegisterPage() {
 
           <div className="container-stax relative flex flex-1 items-center py-6">
             <div className="grid w-full items-center gap-10 lg:grid-cols-[1fr_26rem] lg:gap-16 xl:grid-cols-[1fr_28rem]">
-              {/* Copy — hidden on short viewports so the form always fits */}
-              <div className="hidden sm:block">
-                <p className="animate-rise stagger-1 mb-6 inline-flex w-fit items-center gap-2.5 bg-brick px-3.5 py-2 text-eyebrow uppercase whitespace-nowrap text-bone">
+              {/* Copy.
+              
+                  The supporting copy hides on short viewports so the form
+                  always fits, but the HEADING no longer hides with it. It used
+                  to, and the gap was filled by a second `<h2>` inside the form
+                  card reading the same three words at 30px — which meant the
+                  page carried its own title twice in two cases, and a screen
+                  reader heard it twice. One heading, always in the document,
+                  sized to the layout it finds itself in. */}
+              <div>
+                <p className="animate-rise stagger-1 mb-6 hidden w-fit items-center gap-2.5 bg-brick px-3.5 py-2 text-eyebrow uppercase whitespace-nowrap text-bone sm:inline-flex">
                   <span className="h-1.5 w-1.5 shrink-0 bg-bone" aria-hidden="true" />
                   Priority list · {SITE.facts.occupancyShort}
                 </p>
 
-                <h1 className="animate-rise stagger-2 text-h1 uppercase text-bone">
+                {/* Sentence case, and no `uppercase`.
+                
+                    Instrument Serif is a high-contrast display face — its
+                    character is in the thin strokes — and setting it in caps
+                    at 88px is the one thing it handles worst, because caps
+                    are uniformly heavy and the contrast that makes the face
+                    elegant simply stops being visible. Every other page on
+                    the site sets its display type in sentence case; this was
+                    the only one shouting. */}
+                <h1 className="animate-rise stagger-2 mb-6 text-h3 text-bone sm:mb-0 sm:text-h1">
                   Get in
-                  <br />
-                  first.
+                  <br className="hidden sm:inline" />
+                  {" "}first.
                 </h1>
 
-                <p className="animate-rise stagger-3 mt-6 max-w-md text-lead text-grey/75">
+                <p className="animate-rise stagger-3 mt-6 hidden max-w-md text-lead text-grey/75 sm:block">
                   Fifteen seconds, no obligation. Plans, pricing and lease dates
                   go to this list before they go anywhere else.
                 </p>
@@ -94,7 +111,6 @@ export default function RegisterPage() {
                 <p className="mb-6 text-eyebrow uppercase text-grey/75 sm:hidden">
                   Priority list · {SITE.facts.occupancyShort}
                 </p>
-                <h2 className="mb-6 text-h3 text-bone sm:hidden">Get in first.</h2>
 
                 <CaptureForm onDark compact ctaLabel="Register your interest" />
 
@@ -137,7 +153,11 @@ export default function RegisterPage() {
           </div>
         </section>
 
-        <FaqSection heading="Before you register" eyebrow="Questions" />
+        <FaqSection
+          heading="Before you register,"
+          quiet="the questions people ask first."
+          eyebrow="Questions"
+        />
       </main>
       <Footer />
     </>

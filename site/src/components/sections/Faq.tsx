@@ -49,10 +49,12 @@ export function FaqSection({
   return (
     <section
       id="faq"
-      className={`relative overflow-clip section-y ${tone === "paper" ? "bg-paper" : "bg-bone"}`}
+      className={`relative overflow-clip pt-normal pb-tight ${tone === "paper" ? "bg-paper" : "bg-bone"}`}
       aria-labelledby="faq-heading"
     >
-      <Seam edge="top" color="linen" size="14%" />
+      {/* linen → bone is the smallest step on the page, so the shortest
+          ramp. A long gradient across a Δ this small reads as a smudge. */}
+      <Seam edge="top" color="linen" size="sm" />
 
       <div className="container-stax relative z-2">
         <SectionHead

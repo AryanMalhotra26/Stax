@@ -1,7 +1,7 @@
 import { SectionHead } from "@/components/ui";
+import { Render } from "@/components/ui/Render";
+import { media } from "@/content/generated/media";
 import { Reveal } from "@/components/motion/Reveal";
-import { Seam } from "@/components/ui/Edge";
-import { ArtCompass } from "@/components/ui/LineArt";
 import {
   FOOD_NEARBY,
   LANDMARKS,
@@ -27,14 +27,14 @@ import {
  * are asides rather than data move to the hand.
  */
 export function Neighbourhood() {
-  const featured = LANDMARKS.filter((l) => l.featured);
 
   return (
     <section
-      className="relative overflow-clip bg-espresso text-grey section-y"
+      className="relative overflow-clip bg-espresso text-grey pt-tight pb-normal"
     >
-      <Seam edge="top" color="espresso" size="12%" />
-      <Seam edge="bottom" color="night" size="18%" />
+      {/* Neither end needs one. Above is the walkthrough, also espresso —
+          bleeding espresso into espresso paints nothing. Below is an image
+          band that already ends in night. */}
 
       <div className="container-stax relative z-2">
         <SectionHead
@@ -93,171 +93,41 @@ export function Neighbourhood() {
             >
               you will use the Starbucks more than the library
             </p>
+
           </Reveal>
 
+          {/* A photograph, where a schematic used to be.
+
+              The schematic was a grey grid with a rounded red chip labelled
+              STAX and four dots on it, and it was the weakest thing on the
+              page: hard rectangle, even grid lines, a UI component standing
+              in for a place. It read as a wireframe placeholder rather than
+              as a map, in the one section whose whole argument is what the
+              surroundings are like — and it contained no evidence the
+              neighbourhood exists at all.
+
+              This is Welland Avenue from the air, June 2024: the plazas, the
+              strip, the streets behind it. The walk times live in the table
+              beside it, which is where the actual data always was. A drawn
+              map showed where things are; the photograph shows what it is
+              like, and that is the thing a student is deciding on. */}
           <Reveal delay={0.1}>
-            <MapPlate featured={featured} />
+            <figure>
+              <div className="overflow-clip rounded-md">
+                <Render
+                  media={media("neighbourhood-aerial")}
+                  sizes="(max-width: 1023px) 100vw, 52vw"
+                  className="sd-drift block w-full"
+                  imgClassName="h-full w-full object-cover"
+                />
+              </div>
+              <figcaption className="mt-3 font-sans text-xs tracking-wide text-grey/75 uppercase">
+                Welland Avenue, looking east
+              </figcaption>
+            </figure>
           </Reveal>
         </div>
       </div>
     </section>
-  );
-}
-
-const SHUTTLE_ROUTE = "M 220 268 C 300 268, 380 200, 468 120";
-
-/** Schematic plate: roads, the site, and the pins that matter. */
-function MapPlate({ featured }: { featured: typeof LANDMARKS }) {
-  return (
-    <figure className="relative">
-      <svg
-        viewBox="0 0 600 460"
-        className="h-auto w-full overflow-visible"
-        role="img"
-        aria-label="Schematic map showing Stax relative to Brock University, Starbucks, No Frills and Walmart"
-      >
-        <defs>
-          <radialGradient id="pin-glow">
-            <stop offset="0%" stopColor="#e8a33d" stopOpacity="0.45" />
-            <stop offset="55%" stopColor="#e8a33d" stopOpacity="0.16" />
-            <stop offset="100%" stopColor="#e8a33d" stopOpacity="0" />
-          </radialGradient>
-        </defs>
-
-        <rect width="600" height="460" rx="14" className="fill-bone/3" />
-
-        {/* Road grid — a whisper. It is context, not content. */}
-        <g className="stroke-sand/10" strokeWidth={1}>
-          {[70, 150, 230, 310, 390].map((y) => (
-            <line key={y} x1="0" y1={y} x2="600" y2={y} />
-          ))}
-          {[90, 200, 310, 420, 520].map((x) => (
-            <line key={x} x1={x} y1="0" x2={x} y2="460" />
-          ))}
-        </g>
-
-        {/* Arterial road past the site */}
-        <line x1="0" y1="310" x2="600" y2="310" className="stroke-sand/20" strokeWidth={5} />
-        <line
-          x1="0"
-          y1="310"
-          x2="600"
-          y2="310"
-          className="stroke-sand/35"
-          strokeWidth={1}
-          strokeDasharray="10 12"
-        />
-
-        {/* Shuttle route. Draws itself as the section enters — the one motion
-            in this section, and the one that turns a diagram into a journey.
-
-            The reveal is a mask rather than the route's own dash offset,
-            because the route is *already* dashed: animating the offset of a
-            repeating dash makes the dashes march along the path instead of
-            the path arriving. The mask is a single solid stroke growing from
-            one end, so the dashed line underneath appears dash by dash. */}
-        <mask id="shuttle-draw" maskUnits="userSpaceOnUse">
-          <path
-            d={SHUTTLE_ROUTE}
-            className="sd-draw fill-none stroke-white"
-            strokeWidth={14}
-            strokeLinecap="round"
-            pathLength={1}
-          />
-        </mask>
-        <path
-          d={SHUTTLE_ROUTE}
-          mask="url(#shuttle-draw)"
-          className="fill-none stroke-brick"
-          strokeWidth={2.5}
-          strokeDasharray="7 7"
-          strokeLinecap="round"
-        />
-
-        {/* The site. The one built thing on the plate, so it is the one brick
-            thing on it. */}
-        <g transform="rotate(-2 222 269)">
-          <rect
-            x="140"
-            y="238"
-            width="164"
-            height="62"
-            rx="10"
-            className="fill-brick"
-            // `drop-shadow`, not `box-shadow`: this is an SVG shape, and a
-            // box-shadow would be cast by its bounding box rather than by the
-            // rounded rectangle. Same offset language as --shadow-card.
-            style={{ filter: "drop-shadow(10px 10px 22px rgb(23 18 16 / 0.4))" }}
-          />
-          <text
-            x="222"
-            y="276"
-            textAnchor="middle"
-            className="fill-bone font-sans text-[15px] font-bold tracking-[0.2em] uppercase"
-          >
-            Stax
-          </text>
-        </g>
-
-        {featured.map((landmark) => {
-          const cx = (landmark.x / 100) * 600;
-          const cy = (landmark.y / 100) * 460;
-          return (
-            <g key={landmark.name}>
-              {/* Every destination is a lit point: a brick dot with light
-                  coming off it.
-
-                  The halo used to be a flat `fill-amber/18` disc, which is a
-                  fill — and amber may only ever be light. Drawn as a real
-                  radial gradient it is both honest and better: a hard-edged
-                  18% disc reads as a second ring around the pin, where a
-                  gradient reads as glow. */}
-              <circle cx={cx} cy={cy} r={15} fill="url(#pin-glow)" />
-              <circle cx={cx} cy={cy} r={4.5} className="fill-brick" />
-              <text
-                x={cx}
-                y={cy - 18}
-                textAnchor="middle"
-                className="fill-bone font-sans text-[12px] font-semibold"
-              >
-                {landmark.name}
-              </text>
-              <text
-                x={cx}
-                y={cy + 27}
-                textAnchor="middle"
-                className="fill-grey/45 font-sans text-[10.5px] font-medium tracking-[0.1em] uppercase"
-              >
-                {landmark.time}
-              </text>
-            </g>
-          );
-        })}
-      </svg>
-
-      {/* Sits over the route, at its angle. A label in the hand reads as
-          something written on the map; the same words in the UI sans read as
-          a data field. */}
-      <span
-        className="hand pointer-events-none absolute top-[36%] left-[52%] text-hand-sm whitespace-nowrap text-brick-light"
-        style={{ ["--hand-tilt" as string]: "-24deg" }}
-      >
-        15 min shuttle
-      </span>
-
-      {/* North, and the disclaimer, as one row.
-
-          They belong together: an arrow saying which way is up and a note
-          saying the distances are not measured are the two conventions that
-          make a schematic read as a *map* rather than as a diagram somebody
-          generated. Either alone is a stray mark; the pair is a legend.
-
-          Not in Caveat, and deliberately: this is an accuracy disclaimer,
-          and the hand makes a disclaimer read as a joke. */}
-      <figcaption className="mt-4 flex items-center justify-end gap-3 font-sans text-xs tracking-wide text-grey/75 uppercase">
-        <ArtCompass className="h-9 w-auto text-sand/55" />
-        Not to scale
-      </figcaption>
-    </figure>
   );
 }
