@@ -12,6 +12,7 @@ import { GalleryTeaser } from "@/components/sections/GalleryTeaser";
 import { Assurance } from "@/components/sections/Assurance";
 import { FaqSection } from "@/components/sections/Faq";
 import { CaptureBlock } from "@/components/sections/CaptureBlock";
+import { FEATURES } from "@/config/features";
 import { buildingJsonLd } from "@/lib/jsonld";
 
 /**
@@ -50,8 +51,25 @@ export default function HomePage() {
         <ParallaxHero />
         <Hero />
         <Positioning />
-        <PlanPreview />
-        <Bridge slug="exterior-garden" from="paper" to="espresso" />
+        {FEATURES.floorPlans && <PlanPreview />}
+        {/* `from` follows whatever is actually above the band.
+        
+            One bleed per boundary, painted in the colour of the section being
+            left (§ Edge.tsx). With the plans published that is Floor Plans,
+            which is paper; with them hidden The Idea meets this band
+            directly, and The Idea is bone. Leaving it on paper would put a
+            paper-to-transparent ramp on top of a bone section — a light
+            surface laid over a lighter one, which is exactly the reversal the
+            one-bleed rule exists to remove.
+        
+            Trail segment A goes with the Floor Plans section, since it is
+            drawn on the plan stack. The route still runs B → C → D, and the
+            trail is deliberately intermittent anyway. */}
+        <Bridge
+          slug="exterior-garden"
+          from={FEATURES.floorPlans ? "paper" : "bone"}
+          to="espresso"
+        />
         <AmenityPan />
         <Neighbourhood />
         <Bridge slug="exterior-evening" from="espresso" to="night" trail="b" />

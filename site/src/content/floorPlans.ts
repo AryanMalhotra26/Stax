@@ -33,8 +33,9 @@ import { media, type Media } from "./generated/media";
  *
  * TODO(client): `startingRent` is intentionally null. The building completes
  * September 2027 and rents are not set. Leaving it null renders
- * "Pricing released Spring 2027" — do not substitute a guess, a wrong rent on
- * a leasing site is a liability.
+ * "Pricing Sept 2026" — the date comes from `SITE.dates.pricingReleased`
+ * rather than a literal, because it has already moved once. Do not substitute
+ * a guess; a wrong rent on a leasing site is a liability.
  */
 
 export type FloorPlanSlug = "studio" | "one-bed" | "two-bed" | "three-bed";

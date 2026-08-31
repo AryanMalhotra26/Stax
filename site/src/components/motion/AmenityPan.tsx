@@ -11,10 +11,9 @@ import {
   ArtArrow,
   ArtBedLamp,
   ArtBus,
+  ArtCar,
   ArtDoorKey,
   ArtRange,
-  ArtShower,
-  ArtTreeBench,
   ArtWifi,
 } from "@/components/ui/LineArt";
 import { AMENITIES } from "@/content/amenities";
@@ -42,17 +41,26 @@ gsap.registerPlugin(ScrollTrigger);
  * floor at 18%. You are standing inside now; the floor says so.
  */
 
-const ART = [
-  ArtBus,
-  ArtBedLamp,
-  ArtWifi,
-  ArtRange,
-  ArtShower,
-  ArtDoorKey,
-  ArtTreeBench,
-];
+/**
+ * One drawing per panel, positionally. Both this and `SURFACES` are indexed
+ * against `AMENITIES` and are the same length as it, so the three arrays have
+ * to be edited together — see the note at the top of content/amenities.ts.
+ *
+ * `ArtShower` came out with "Two baths, mostly" and `ArtTreeBench` with
+ * "Room outside"; `ArtCar` arrives with parking. Both retired drawings stay
+ * in LineArt.tsx for when the bathrooms card returns with the plans.
+ */
+const ART = [ArtBus, ArtBedLamp, ArtWifi, ArtRange, ArtDoorKey, ArtCar];
 
-/** Surfaces cycle so seven cards read as a row with rhythm, not as tiles. */
+/**
+ * Surfaces cycle so six cards read as a row with rhythm, not as tiles.
+ *
+ * Six is the better length for this ladder, not merely a shorter one: the
+ * sequence now runs bark → clay → linen → taupe → linen → clay and never
+ * repeats a tone against itself. At seven the row opened and closed on bark,
+ * so the first and last cards matched — which on a pan the reader walks
+ * through end to end read as having arrived back where they started.
+ */
 const SURFACES = [
   "bg-bark text-grey",
   "bg-clay text-grey",
@@ -60,7 +68,6 @@ const SURFACES = [
   "bg-taupe text-bone",
   "bg-linen text-ink",
   "bg-clay text-grey",
-  "bg-bark text-grey",
 ] as const;
 
 export function AmenityPan() {
@@ -126,8 +133,24 @@ export function AmenityPan() {
       // viewport heights the brief allows. Horizontal scroll is the one place
       // readers most often feel trapped and the section should not outstay
       // its welcome.
+      //
+      // 1.9, down from 2.2, because the row is six cards rather than seven.
+      //
+      // The cap does not bind at every size — on a wide desktop the track is
+      // only about 1.6 screens of travel, so `travel()` wins and the pan runs
+      // at exactly 1:1. Where it binds is narrow and short viewports, where
+      // the cards are 80vw each and the track runs several screens wide: the
+      // cap is what stops the pan from eating four screens of scroll on a
+      // phone, and above it the track moves faster than the wheel.
+      //
+      // That is why the ceiling scales with the content rather than staying
+      // put. Six cards under a seven-card cap would be the same pin length
+      // covering a seventh less track — the section would take just as long
+      // and move slower, which on the one part of the page where the reader
+      // has given up control is the wrong direction to err. 6/7 of 2.2 keeps
+      // the worst-case wheel-to-track ratio where it was.
       const scrollLength = () =>
-        Math.min(travel(), window.innerHeight * 2.2);
+        Math.min(travel(), window.innerHeight * 1.9);
 
       gsap.to(el, {
         x: () => -travel(),
@@ -182,7 +205,7 @@ export function AmenityPan() {
   /**
    * Wake the track's images before the walk starts.
    *
-   * Cards three through seven sit outside the viewport horizontally and only
+   * Cards three through six sit outside the viewport horizontally and only
    * arrive because a transform drags them in. The browser's lazy-loading
    * heuristics are driven by scroll intersection and do not anticipate that,
    * so the far cards began fetching only at the moment they became visible —
@@ -249,7 +272,7 @@ export function AmenityPan() {
               The parts that decide whether a year goes well.
             </h2>
             <p className="mt-6 max-w-sm leading-relaxed text-grey/75">
-              Not a feature list. These are the seven things you will actually
+              Not a feature list. These are the six things you will actually
               notice, every week, for eight months.
             </p>
 

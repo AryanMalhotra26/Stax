@@ -16,10 +16,14 @@ export const SITE = {
   // and all OG metadata, so it is the one value here that cannot be a guess.
   url: "https://staxliving.ca",
 
-  // TODO(client): replace with the real leasing contact details.
+  /**
+   * Email only. The phone number is gone from the site entirely (Pass 6
+   * §1.2) — it was a `000-0000` placeholder, so removing it is a cleanup as
+   * much as a policy change, and a leasing address that is answered beats a
+   * number that is not. Nothing here should grow a `phone` field back
+   * without a real, staffed line behind it.
+   */
   email: "leasing@staxliving.ca",
-  phone: "+1 (905) 000-0000",
-  phoneHref: "tel:+19050000000",
 
   /**
    * TODO(client): CONFIRM. Sphere's own site lists 455 Welland Avenue,
@@ -47,19 +51,46 @@ export const SITE = {
     email: "contact@spheredevelopments.ca",
   },
 
+  /**
+   * TODO(client): TikTok is deliberately absent. The link on the site was
+   * `https://tiktok.com/@staxliving`, built on the same guessed handle that
+   * turned out to be wrong for Instagram — and an unverified social link in
+   * the footer is worse than no link, because it is a dead end on the one
+   * element of the page that exists to prove the project is real. Supply the
+   * real handle and add `tiktok` back here; the footer and the JSON-LD both
+   * read from this object.
+   */
   social: {
-    instagram: "https://instagram.com/staxliving",
-    tiktok: "https://tiktok.com/@staxliving",
+    instagram: "https://www.instagram.com/stax_living/",
   },
 
   /** The numbers that appear in the proof strip and the schema markup. */
   facts: {
     units: 248,
     beds: 551,
-    blocks: 8,
+    blocks: 10,
     shuttleMinutes: 15,
     occupancy: "September 2027",
     occupancyShort: "Sept 2027",
+  },
+
+  /**
+   * The published milestones, in one place because they appear in seven.
+   *
+   * They have already moved once — the site shipped with pricing in Spring
+   * 2027 and leasing in Summer 2027, both of which were wrong by the time
+   * anyone read them — and a date that lives in seven string literals moves
+   * six of them. The About timeline holds the same values in narrative form;
+   * these are the ones the rest of the site quotes.
+   *
+   * Note the order: pricing publishes BEFORE the interest list opens. That is
+   * intentional and it is why the Register copy promises plans and lease
+   * dates ahead of the public listing, not pricing.
+   */
+  dates: {
+    pricingReleased: "Sept 2026",
+    registrationOpens: "Fall 2026",
+    leasingOpens: "Jan 2027",
   },
 } as const;
 

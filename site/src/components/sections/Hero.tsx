@@ -40,17 +40,23 @@ import { SITE } from "@/lib/site";
  */
 
 /**
- * The two things nobody else near Brock offers, stated flat.
+ * The client's own phrasing, and the closest thing the project has to a
+ * slogan (Pass 6 §2.1).
  *
- * This was "Student living, / reimagined." — and "reimagined" is the single
- * highest-frequency abstract intensifier in AI marketing copy, sitting in the
- * largest type on the site while saying nothing (reimagined *how*?). The rest
- * of this site writes like a person — "It matters more in February than it
- * does in September", "You are not buying a couch in August" — and the hero
- * was the one place it wrote like a brand.
+ * This was "Your own front door. / Fifteen minutes from Brock." — two true
+ * claims, stated flat, which was already a long way better than the
+ * "Student living, / reimagined." it replaced. What *Live there. Shuttle
+ * there.* adds is rhythm: four words, a parallel structure, and both halves
+ * of the product in the smallest space it can be said in. Set in the
+ * two-tone treatment the repetition does the work, and nothing has to be
+ * explained.
+ *
+ * The concrete differentiators move down into the annotation, which is where
+ * this site puts things a person would say rather than things a brand would
+ * claim — see below.
  */
-const LINE_1 = "Your own front door.";
-const LINE_2 = "Fifteen minutes from Brock.";
+const LINE_1 = "Live there.";
+const LINE_2 = "Shuttle there.";
 
 export function Hero() {
   return (
@@ -217,11 +223,14 @@ export function Hero() {
               annotation was being aligned against an object it has no
               relationship to.
 
-              The annotation itself no longer carries the bed count. That
-              number moved to the proof band, and Pass 2's own rule applies:
-              carrying a fact in two places on one screen is the same
-              redundancy in a different face. Blocks and the move-in date are
-              the two things the band does not say. */}
+              The annotation carries the two differentiators now rather than
+              the facts. With the headline down to four words the fold has
+              room for *what makes this different* and no longer needs the
+              annotation to be a caption — and *your own front door* and
+              *private shuttle to brock* are exactly the two claims nobody
+              else near Brock can make. The block count and the move-in date
+              are still on the fold: the date is in the proof band's
+              neighbour line and the scale figures sit beside it. */}
           <div className="mt-8 flex items-start justify-between gap-8 md:mt-10">
             <p
               data-px="hand"
@@ -229,7 +238,7 @@ export function Hero() {
               className="hand max-w-[42ch] text-hand text-brick-light"
               style={{ ["--hand-tilt" as string]: "-3deg" }}
             >
-              eight blocks. september 2027
+              your own front door. private shuttle to brock.
             </p>
 
             {/* The only CTA on the fold, and it points at Register — the

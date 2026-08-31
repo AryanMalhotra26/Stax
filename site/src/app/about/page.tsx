@@ -195,9 +195,20 @@ export default function AboutPage() {
               </p>
             </Reveal>
 
-            <div className="mt-10 grid grid-cols-2 lg:grid-cols-3 gap-x-6 gap-y-12">
+            {/* 2x2, down from three columns (Pass 6 §4.1).
+            
+                Four people in a three-column grid is a full row and then one
+                card with two empty cells beside it, which on a page headed
+                *You're not choosing a building. You're choosing a landlord.*
+                reads as a gap where somebody used to be. Two columns is the
+                only arrangement of four that is balanced at every width, and
+                it gives the portraits more size than three ever did.
+            
+                The stagger indexes on the column count, so it follows the
+                grid rather than needing its own number. */}
+            <div className="mt-10 grid grid-cols-2 gap-x-6 gap-y-12">
               {ABOUT_TEAM.map((member, i) => (
-                <Reveal key={member.name} delay={(i % 3) * 0.07} as="article">
+                <Reveal key={member.name} delay={(i % 2) * 0.07} as="article">
                   <TeamCard member={member} />
                 </Reveal>
               ))}
@@ -229,8 +240,28 @@ export default function AboutPage() {
                       item.state === "upcoming" ? "opacity-55" : ""
                     }`}
                   >
-                    <p className="text-eyebrow uppercase text-ink-faint md:pt-1.5 tnum">
+                    {/* The date, and the NOW badge that belongs beside it.
+                    
+                        The badge used to hang off the end of the step's <h3>,
+                        which put a status marker inside a heading — a screen
+                        reader, a search crawler and every social preview
+                        scraper read the title as one string. It is a badge on
+                        the step, and the step's identity is its date, so it
+                        sits here.
+                    
+                        Rebuilt as a real pill rather than a run of small caps.
+                        White on brick measures 5.37 where the brand red as
+                        *type* on paper is 4.2 at 11px and fails — a filled
+                        badge is the treatment that makes the accent legible
+                        at eyebrow scale, which is why the site uses it for
+                        every other status marker. */}
+                    <p className="flex flex-wrap items-center gap-x-3 gap-y-2 text-eyebrow uppercase text-ink-faint md:pt-1.5 tnum">
                       {item.date}
+                      {item.state === "current" && (
+                        <span className="rounded-full bg-brick px-2.5 py-1 tracking-[0.14em] text-white">
+                          Now
+                        </span>
+                      )}
                     </p>
                     <div className="hidden md:flex justify-center pt-1">
                       {item.state === "current" ? (
@@ -245,23 +276,7 @@ export default function AboutPage() {
                       )}
                     </div>
                     <div>
-                      {/* The badge needs a real space in front of it, not
-                          just a margin. `ml-3` separates it visually but the
-                          text content still concatenates — a screen reader
-                          reads "Registration opensNow", and so does anything
-                          else that extracts text, including search engines
-                          and the social preview crawlers. */}
-                      <h3 className="text-h3">
-                        {item.title}
-                        {item.state === "current" && (
-                          <>
-                            {" "}
-                            <span className="ml-3 align-middle text-eyebrow text-brick uppercase">
-                              Now
-                            </span>
-                          </>
-                        )}
-                      </h3>
+                      <h3 className="text-h3">{item.title}</h3>
                       <p className="mt-2 text-ink-soft max-w-xl">{item.body}</p>
                     </div>
                   </div>
@@ -274,7 +289,7 @@ export default function AboutPage() {
         <CaptureBlock
           heading="We'll tell you"
           quiet="when things move."
-          body="Registration is the only way to get plans, pricing and lease dates before they're public. It takes fifteen seconds."
+          body="Registration is the only way to get floor plans and lease dates before they're public. It takes fifteen seconds."
         />
       </main>
       <Footer />

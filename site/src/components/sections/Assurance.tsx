@@ -12,6 +12,7 @@ import {
 import { Render } from "@/components/ui/Render";
 import { TrailSegment } from "@/components/ui/Trail";
 import { ABOUT_TEAM } from "@/content/about";
+import { sectionIndex } from "@/content/sections";
 import { headshotBySlug, media } from "@/content/generated/media";
 import { asset } from "@/lib/asset";
 import { SITE } from "@/lib/site";
@@ -36,6 +37,11 @@ import { SITE } from "@/lib/site";
 const COMMITMENTS = [
   {
     title: "The shuttle is included",
+    // "Included" is the word this card keeps. The hero and the walkthrough
+    // lead with *private* because that is the differentiating claim — anyone
+    // can hand out a bus pass — but the promise a prospect holds us to is
+    // that it costs them nothing, and that is a different word doing a
+    // different job. Both are true; neither is used where the other belongs.
     body: "Round-trip to Brock, in the rent. Not a discounted pass, not a partner service you pay separately — included.",
     // The shuttle exists and there is a photograph of it, so the card shows
     // the photograph. It was illustrated with a wifi symbol — line art picked
@@ -54,7 +60,7 @@ const COMMITMENTS = [
   },
   {
     title: "Pricing when it's real",
-    body: "We publish rents in Spring 2027, when they are set. You will not find a number on this site today that changes before you can sign.",
+    body: `We publish rents in ${SITE.dates.pricingReleased}, when they are set. You will not find a number on this site today that changes before you can sign.`,
     photo: undefined,
     Art: ArtDoorKey,
     tilt: "-0.6deg",
@@ -96,7 +102,7 @@ export function Assurance() {
 
       <div className="container-stax relative z-2">
         <SectionHead
-          index="05"
+          index={sectionIndex("commitments")}
           eyebrow="What you can hold us to"
           heading="Three commitments,"
           quiet="in writing, before you give us anything."

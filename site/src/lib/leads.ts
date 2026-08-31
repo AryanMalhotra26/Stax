@@ -358,11 +358,11 @@ function formatInternalNotification(lead: Lead) {
 const AUTORESPONDER = `Thanks for registering with Stax.
 
 You're on the list. As each piece is released you'll get it before it goes
-public — floor plans first, then pricing, then lease dates for September 2027.
+public — floor plans and lease dates for September 2027.
 
 In the meantime:
-- 248 suites, 551 beds, eight blocks
-- Complimentary round-trip shuttle to Brock, about 15 minutes
+- 248 suites, 551 beds, ten blocks
+- Private round-trip shuttle to Brock, included in your rent, about 15 minutes
 - Fully furnished, internet included
 - Studio, 1, 2 and 3 bedroom options
 

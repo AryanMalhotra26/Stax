@@ -2,6 +2,7 @@ import Link from "next/link";
 import { Logo } from "@/components/brand/Logo";
 import { buttonClass } from "@/components/ui";
 import { Render } from "@/components/ui/Render";
+import { FEATURES } from "@/config/features";
 import { media } from "@/content/generated/media";
 
 export default function NotFound() {
@@ -17,14 +18,24 @@ export default function NotFound() {
           <h1 className="text-h1 mt-6 text-balance max-w-md">
             That page isn&rsquo;t here.
           </h1>
+          {/* The 404 has to offer somewhere real to go, and while the plans
+              are hidden "the floor plans are still where you left them" is
+              the one sentence on the site that would be false. */}
           <p className="text-lead text-ink-soft mt-6 max-w-md">
-            It may have moved, or it may never have existed. The floor plans
-            are still where you left them.
+            {FEATURES.floorPlans
+              ? "It may have moved, or it may never have existed. The floor plans are still where you left them."
+              : "It may have moved, or it may never have existed. Everything about September 2027 is still one page away."}
           </p>
           <div className="mt-10 flex flex-col sm:flex-row gap-3">
-            <Link href="/residences" className={buttonClass("primary", "lg")}>
-              See floor plans
-            </Link>
+            {FEATURES.floorPlans ? (
+              <Link href="/residences" className={buttonClass("primary", "lg")}>
+                See floor plans
+              </Link>
+            ) : (
+              <Link href="/register" className={buttonClass("primary", "lg")}>
+                Register your interest
+              </Link>
+            )}
             <Link href="/" className={buttonClass("secondary", "lg")}>
               Back home
             </Link>

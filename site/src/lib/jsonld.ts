@@ -23,7 +23,11 @@ export function buildingJsonLd() {
     url: SITE.url,
     numberOfAccommodationUnits: SITE.facts.units,
     numberOfBedrooms: SITE.facts.beds,
-    petsAllowed: undefined, // TODO(client): set once the pet policy is signed off
+    // The FAQ now says pets are welcome, so the schema has to agree — a
+    // structured-data field that contradicts the visible answer on the same
+    // page is a rich-result violation. It moves back to `undefined` if the
+    // client walks the policy back; see the note on `faq-pets`.
+    petsAllowed: true,
     address: {
       "@type": "PostalAddress",
       streetAddress: SITE.address.street,
@@ -68,8 +72,10 @@ export function organisationJsonLd() {
     "@type": "Organization",
     name: SITE.legalName,
     url: SITE.url,
+    // No `telephone`. There is no phone number on the site any more, and a
+    // schema field is a published claim like any other — Google surfaces it
+    // in the knowledge panel, where a dead number is worse than none.
     email: SITE.email,
-    telephone: SITE.phone,
     address: {
       "@type": "PostalAddress",
       streetAddress: SITE.address.street,
@@ -85,7 +91,10 @@ export function organisationJsonLd() {
       url: SITE.developer.url,
       email: SITE.developer.email,
     },
-    sameAs: [SITE.social.instagram, SITE.social.tiktok, SITE.developer.url],
+    // TikTok is out until the handle is confirmed — see SITE.social. `sameAs`
+    // is how search ties these profiles to the entity, so a URL that 404s
+    // here is an unverifiable claim rather than a missing one.
+    sameAs: [SITE.social.instagram, SITE.developer.url],
   };
 }
 

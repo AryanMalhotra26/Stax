@@ -1,4 +1,6 @@
-import type { Metadata } from "next";
+"use client";
+
+import { redirect } from "next/navigation";
 import { Nav } from "@/components/chrome/Nav";
 import { SmoothScroll } from "@/components/motion/SmoothScroll";
 import { Footer } from "@/components/chrome/Footer";
@@ -6,16 +8,10 @@ import { Render } from "@/components/ui/Render";
 import { Eyebrow } from "@/components/ui";
 import { FaqSection } from "@/components/sections/Faq";
 import { ResidencesClient } from "./ResidencesClient";
+import { FEATURES } from "@/config/features";
 import { media } from "@/content/generated/media";
 import { residencesJsonLd } from "@/lib/jsonld";
 import { SITE } from "@/lib/site";
-
-export const metadata: Metadata = {
-  title: "Floor plans & residences",
-  description:
-    "Studio, 1, 2 and 3 bedroom suites at Stax — furnished, internet included, 15 minutes from Brock University by complimentary shuttle. Opening September 2027.",
-  alternates: { canonical: "/residences" },
-};
 
 /**
  * /residences (§3.2). More important than the home page: people do not lease
@@ -24,8 +20,24 @@ export const metadata: Metadata = {
  *
  * Hero is 40vh, not 100vh — visitors arrive here with intent and should not
  * have to scroll past a poster to reach the content.
+ *
+ * HIDDEN, NOT DELETED (Pass 6 §6.3). The page below is untouched and still
+ * type-checks; `FEATURES.floorPlans` decides whether anyone reaches it.
+ *
+ * The gate is here rather than in the build config because the build has two
+ * shapes: the Workers deploy renders this on the server and answers with a
+ * real redirect, and the static export renders it in the browser and replaces
+ * the URL there. `redirect()` covers both — it is one of the few Next APIs
+ * that works during render in a Client Component as well as a Server one,
+ * which is also why `metadata` had to move to layout.tsx.
+ *
+ * Every internal link into this route is gated on the same flag, so nothing
+ * on the site should reach this line. It is here for the ones that do:
+ * bookmarks, an old sitemap, and anything the client has already sent out.
  */
 export default function ResidencesPage() {
+  if (!FEATURES.floorPlans) redirect("/");
+
   return (
     <>
       <SmoothScroll />

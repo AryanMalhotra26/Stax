@@ -53,8 +53,8 @@ const instrumentSerif = Instrument_Serif({
 });
 
 /**
- * Preloaded, and it has to be: the hero's sub-line — *eight blocks. your own
- * front door.* — is Caveat and it paints above the fold.
+ * Preloaded, and it has to be: the hero's sub-line — *your own front door.
+ * private shuttle to brock.* — is Caveat and it paints above the fold.
  *
  * `preload: false` here was also quietly expensive. next/font only prunes a
  * family down to the declared `subsets` for the faces it preloads, so the

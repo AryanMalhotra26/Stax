@@ -5,6 +5,7 @@ import { Suspense } from "react";
 import { Enrichment } from "@/components/lead/Enrichment";
 import { Render } from "@/components/ui/Render";
 import { Eyebrow, ButtonLink } from "@/components/ui";
+import { FEATURES } from "@/config/features";
 import { media } from "@/content/generated/media";
 import { SITE } from "@/lib/site";
 
@@ -44,12 +45,20 @@ export default function ThankYouPage() {
         </div>
 
         <div className="mt-10 border-t border-line pt-8">
+          {/* The floor plans are the better offer when they exist; while
+              they are hidden this is the only place left to send somebody who
+              has just converted, so it stands on its own rather than reading
+              as the leftover half of a sentence. */}
           <p className="text-ink-soft">
             Nothing to answer right now?{" "}
-            <Link href="/residences" className="text-ink underline underline-offset-4 hover:text-brick">
-              Look at the floor plans
-            </Link>{" "}
-            or{" "}
+            {FEATURES.floorPlans && (
+              <>
+                <Link href="/residences" className="text-ink underline underline-offset-4 hover:text-brick">
+                  Look at the floor plans
+                </Link>{" "}
+                or{" "}
+              </>
+            )}
             <Link href="/about" className="text-ink underline underline-offset-4 hover:text-brick">
               read about the building
             </Link>
@@ -85,11 +94,11 @@ export default function ThankYouPage() {
               rendered at 1.05 against espresso: a button you could not see.
               The panel's own grey is the right answer. */}
           <ButtonLink
-            href="/residences"
+            href={FEATURES.floorPlans ? "/residences" : "/about"}
             variant="secondary"
             className="mt-6 text-grey"
           >
-            See the floor plans
+            {FEATURES.floorPlans ? "See the floor plans" : "About the building"}
           </ButtonLink>
         </div>
       </div>

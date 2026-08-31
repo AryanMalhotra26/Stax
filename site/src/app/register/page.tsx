@@ -5,13 +5,14 @@ import { Footer } from "@/components/chrome/Footer";
 import { Render } from "@/components/ui/Render";
 import { CaptureForm } from "@/components/lead/CaptureForm";
 import { FaqSection } from "@/components/sections/Faq";
+import { FEATURES } from "@/config/features";
 import { media } from "@/content/generated/media";
 import { SITE } from "@/lib/site";
 
 export const metadata: Metadata = {
   title: "Register your interest",
   description:
-    "Join the Stax priority list for floor plans, pricing and lease dates — released to registrants before they go public. September 2027, near Brock University.",
+    "Join the Stax priority list for floor plans and lease dates — released to registrants before they go public. September 2027, near Brock University.",
   alternates: { canonical: "/register" },
 };
 
@@ -52,12 +53,18 @@ export default function RegisterPage() {
               <Link href="/" aria-label="Stax — home">
                 <Logo className="h-6 w-auto text-bone md:h-7" />
               </Link>
-              <Link
-                href="/residences"
-                className="text-eyebrow uppercase text-grey/75 transition-colors hover:text-bone"
-              >
-                Floor plans
-              </Link>
+              {/* The one link out of this page, and only while there is a
+                  page for it to go to. Sending somebody who is one field from
+                  converting to a route that redirects is the worst place on
+                  the site to put a dead end. */}
+              {FEATURES.floorPlans && (
+                <Link
+                  href="/residences"
+                  className="text-eyebrow uppercase text-grey/75 transition-colors hover:text-bone"
+                >
+                  Floor plans
+                </Link>
+              )}
             </div>
           </header>
 
@@ -94,7 +101,7 @@ export default function RegisterPage() {
                 </h1>
 
                 <p className="animate-rise stagger-3 mt-6 hidden max-w-md text-lead text-grey/75 sm:block">
-                  Fifteen seconds, no obligation. Plans, pricing and lease dates
+                  Fifteen seconds, no obligation. Floor plans and lease dates
                   go to this list before they go anywhere else.
                 </p>
 
@@ -118,10 +125,10 @@ export default function RegisterPage() {
                   <p className="text-sm text-grey/75">
                     Rather just ask someone?{" "}
                     <a
-                      href={SITE.phoneHref}
+                      href={`mailto:${SITE.email}`}
                       className="font-semibold text-bone underline underline-offset-4 hover:text-brick"
                     >
-                      {SITE.phone}
+                      {SITE.email}
                     </a>
                   </p>
                 </div>
@@ -139,10 +146,15 @@ export default function RegisterPage() {
                 title="You get the plan pack"
                 body="Every layout at full resolution, in your inbox, straight away."
               />
+              {/* Pricing publishes in Sept 2026, BEFORE the interest list
+                  opens — so this step can no longer promise the list sees it
+                  first. What it can promise is that registrants are told the
+                  day it lands rather than finding out, which is the honest
+                  version and still worth an email address. */}
               <Step
                 n="02"
                 title="We tell you when pricing lands"
-                body="Spring 2027. You'll have it before it appears anywhere public."
+                body={`${SITE.dates.pricingReleased}. It goes public that day and you'll hear it from us first.`}
               />
               <Step
                 n="03"
