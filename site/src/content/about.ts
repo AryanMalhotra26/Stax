@@ -10,8 +10,8 @@
  * trimmed to the parts that answer a student renter's actual question, which
  * is "who is my landlord going to be." The claims themselves are unchanged.
  *
- * Nothing in this file is placeholder text any more, with two exceptions,
- * both flagged inline: the headline statistics and Vruti Shah's headshot.
+ * Nothing in this file is placeholder text any more, with one exception,
+ * flagged inline: the headline statistics.
  */
 
 export const DEVELOPER = {
@@ -96,22 +96,45 @@ export type TeamMember = {
  * history for a named individual. The `bio` field is here for when the client
  * supplies real ones.
  *
- * TODO(client): Vruti Shah's headshot is a "coming soon" placeholder on the
- * Sphere site, so the card renders the brand mark. Supply the photo and drop
- * it into ../Team/vruti-shah.jpg, then re-run `npm run images`.
+ * FOUR, at the client's direction (Pass 6 §4.1). Vruti Shah (Development
+ * Manager) and John Santos (Administrative Assistant) come off the page.
+ *
+ * Two consequences, both handled in app/about/page.tsx. The grid drops to
+ * 2x2 — at three columns four people leave a lone card and two gaps on the
+ * second row, and an unbalanced row on a "who you'll deal with" page reads as
+ * somebody having left. And the broken-portrait bug goes with the card that
+ * caused it: Vruti Shah's headshot was a "coming soon" placeholder on the
+ * Sphere site, so hers was the one card rendering the brand mark instead of a
+ * face.
+ *
+ * Every remaining member has a real photo, so the `StaxMark` fallback in
+ * `TeamCard` no longer fires for anyone. It stays, because the next person
+ * added will arrive before their headshot does.
  */
 export const ABOUT_TEAM: TeamMember[] = [
   { name: "Rohan Gawri", role: "President", photo: "rohan-gawri" },
   { name: "AJ Uppal", role: "Executive Vice President", photo: "aj-uppal" },
-  { name: "Vruti Shah", role: "Development Manager" },
   { name: "Katie Shah", role: "Vice President, Sales and Marketing", photo: "katie-shah" },
   { name: "Jeffrey Leung", role: "Controller", photo: "jeffrey-leung" },
-  { name: "John Santos", role: "Administrative Assistant", photo: "john-santos" },
 ];
 
 /**
- * TODO(client): confirm the first two dates. Everything from "Registration
- * opens" onward is derived from the published September 2027 occupancy.
+ * Where things stand. ORDERED BY DATE, and that ordering is the change
+ * (Pass 6 §4.2).
+ *
+ * The client's dates put pricing (Sept 2026) BEFORE the interest list opens
+ * (Fall 2026), which swaps steps 3 and 4 against what the site used to show.
+ * It reads perfectly well in that order — publish the rents, open the list,
+ * then lease — but it does move one promise: the registration step can no
+ * longer claim pricing is released to the list first, because pricing is
+ * already public by the time the list exists. The same edit is made to the
+ * Register section's body copy and to the rent FAQ.
+ *
+ * `state: "current"` is on Construction underway, not on Registration. The
+ * client has said explicitly not to claim registration is open, and August
+ * 2026 is not Fall 2026 — construction is what is actually happening now.
+ * That flag drives both the NOW badge and the StaxMark bullet, so moving it
+ * moves the "you are here" marker with it.
  */
 export const ABOUT_TIMELINE = [
   {
@@ -123,23 +146,23 @@ export const ABOUT_TIMELINE = [
   {
     date: "2026",
     title: "Construction underway",
-    body: "Eight residential blocks with commercial units integrated at grade.",
-    state: "done" as const,
-  },
-  {
-    date: "Now",
-    title: "Registration opens",
-    body: "The interest list opens. Floor plans, pricing and lease dates are released to it first.",
+    body: "Ten residential blocks with commercial units integrated at grade.",
     state: "current" as const,
   },
   {
-    date: "Spring 2027",
+    date: "Sept 2026",
     title: "Pricing released",
-    body: "Rents, lease terms and the full plan pack published to the registration list ahead of public listing.",
+    body: "Rents and lease terms published.",
     state: "upcoming" as const,
   },
   {
-    date: "Summer 2027",
+    date: "Fall 2026",
+    title: "Registration opens",
+    body: "The interest list opens. Floor plans and lease dates are released to it first.",
+    state: "upcoming" as const,
+  },
+  {
+    date: "Jan 2027",
     title: "Leasing opens",
     body: "Suites released for signing, registration list first.",
     state: "upcoming" as const,

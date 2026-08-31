@@ -7,6 +7,7 @@ import {
   LANDMARKS,
   NEIGHBOURHOOD_COPY,
 } from "@/content/neighbourhood";
+import { sectionIndex } from "@/content/sections";
 
 /**
  * "03 — The Neighbourhood" (§5.5).
@@ -38,7 +39,7 @@ export function Neighbourhood() {
 
       <div className="container-stax relative z-2">
         <SectionHead
-          index="03"
+          index={sectionIndex("neighbourhood")}
           eyebrow="The neighbourhood"
           heading={NEIGHBOURHOOD_COPY.heading}
           tone="dark"

@@ -11,6 +11,17 @@ import { media, type Media } from "./generated/media";
  * Four starting angles, one per audience the copy implies: the student who
  * knows they're coming, the group, the parent, and the shuttle-led
  * convenience pitch.
+ *
+ * TWO RULES THESE ROWS HAVE TO KEEP, because ad copy is the easiest place on
+ * a site for a claim to survive after the site has stopped making it:
+ *
+ * NEVER SAY REGISTRATION IS OPEN. The interest list opens Fall 2026 and the
+ * client has said so explicitly. `brock-2027` claimed it was open already.
+ *
+ * "PRIVATE" IS THE DIFFERENTIATOR, "INCLUDED" IS THE PROMISE. Anyone can
+ * offer a bus pass; a residents-only route running all day is the thing
+ * nobody else near Brock has. Where a bullet is describing what you get for
+ * your rent it still says included, because that is the commitment.
  */
 
 export type Campaign = {
@@ -30,14 +41,14 @@ export const CAMPAIGNS: Campaign[] = [
     slug: "brock-2027",
     headline: "New student housing at Brock. September 2027.",
     subhead:
-      "248 furnished suites with a complimentary shuttle to campus. Registration is open — floor plans and pricing go to the list first.",
+      "248 furnished suites with a private shuttle to campus, running all day. Join the interest list and floor plans and lease dates go to it first.",
     bullets: [
-      "Complimentary round-trip shuttle to Brock, about 15 minutes",
+      "Private round-trip shuttle to Brock, included — about 15 minutes",
       "Fully furnished suites with internet included",
       "Studio, 1, 2 and 3 bedroom options",
     ],
     heroMedia: media("exterior-street"),
-    ctaLabel: "Get floor plans & pricing",
+    ctaLabel: "Get the floor plans",
     trustLine: "No spam, no obligation. Unsubscribe from any email in one click.",
     isActive: true,
   },
@@ -45,14 +56,14 @@ export const CAMPAIGNS: Campaign[] = [
     slug: "shuttle",
     headline: "Fifteen minutes to campus. No car, no bus pass.",
     subhead:
-      "Stax runs a complimentary round-trip shuttle to Brock University, included in your rent. Register for pricing and lease dates.",
+      "Stax runs a private round-trip shuttle to Brock University all day, included in your rent. Register for floor plans and lease dates.",
     bullets: [
-      "Free round-trip shuttle, both directions, no fare",
+      "Private shuttle, both directions all day, no fare",
       "Starbucks across the street, groceries a short walk away",
       "Fully furnished with internet included",
     ],
     heroMedia: media("exterior-evening"),
-    ctaLabel: "Get pricing & shuttle times",
+    ctaLabel: "Get plans & shuttle times",
     trustLine: "Registering takes 15 seconds and commits you to nothing.",
     isActive: true,
   },
@@ -75,14 +86,14 @@ export const CAMPAIGNS: Campaign[] = [
     slug: "parents",
     headline: "Student housing you don't have to worry about.",
     subhead:
-      "Brand-new, furnished, and a complimentary shuttle to Brock so there's no late-night walk home. Register for floor plans and pricing.",
+      "Brand-new, furnished, and a private shuttle to Brock so there's no late-night walk home. Register for floor plans and lease dates.",
     bullets: [
       "Purpose-built and brand new for September 2027",
-      "Complimentary round-trip shuttle to campus",
+      "Private round-trip shuttle to campus, included",
       "Furnished suites with internet included — nothing to buy",
     ],
     heroMedia: media("exterior-lawn"),
-    ctaLabel: "Get floor plans & pricing",
+    ctaLabel: "Get the floor plans",
     trustLine: "We'll email you the plan pack. No calls unless you ask for one.",
     isActive: true,
   },

@@ -4,6 +4,7 @@ import { Seam, TornEdge } from "@/components/ui/Edge";
 import { ArtUnderline } from "@/components/ui/LineArt";
 import type { Faq } from "@/content/faqs";
 import { publishedFaqs } from "@/content/faqs";
+import { sectionIndex } from "@/content/sections";
 import { SITE } from "@/lib/site";
 
 /**
@@ -33,7 +34,7 @@ export function FaqSection({
   heading = "Questions people",
   quiet = "actually ask.",
   eyebrow = "FAQ",
-  index = "06",
+  index = sectionIndex("faq"),
   tone = "light",
 }: {
   items?: Faq[];

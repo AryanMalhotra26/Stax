@@ -46,7 +46,12 @@ type Props = {
 export function CaptureForm({
   onDark = false,
   floorPlanId,
-  ctaLabel = "Get floor plans & pricing",
+  // "Get the floor plans", not "Get floor plans & pricing". The button is
+  // the last thing read before somebody hands over an email address, so it
+  // is the last place that should still promise pricing the list does not
+  // get first — rents publish Sept 2026, the list opens Fall 2026. Same
+  // one-word correction as the Register section's body copy (Pass 6 §3.7).
+  ctaLabel = "Get the floor plans",
   landingSlug,
   className = "",
   compact = false,

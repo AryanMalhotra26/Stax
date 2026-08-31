@@ -53,7 +53,15 @@ export function ArtKey(props: Props) {
   );
 }
 
-/** §5.2 card 02 — the corridor. */
+/**
+ * The corridor.
+ *
+ * Unused since Pass 6 moved concern card 02 from "The corridor" to the
+ * shuttle — that card takes `ArtBus` now, because a door drawn on a card
+ * about a bus is the kind of detail that reads as unfinished. Kept rather
+ * than deleted: it is 6 lines of path data, and the corridor is still the
+ * argument card 01 is making.
+ */
 export function ArtDoor(props: Props) {
   return (
     <Line {...props}>
@@ -154,7 +162,32 @@ export function ArtDoorKey(props: Props) {
   );
 }
 
-/** §5.4 07 — room outside. */
+/**
+ * §5.4 06 — lots of parking.
+ *
+ * A car in three-quarter view, drawn as one continuous body line with the
+ * greenhouse sitting on it, plus a `P` panel bled to the left. Same
+ * single-weight open-path language as the rest of the set: at watermark
+ * scale the plate reads as a mark rather than as a glyph, which is what
+ * keeps it in the same register as the Caveat annotations.
+ */
+export function ArtCar(props: Props) {
+  return (
+    <Line {...props}>
+      <path d="M14 62 L14 52 Q14 47 20 46 L30 44 L40 30 Q42 27 46 27 L70 27 Q75 27 78 31 L86 44 Q92 46 92 52 L92 62 Q92 66 87 66 L19 66 Q14 66 14 62 Z" />
+      <path d="M44 32 L44 44" />
+      <path d="M30 44 L86 44" />
+      <circle cx="32" cy="66" r="8" />
+      <circle cx="74" cy="66" r="8" />
+      <path d="M20 54 L27 54" />
+      <path d="M79 54 L88 54" />
+      <path d="M8 12 L34 12 L34 34 L8 34" />
+      <path d="M18 30 L18 16 L26 16 Q30 16 30 20 Q30 24 26 24 L18 24" />
+    </Line>
+  );
+}
+
+/** Room outside — retired with the courtyards card in Pass 6 §3.5. */
 export function ArtTreeBench(props: Props) {
   return (
     <Line {...props}>

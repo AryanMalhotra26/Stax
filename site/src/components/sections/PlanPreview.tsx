@@ -7,6 +7,8 @@ import { PlanStack } from "@/components/plans/PlanStack";
 import { TrailSegment } from "@/components/ui/Trail";
 import { FLOOR_PLANS, sqftRange } from "@/content/floorPlans";
 import { FloorPlanDiagram } from "@/components/plans/FloorPlanDiagram";
+import { sectionIndex } from "@/content/sections";
+import { SITE } from "@/lib/site";
 
 /**
  * "02 — Floor Plans" — the threshold (§5.3).
@@ -61,8 +63,11 @@ export function PlanPreview() {
       <div className="container-stax relative z-2">
         <div className="relative border-t border-ink/15 pt-5 md:pt-6">
           <div className="relative z-2">
+            {/* The numeral comes from the section registry rather than a
+                literal, so the page renumbers itself when a section is
+                flagged off — see content/sections.ts. */}
             <Eyebrow className="text-ink-soft">
-              <span className="tnum">02</span> · Floor plans
+              <span className="tnum">{sectionIndex("plans")}</span> · Floor plans
             </Eyebrow>
 
             <div className="mt-6 flex flex-wrap items-end justify-between gap-x-8 gap-y-5 md:mt-8">
@@ -159,7 +164,7 @@ export function PlanPreview() {
                     <p data-card-chrome className="text-eyebrow uppercase opacity-70">
                       {plan.startingRent
                         ? `From $${plan.startingRent.toLocaleString()}/mo`
-                        : "Pricing Spring 2027"}
+                        : `Pricing ${SITE.dates.pricingReleased}`}
                     </p>
 
                     <Link

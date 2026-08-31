@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { Logo } from "@/components/brand/Logo";
+import { FEATURES } from "@/config/features";
 import { SITE } from "@/lib/site";
 
 /**
@@ -54,8 +55,15 @@ export function Footer() {
           </div>
 
           <FooterColumn title="Explore">
-            <FooterLink href="/residences">Residences</FooterLink>
-            <FooterLink href="/residences#gallery">Gallery</FooterLink>
+            {/* Both entries point into /residences, which redirects while the
+                plans are hidden. A footer full of links that bounce you back
+                to the home page is how a site reads as broken. */}
+            {FEATURES.floorPlans && (
+              <>
+                <FooterLink href="/residences">Residences</FooterLink>
+                <FooterLink href="/residences#gallery">Gallery</FooterLink>
+              </>
+            )}
             <FooterLink href="/about">About</FooterLink>
             <FooterLink href="/register">Register</FooterLink>
           </FooterColumn>
@@ -69,14 +77,8 @@ export function Footer() {
                 {SITE.email}
               </a>
             </li>
-            <li>
-              <a
-                href={SITE.phoneHref}
-                className={FOOTER_LINK}
-              >
-                {SITE.phone}
-              </a>
-            </li>
+            {/* No phone line. Email and an address, which is what the client
+                is prepared to answer — see the note on SITE.email. */}
             <li className="text-grey/75 pt-2 leading-relaxed">
               {SITE.address.street}
               <br />
@@ -84,6 +86,10 @@ export function Footer() {
             </li>
           </FooterColumn>
 
+          {/* Instagram only. The TikTok link was built on the same guessed
+              handle pattern that turned out to be wrong for Instagram, and it
+              is not going back until somebody has opened it — see the note on
+              SITE.social. */}
           <FooterColumn title="Follow">
             <li>
               <a
@@ -93,16 +99,6 @@ export function Footer() {
                 target="_blank"
               >
                 Instagram
-              </a>
-            </li>
-            <li>
-              <a
-                href={SITE.social.tiktok}
-                className={FOOTER_LINK}
-                rel="noopener noreferrer"
-                target="_blank"
-              >
-                TikTok
               </a>
             </li>
           </FooterColumn>

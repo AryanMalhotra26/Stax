@@ -4,9 +4,18 @@ import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Logo } from "@/components/brand/Logo";
+import { FEATURES } from "@/config/features";
 
+/**
+ * One list, rendered twice — the desktop row and the mobile sheet read from
+ * it, so a route can never be present in one and missing from the other.
+ * Residences comes out with the floor plans: linking to a page that
+ * redirects is a worse experience than not offering it.
+ */
 const LINKS = [
-  { href: "/residences", label: "Residences" },
+  ...(FEATURES.floorPlans
+    ? [{ href: "/residences", label: "Residences" }]
+    : []),
   { href: "/about", label: "About" },
   { href: "/register", label: "Register" },
 ] as const;
@@ -122,24 +131,20 @@ export function Nav() {
           </div>
 
           <div className="flex items-center gap-2">
-            {/* A phone link, and now it looks like one.
+            {/* "Talk to us" is gone (Pass 6 §1.2).
 
-                It was a bare low-contrast text node beside the REGISTER pill
-                with no underline, no hover state that read as a link, and no
-                tap target — the one element in the nav a reader could not
-                tell was clickable. Either it becomes a link or it goes; it
-                stays because a parent reading this page at 9pm wants a
-                number, and REGISTER is not that.
+                It was a `tel:` link to `+1 (905) 000-0000` — a placeholder
+                number, so anyone who tapped it got a dead call, which is the
+                one failure mode worse than not offering a phone number at
+                all. The client has moved to email only.
 
-                `py-3 -my-3` buys the 44px touch height without changing the
-                pill's alignment: the padding grows the hit area and the
-                negative margin gives the layout back the space. */}
-            <a
-              href="tel:+19050000000"
-              className="hidden -my-3 rounded-xs py-3 text-[0.9375rem] font-medium text-grey/85 underline decoration-transparent decoration-1 underline-offset-4 transition-colors duration-300 hover:text-brick-light hover:decoration-brick-light lg:block"
-            >
-              Talk to us
-            </a>
+                Deleted rather than converted to a `mailto:`. Pass 2 flagged
+                this element as the one thing in the nav a reader could not
+                tell was clickable, and the argument for keeping it was that a
+                parent reading at 9pm wants a number — which is exactly what
+                is no longer on offer. REGISTER is the nav's job; the footer,
+                the FAQ sign-off and the register form all carry the leasing
+                address for anyone who would rather write. */}
             <Link
               href="/register"
               className="hidden rounded-full bg-brick px-7 py-3.5 text-[0.8125rem] font-bold tracking-[0.06em] text-bone uppercase transition-[background-color,transform,box-shadow] duration-300 hover:-translate-y-0.5 hover:bg-brick-dark hover:shadow-glow [--glow-strength:0.3] md:block"

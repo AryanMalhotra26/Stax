@@ -22,7 +22,17 @@ import { SITE } from "@/lib/site";
 export function CaptureBlock({
   heading = "Get the plans.",
   quiet = "Before anyone else.",
-  body = "Register and you'll receive plans, pricing and lease dates for September 2027 as each is released — ahead of the public listing.",
+  /**
+   * "floor plans and lease dates", not "plans, pricing and lease dates".
+   *
+   * One word, and it is the one word this section could no longer stand
+   * behind. Pricing publishes in Sept 2026 and the interest list opens in
+   * Fall 2026, so by the time there is a list to be on, the rents are already
+   * public — the list cannot get them first. Everything else in the promise
+   * survives intact, and with the floor plans hidden *Get the plans. Before
+   * anyone else.* is more true than it was, not less.
+   */
+  body = "Register and you'll receive floor plans and lease dates for September 2027 as each is released — ahead of the public listing.",
   ctaLabel,
   floorPlanId,
 }: {
