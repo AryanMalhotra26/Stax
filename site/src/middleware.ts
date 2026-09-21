@@ -1,4 +1,10 @@
 import { NextResponse, type NextRequest } from "next/server";
+import {
+  SESSION_COOKIE,
+  VERIFIED_USER_HEADER,
+  readCookie,
+  verifySessionToken,
+} from "@/lib/admin-auth";
 
 /**
  * The pre-launch gate.
@@ -44,8 +50,68 @@ const OPEN_PATHS = [
   "/favicon.ico",
 ];
 
-export function middleware(request: NextRequest) {
+/**
+ * The admin panel and its API. Guarded by its own session, NOT by the
+ * password gate below.
+ */
+const ADMIN_PATHS = ["/admin", "/api/admin"];
+
+/**
+ * The paths an admin must reach WITHOUT a session, or there is no way to get
+ * one: the sign-in page, and the two legs of the Google round trip.
+ *
+ * Listed explicitly. A prefix rule over `/admin` is how `/admin/anything`
+ * ends up public by accident, so the exceptions are named one at a time.
+ */
+const ADMIN_PUBLIC_PATHS = ["/admin/login", "/api/admin/auth"];
+
+const matches = (pathname: string, paths: string[]) =>
+  paths.some((p) => pathname === p || pathname.startsWith(`${p}/`));
+
+export async function middleware(request: NextRequest) {
   const { pathname, searchParams } = request.nextUrl;
+
+  /**
+   * ---- The admin session ------------------------------------------------
+   *
+   * BEFORE the password gate, and that ordering is deliberate.
+   *
+   * The gate 401s everything, so leaving the admin paths behind it would mean
+   * every admin request was already being refused for the wrong reason — and
+   * a test like "forge the identity header, expect 401" would pass whether or
+   * not the session is checked at all. A green test that cannot fail is worse
+   * than no test. The gate also disappears entirely on launch day
+   * (LAUNCH.md), so anything relying on it for protection is protected only
+   * until the day the site goes public.
+   *
+   * So the admin surface takes its own control and answers on its own terms
+   * from here on.
+   */
+  if (matches(pathname, ADMIN_PATHS)) {
+    if (matches(pathname, ADMIN_PUBLIC_PATHS)) return NextResponse.next();
+
+    // Verifies the signature, the expiry, AND that the address is still on
+    // `ADMIN_ALLOWED_EMAILS` — which is why removing somebody from that list
+    // locks them out on their next request rather than in eight hours.
+    const session = await verifySessionToken(
+      readCookie(request.headers.get("cookie"), SESSION_COOKIE),
+    );
+    if (!session) return denyAdmin(request, pathname);
+
+    // Only now does a name get attached to the request. The inbound copy is
+    // deleted first: without that line a caller could set the header itself
+    // on any request that skips verification, which is the exact spoof the
+    // signature check exists to prevent, reintroduced one layer down.
+    const headers = new Headers(request.headers);
+    headers.delete(VERIFIED_USER_HEADER);
+    headers.set(VERIFIED_USER_HEADER, session.email);
+
+    const res = NextResponse.next({ request: { headers } });
+    // Lead data must never sit in a CDN or a browser cache.
+    res.headers.set("cache-control", "no-store");
+    res.headers.set("x-content-type-options", "nosniff");
+    return res;
+  }
 
   // `?lock` — drop the cookie so the gate can be tested from your own browser.
   if (searchParams.has("lock")) {
@@ -84,6 +150,39 @@ export function middleware(request: NextRequest) {
   gate.pathname = "/preview";
   gate.search = "";
   return NextResponse.rewrite(gate, { status: 401 });
+}
+
+/**
+ * One refusal for every way of failing.
+ *
+ * Expired, forged, signed-out, removed from the allow-list, and "nobody has
+ * set ADMIN_SESSION_SECRET yet" all produce the same answer. The only person
+ * who needs the real reason is whoever is reading the logs.
+ */
+function denyAdmin(request: NextRequest, pathname: string) {
+  const headers = {
+    "cache-control": "no-store",
+    "x-content-type-options": "nosniff",
+  };
+
+  // The API answers JSON, because that is what its callers parse. A redirect
+  // to an HTML login page would surface in the panel as a parse error rather
+  // than as "your session ended".
+  if (pathname.startsWith("/api/")) {
+    return new NextResponse(JSON.stringify({ error: "Unauthorized" }), {
+      status: 401,
+      headers: { ...headers, "content-type": "application/json" },
+    });
+  }
+
+  // A browser gets sent to sign in, carrying where it was going so the round
+  // trip ends where it started rather than dumping everyone on the index.
+  const url = request.nextUrl.clone();
+  url.pathname = "/admin/login";
+  url.search = pathname === "/admin" ? "" : `?next=${encodeURIComponent(pathname)}`;
+  const res = NextResponse.redirect(url);
+  for (const [k, v] of Object.entries(headers)) res.headers.set(k, v);
+  return res;
 }
 
 export function setPreviewCookie(res: NextResponse) {
