@@ -1,4 +1,22 @@
 import type { NextConfig } from "next";
+import { initOpenNextCloudflareForDev } from "@opennextjs/cloudflare";
+
+/**
+ * Give `next dev` the real Cloudflare bindings.
+ *
+ * Without this, `getCloudflareContext()` finds nothing in development, so D1
+ * is simply absent: the capture form falls back to its file store and the
+ * admin panel answers "Database unavailable". That makes the one environment
+ * anybody actually iterates in the one environment where the database layer
+ * is never exercised — bugs in it surface on the deployed site instead.
+ *
+ * Dev only, and guarded rather than left to be a no-op: the static export
+ * build has no Worker and no bindings, and asking for a platform proxy during
+ * it is a spurious failure in CI.
+ */
+if (process.env.NODE_ENV === "development" && process.env.STATIC_EXPORT !== "1") {
+  initOpenNextCloudflareForDev();
+}
 
 /**
  * Two deployment shapes.
