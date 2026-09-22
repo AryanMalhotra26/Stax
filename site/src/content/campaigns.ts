@@ -43,7 +43,7 @@ export const CAMPAIGNS: Campaign[] = [
     subhead:
       "248 furnished suites with a private shuttle to campus, running all day. Join the interest list and floor plans and lease dates go to it first.",
     bullets: [
-      "Private round-trip shuttle to Brock, included — about 15 minutes",
+      "Private shuttle to Brock roughly every 15 minutes, included",
       "Fully furnished suites with internet included",
       "Studio, 1, 2 and 3 bedroom options",
     ],
@@ -54,11 +54,11 @@ export const CAMPAIGNS: Campaign[] = [
   },
   {
     slug: "shuttle",
-    headline: "Fifteen minutes to campus. No car, no bus pass.",
+    headline: "A shuttle every fifteen minutes. No car required.",
     subhead:
-      "Stax runs a private round-trip shuttle to Brock University all day, included in your rent. Register for floor plans and lease dates.",
+      "Stax runs a private shuttle to Brock University roughly every fifteen minutes, both directions, included in your rent. Register for floor plans and lease dates.",
     bullets: [
-      "Private shuttle, both directions all day, no fare",
+      "Private shuttle roughly every 15 minutes, both directions",
       "Starbucks across the street, groceries a short walk away",
       "Fully furnished with internet included",
     ],

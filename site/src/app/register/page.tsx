@@ -107,8 +107,8 @@ export default function RegisterPage() {
 
                 <dl className="animate-rise stagger-4 mt-9 hidden max-w-md grid-cols-3 gap-6 border-t border-sand/20 pt-7 lg:grid">
                   <Mini value={SITE.facts.units.toString()} label="Suites" />
-                  <Mini value={SITE.facts.beds.toString()} label="Beds" />
-                  <Mini value={`${SITE.facts.shuttleMinutes} min`} label="To Brock" />
+                  <Mini value={`Every ${SITE.facts.shuttleEveryMinutes} min`} label="Shuttle" />
+                  <Mini value={SITE.facts.occupancyShort} label="Move-in" />
                 </dl>
               </div>
 

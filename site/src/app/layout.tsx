@@ -2,7 +2,7 @@ import type { Metadata, Viewport } from "next";
 import { Caveat, Instrument_Serif, Jost } from "next/font/google";
 import { SITE } from "@/lib/site";
 import { asset } from "@/lib/asset";
-import { GATED } from "@/lib/gate";
+import { isGated } from "@/lib/gate";
 import "./globals.css";
 
 /**
@@ -104,7 +104,7 @@ export const metadata: Metadata = {
   // GATED — reverse on launch. See LAUNCH.md. A site left noindex after
   // go-live is a far more expensive mistake than one briefly crawled, and it
   // is easy to miss because nothing visibly breaks.
-  robots: GATED
+  robots: isGated()
     ? { index: false, follow: false, nocache: true, googleBot: { index: false, follow: false } }
     : { index: true, follow: true },
   alternates: { canonical: "/" },

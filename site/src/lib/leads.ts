@@ -361,8 +361,8 @@ You're on the list. As each piece is released you'll get it before it goes
 public — floor plans and lease dates for September 2027.
 
 In the meantime:
-- 248 suites, 551 beds, ten blocks
-- Private round-trip shuttle to Brock, included in your rent, about 15 minutes
+- 248 purpose-built suites, each with its own front door
+- Private shuttle to Brock roughly every 15 minutes, included in your rent
 - Fully furnished, internet included
 - Studio, 1, 2 and 3 bedroom options
 

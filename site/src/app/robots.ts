@@ -1,6 +1,6 @@
 import type { MetadataRoute } from "next";
 import { SITE } from "@/lib/site";
-import { GATED } from "@/lib/gate";
+import { isGated } from "@/lib/gate";
 
 // Required by `output: export`; a no-op for the server build, where
 // these are already generated at build time.
@@ -15,7 +15,7 @@ export const dynamic = "force-static";
  * everything, and the block below is what goes back when it launches.
  */
 export default function robots(): MetadataRoute.Robots {
-  if (GATED) {
+  if (isGated()) {
     return { rules: { userAgent: "*", disallow: "/" } };
   }
 

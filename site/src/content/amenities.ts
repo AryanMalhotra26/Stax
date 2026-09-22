@@ -28,6 +28,20 @@ import { media, type Media } from "./generated/media";
 export type Amenity = {
   id: string;
   title: string;
+  /**
+   * Two or three words for the hero strip.
+   *
+   * Separate from `title` because the two are read in different places at
+   * different sizes: `title` heads a card somebody has stopped at, `short`
+   * is scanned at a glance in a row of six above the fold. "Already
+   * furnished" is a good card heading and a poor label; "Furnished" is the
+   * reverse.
+   *
+   * TODO(client): the full amenity list is still to be supplied. When it
+   * arrives this array is the only place it needs to land — the hero strip,
+   * the walkthrough and the schema all read from here.
+   */
+  short: string;
   line: string;
   media: Media;
 };
@@ -36,36 +50,42 @@ export const AMENITIES: Amenity[] = [
   {
     id: "shuttle",
     title: "The shuttle",
-    line: "A private round-trip service to Brock, running all day. Fifteen minutes each way, included in your rent — no fare, no transfer.",
+    short: "Private shuttle",
+    line: "A private service to Brock, both directions, roughly every fifteen minutes all day. Included in your rent — no fare, no transfer.",
     media: media("exterior-street"),
   },
   {
     id: "furnished",
     title: "Already furnished",
+    short: "Fully furnished",
     line: "Bed, desk, seating, dining. Move in with what fits in a car and nothing else.",
     media: media("bedroom"),
   },
   {
     id: "internet",
     title: "Internet included",
+    short: "Internet included",
     line: "In the rent, live on day one. No account to open, no installation window to wait through.",
     media: media("living-upgrade-dining"),
   },
   {
     id: "kitchens",
     title: "Full kitchens",
+    short: "Full kitchens",
     line: "Full-size fridge, range and dishwasher in every suite — not a bar fridge and a microwave.",
     media: media("kitchen-standard"),
   },
   {
     id: "entries",
     title: "Your own front door",
+    short: "Your own front door",
     line: "Stacked-townhouse blocks with private entries and balconies. A corridor is not the first thing you walk into.",
     media: media("exterior-garden"),
   },
   {
     id: "parking",
     title: "Lots of parking",
+    short: "Parking",
     line: "Surface parking for residents and visitors, kept to the perimeter so the courtyards stay for people. No permit lottery, no circling the block.",
     media: media("exterior-lawn"),
   },

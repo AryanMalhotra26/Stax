@@ -86,7 +86,7 @@ export default function ThankYouPage() {
         <div className="absolute inset-0 bg-linear-to-t from-espresso/85 via-espresso/10 to-transparent" />
         <div className="absolute bottom-0 left-0 right-0 p-12">
           <p className="text-grey text-h3 max-w-sm text-balance">
-            248 suites. 551 beds. Fifteen minutes from Brock.
+            248 suites. Your own front door. A private shuttle to Brock.
           </p>
           {/* `secondary` is a hairline with no colour of its own — it takes
               `currentColor` for both its border and its label. Nothing on
