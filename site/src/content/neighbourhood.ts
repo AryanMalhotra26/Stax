@@ -20,9 +20,17 @@ export type Landmark = {
 
 export const LANDMARKS: Landmark[] = [
   {
+    /**
+     * The only row here that is not a walking time, and the only one whose
+     * number is a frequency. Everything else says how long it takes to get
+     * there; the shuttle says how long until the next one. Rendered
+     * mode-first — "shuttle every 15 min" — because "every 15 min shuttle"
+     * in a column of durations reads as a fifteen-minute journey, which is
+     * the exact misreading this pass exists to correct.
+     */
     name: "Brock University",
     category: "campus",
-    time: "15 min",
+    time: "every 15 min",
     mode: "shuttle",
     featured: true,
   },
@@ -46,5 +54,5 @@ export const FOOD_NEARBY = [
 
 export const NEIGHBOURHOOD_COPY = {
   heading: "Everything you need is close to home",
-  body: "Start your morning with Starbucks across the street, pick up groceries at No Frills or FreshCo, and handle everyday errands at Walmart, Canadian Tire, Shoppers Drug Mart and Pet Valu — then take the shuttle to campus and back.",
+  body: "Start your morning with Starbucks across the street, pick up groceries at No Frills or FreshCo, and handle everyday errands at Walmart, Canadian Tire, Shoppers Drug Mart and Pet Valu — then take the private shuttle to campus and back, whenever you like.",
 };

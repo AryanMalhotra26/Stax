@@ -2,6 +2,7 @@ import Link from "next/link";
 import { Render } from "@/components/ui/Render";
 import { SplitLetters } from "@/components/motion/SplitWords";
 import { TornEdge } from "@/components/ui/Edge";
+import { AMENITIES } from "@/content/amenities";
 import { media } from "@/content/generated/media";
 import { asset } from "@/lib/asset";
 import { SITE } from "@/lib/site";
@@ -261,28 +262,47 @@ export function Hero() {
           </div>
         </div>
 
-        {/* ---- Proof band --------------------------------------------
-            Three groups, evenly weighted, spread across the full measure:
-            where it is, how big it is, who is building it.
+        {/* ---- Amenity strip -----------------------------------------
+            What you get, above the fold, without scrolling.
 
-            Pass 2 cut this to two items and that left BROCK UNIVERSITY alone
-            at the left and the developer line far right with a void between
-            them — a rule with two labels on it rather than a band. Scale is
-            the missing third: it is the one claim of the three that the
-            headline does not already make, and it belongs here rather than
-            in the annotation because it is evidence, not an aside.
+            This is the change the client asked for and it replaces the half
+            of the old proof band that was a development statistic. The band
+            used to read *Brock University · 248 suites · 551 beds · A Sphere
+            Developments community* — where it is, how big it is, who built
+            it — which is a prospectus, not a reason to live somewhere. The
+            bed count is gone from the site entirely; the suite count moved
+            down to the Idea section, where it is evidence for an argument
+            rather than a headline in its own right.
 
-            The second `.hand` note that used to open this row is gone. One
-            annotation per section is the rule and the fold already has one;
-            *minutes from* was also the fragment that read as a label with
-            its number missing, since the number is in the headline. */}
+            Read from `AMENITIES`, the same array the walkthrough uses, so
+            the strip and the section two screens below can never disagree —
+            and so the full list, when it arrives, lands in one file.
+
+            `slice(0, 5)` because six wraps to a second line on a laptop and
+            the point of this strip is that it is taken in at a glance. The
+            sixth is not lost: the walkthrough is now the very next section.
+
+            TODO(client): swap in the full amenity list when supplied. */}
+        <div className="container-stax relative z-10 w-full pb-5 md:pb-6">
+          <ul className="flex flex-wrap items-center gap-x-3 gap-y-2 border-t border-sand/15 pt-6">
+            {AMENITIES.slice(0, 5).map((a) => (
+              <li
+                key={a.id}
+                className="rounded-full border border-sand/20 bg-night/35 px-3.5 py-1.5 text-eyebrow uppercase text-grey/90 backdrop-blur-[2px]"
+              >
+                {a.short}
+              </li>
+            ))}
+          </ul>
+        </div>
+
+        {/* Where it is and who is building it — the two claims worth keeping
+            from the old band, at half the weight now that the amenities
+            carry the line above. */}
         <div className="container-stax relative z-10 w-full pb-8 md:pb-10">
-          <div className="flex flex-wrap items-center justify-between gap-x-8 gap-y-3 border-t border-sand/15 pt-6">
-            <span className="text-eyebrow text-grey/85 uppercase">
-              Brock University
-            </span>
-            <span className="text-eyebrow tnum text-grey/85 uppercase">
-              {SITE.facts.units} suites · {SITE.facts.beds} beds
+          <div className="flex flex-wrap items-center justify-between gap-x-8 gap-y-2">
+            <span className="text-eyebrow text-grey/75 uppercase">
+              Minutes from Brock University
             </span>
             <span className="text-eyebrow text-grey/75 uppercase">
               A {SITE.developer.name} community

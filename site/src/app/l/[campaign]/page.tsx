@@ -119,7 +119,7 @@ export default async function LandingPage(props: PageProps<"/l/[campaign]">) {
           <div className="container-stax section-y-sm">
             <dl className="grid grid-cols-3 gap-6">
               <Proof value={SITE.facts.units.toString()} label="Suites" />
-              <Proof value={`${SITE.facts.shuttleMinutes} min`} label="To Brock" />
+              <Proof value={`Every ${SITE.facts.shuttleEveryMinutes} min`} label="Shuttle" />
               <Proof value={SITE.facts.occupancyShort} label="Move-in" />
             </dl>
           </div>

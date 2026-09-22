@@ -8,10 +8,12 @@ import { Hero } from "@/components/sections/Hero";
 import { Positioning } from "@/components/sections/Positioning";
 import { PlanPreview } from "@/components/sections/PlanPreview";
 import { Neighbourhood } from "@/components/sections/Neighbourhood";
+import { Shuttle } from "@/components/sections/Shuttle";
 import { GalleryTeaser } from "@/components/sections/GalleryTeaser";
 import { Assurance } from "@/components/sections/Assurance";
 import { FaqSection } from "@/components/sections/Faq";
 import { CaptureBlock } from "@/components/sections/CaptureBlock";
+import { RegisterPrompt } from "@/components/lead/RegisterPrompt";
 import { FEATURES } from "@/config/features";
 import { buildingJsonLd } from "@/lib/jsonld";
 
@@ -50,29 +52,38 @@ export default function HomePage() {
       <main id="main" className="relative">
         <ParallaxHero />
         <Hero />
-        <Positioning />
-        {FEATURES.floorPlans && <PlanPreview />}
-        {/* `from` follows whatever is actually above the band.
-        
-            One bleed per boundary, painted in the colour of the section being
-            left (§ Edge.tsx). With the plans published that is Floor Plans,
-            which is paper; with them hidden The Idea meets this band
-            directly, and The Idea is bone. Leaving it on paper would put a
-            paper-to-transparent ramp on top of a bone section — a light
-            surface laid over a lighter one, which is exactly the reversal the
-            one-bleed rule exists to remove.
-        
-            Trail segment A goes with the Floor Plans section, since it is
-            drawn on the plan stack. The route still runs B → C → D, and the
-            trail is deliberately intermittent anyway. */}
-        <Bridge
-          slug="exterior-garden"
-          from={FEATURES.floorPlans ? "paper" : "bone"}
-          to="espresso"
-        />
+
+        {/*
+          THE ORDER IS THE ARGUMENT (Pass 7).
+
+          It used to run hero → property story → floor plans → walkthrough →
+          neighbourhood, which is a development telling you about itself and
+          getting to what you actually receive on the fourth screen. The
+          client's direction was to lead with the experience, so the sequence
+          is now: what you get, where you are, how you reach campus, and only
+          then why this rather than the alternative.
+
+          The tonal rhythm had to move with it. Hero, walkthrough and
+          neighbourhood are all dark, so a fourth dark section would have made
+          the top half of the page one slab — the shuttle section is light,
+          and it lands where the eye needs the break anyway.
+        */}
         <AmenityPan />
         <Neighbourhood />
-        <Bridge slug="exterior-evening" from="espresso" to="night" trail="b" />
+        <Shuttle />
+        <Positioning />
+        {FEATURES.floorPlans && <PlanPreview />}
+
+        {/* bone → night is the biggest jump left on the page, so it keeps the
+            image band rather than a gradient. `from` follows whatever is
+            actually above it: the Idea when the plans are hidden, Floor Plans
+            when they are not. */}
+        <Bridge
+          slug="exterior-evening"
+          from={FEATURES.floorPlans ? "paper" : "bone"}
+          to="night"
+          trail="b"
+        />
         <GalleryTeaser />
         <Assurance />
         {/* Bone, not paper. Commitments → FAQ → Register was linen → paper →
@@ -84,6 +95,11 @@ export default function HomePage() {
         <CaptureBlock />
       </main>
       <Footer />
+
+      {/* Asked for directly: a chance to register without scrolling. It waits
+          six seconds, remembers a dismissal, and is a real dialog — see the
+          component for why each of those decides whether it converts. */}
+      <RegisterPrompt />
 
       <script
         type="application/ld+json"

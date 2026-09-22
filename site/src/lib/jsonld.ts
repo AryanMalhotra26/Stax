@@ -22,7 +22,10 @@ export function buildingJsonLd() {
     description: SITE.description,
     url: SITE.url,
     numberOfAccommodationUnits: SITE.facts.units,
-    numberOfBedrooms: SITE.facts.beds,
+    // No `numberOfBedrooms`. The bed total is off the site at the client's
+    // direction, and structured data is a published claim like any other —
+    // leaving it here would put in the markup exactly the number the page
+    // has stopped making.
     // The FAQ now says pets are welcome, so the schema has to agree — a
     // structured-data field that contradicts the visible answer on the same
     // page is a rich-result violation. It moves back to `undefined` if the

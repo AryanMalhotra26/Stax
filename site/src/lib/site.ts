@@ -9,7 +9,7 @@ export const SITE = {
   legalName: "Stax Living",
   tagline: "Student Living Reimagined",
   description:
-    "Brand-new student rentals near Brock University, designed for convenience, comfort, and community. 248 units, 551 beds, September 2027.",
+    "Brand-new student rentals near Brock University — furnished suites with your own front door, a private shuttle to campus, and internet included. Opening September 2027.",
 
   // Confirmed with the client, 21 Aug 2026: this is the registered domain on
   // the GoDaddy account. It drives every canonical tag, the sitemap, robots
@@ -64,12 +64,26 @@ export const SITE = {
     instagram: "https://www.instagram.com/stax_living/",
   },
 
-  /** The numbers that appear in the proof strip and the schema markup. */
+  /**
+   * The numbers that appear in the proof strip and the schema markup.
+   *
+   * NO BED COUNT. `beds: 551` is gone at the client's direction — the site is
+   * to read as the experience of living here rather than as a development
+   * prospectus, and a bed count is the most prospectus-shaped number on it.
+   * Suite count stays because it is what a renter is choosing between; the
+   * bed total only answers a question an investor asks.
+   *
+   * `shuttleEveryMinutes`, not `shuttleMinutes`, and the rename is the whole
+   * point. The old name was read as journey time and published as "fifteen
+   * minutes each way" in seven places; the client has confirmed 15 is the
+   * HEADWAY — a vehicle every fifteen minutes, both directions. The journey
+   * time is not currently a published figure, so nothing here should be
+   * quoted as one.
+   */
   facts: {
     units: 248,
-    beds: 551,
     blocks: 10,
-    shuttleMinutes: 15,
+    shuttleEveryMinutes: 15,
     occupancy: "September 2027",
     occupancyShort: "Sept 2027",
   },

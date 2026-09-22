@@ -1,5 +1,6 @@
 import { Render } from "@/components/ui/Render";
 import { Reveal, CountUp } from "@/components/motion/Reveal";
+import { Seam } from "@/components/ui/Edge";
 import { SplitWords } from "@/components/motion/SplitWords";
 import { ArtArrow, ArtBus, ArtKey, ArtSignpost } from "@/components/ui/LineArt";
 import { media } from "@/content/generated/media";
@@ -62,7 +63,7 @@ import { SITE } from "@/lib/site";
 const CONCERNS = [
   {
     n: "01",
-    title: "The house that was never a house",
+    title: "A room that was never a home",
     body: "A room in a house that was never meant to be one — carved up, patched together, and rented by the door.",
     surface: "bg-clay text-grey saturate-[.7]",
     numeral: "text-grey/75",
@@ -73,8 +74,8 @@ const CONCERNS = [
   },
   {
     n: "02",
-    title: "Direct. All day.",
-    body: "A private shuttle to Brock, running both directions all day — not a bus pass, not a transfer, not a route that stops before you're done. Fifteen minutes each way, included in your rent.",
+    title: "A home, and a way to campus",
+    body: "A purpose-built home with your own front door, rented by the unit — and a private shuttle to Brock roughly every fifteen minutes, both directions, included in your rent. A transit pass if you would rather take the bus.",
     surface: "bg-espresso text-bone",
     numeral: "text-brick-light",
     bodyTone: "text-bone/85",
@@ -95,14 +96,15 @@ export function Positioning() {
       id="main-story"
       className="relative overflow-clip bg-bone pt-loose pb-tight"
     >
-      {/* No bleed at either end.
+      {/* A bleed at the top now, and that is a consequence of the reorder.
 
-          Above: the hero already tears into this section with a `TornEdge`,
-          which IS the transition — an irregular edge the eye reads as
-          material. A gradient underneath it would run dark→light→dark→light
-          in 300px, which is the strobe this rule exists to remove. The
-          biggest tonal jump on the page deserves one strong device, not two
-          competing ones.
+          This section used to sit directly under the hero, whose `TornEdge`
+          WAS the transition — an irregular edge the eye reads as material,
+          and a gradient underneath it would have run dark→light→dark→light
+          in 300px. The torn edge now opens onto the walkthrough instead, and
+          what sits above this section is the shuttle in linen. linen → bone
+          is the smallest step on the page, so it takes the shortest ramp: a
+          long gradient across a Δ this small reads as a smudge.
 
           Below: whichever section follows owns the join. With the floor
           plans published that is Floor Plans, which carries the bone bleed on
@@ -111,6 +113,7 @@ export function Positioning() {
           starts on the colour immediately above it. Either way there is
           exactly one gradient at that boundary, painted by the thing being
           entered. */}
+      <Seam edge="top" color="linen" size="sm" />
 
       <div className="container-stax relative z-2">
         {/* The section's one annotation. Lowercase, rotated, in a student's
@@ -304,19 +307,26 @@ export function Positioning() {
         </div>
 
         {/* ---- Evidence ------------------------------------------------ */}
-        <dl className="mt-12 grid grid-cols-2 gap-x-6 gap-y-10 border-t border-line pt-10 md:mt-16 md:grid-cols-4">
+        {/* Three, not four. The bed count is gone site-wide — it is the most
+            prospectus-shaped number the page had, and this section is meant to
+            read as what living here is like rather than as a unit schedule.
+            What is left is the one number a renter chooses between, the one
+            that gets them to campus, and the one that says when. */}
+        <dl className="mt-12 grid grid-cols-2 gap-x-6 gap-y-10 border-t border-line pt-10 md:mt-16 md:grid-cols-3">
           <Fact value={<CountUp to={SITE.facts.units} />} label="Suites" />
-          <Fact value={<CountUp to={SITE.facts.beds} />} label="Beds" />
           <Fact
             value={
               <>
-                <CountUp to={SITE.facts.shuttleMinutes} />
+                <span className="mr-2 mb-[0.3em] self-end font-sans text-[0.26em] font-semibold tracking-[0.18em]">
+                  EVERY
+                </span>
+                <CountUp to={SITE.facts.shuttleEveryMinutes} />
                 <span className="ml-1.5 mb-[0.35em] self-end font-sans text-[0.28em] font-semibold tracking-[0.18em]">
                   MIN
                 </span>
               </>
             }
-            label="To Brock, by shuttle"
+            label="Shuttle to Brock"
           />
           <Fact value="Sept" label="2027 move-in" suffix="’27" />
         </dl>

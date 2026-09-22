@@ -61,8 +61,8 @@ export default function ResidencesPage() {
               Four layouts across {SITE.facts.blocks} blocks.
             </h1>
             <p className="text-lead text-grey/75 mt-5 max-w-xl">
-              {SITE.facts.units} suites, {SITE.facts.beds} beds. Every one
-              furnished, with internet included.
+              {SITE.facts.units} suites, every one furnished, with internet
+              included.
             </p>
           </div>
         </section>

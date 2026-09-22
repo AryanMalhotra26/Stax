@@ -17,6 +17,7 @@ import {
   ArtWifi,
 } from "@/components/ui/LineArt";
 import { AMENITIES } from "@/content/amenities";
+import { sectionIndex } from "@/content/sections";
 import { asset } from "@/lib/asset";
 
 gsap.registerPlugin(ScrollTrigger);
@@ -247,7 +248,11 @@ export function AmenityPan() {
       className="walk bg-espresso text-grey"
       style={{
         backgroundImage: [
-          "linear-gradient(to bottom, var(--color-paper), transparent 28%)",
+          // Bone, not paper. The hero's torn edge opens onto bone and this
+          // section is what it opens onto now, so the top of the walkthrough
+          // has to start on the colour the tear ends in — otherwise the one
+          // irregular edge on the page lands on a seam.
+          "linear-gradient(to bottom, var(--color-bone), transparent 28%)",
           "linear-gradient(to top, var(--color-espresso), transparent 30%)",
           "radial-gradient(ellipse at 72% 18%, rgb(232 163 61 / 0.16), transparent 62%)",
           `url(${asset("/textures/oak-floor.webp")})`,
@@ -265,7 +270,12 @@ export function AmenityPan() {
           <div className="walk-intro flex flex-col">
             {/* Light Grey, not brick: 11px on espresso, where the brand
                 red measures 3.24 against a 4.5 requirement. */}
+            {/* Numbered now. It used to be deliberately unnumbered — the
+                interior of the building rather than a stop in the argument —
+                but it opens the page as of Pass 7, and the first thing a
+                reader meets cannot be the one section outside the sequence. */}
             <Eyebrow className="text-light-grey">
+              <span className="tnum">{sectionIndex("included")}</span> ·
               What&rsquo;s included
             </Eyebrow>
             <h2 id="amenities-heading" className="mt-6 text-h2 text-balance">

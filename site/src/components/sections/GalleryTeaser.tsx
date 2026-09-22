@@ -89,7 +89,7 @@ export function GalleryTeaser() {
     <section
       className="relative overflow-clip bg-night text-grey pt-tight pb-tight"
     >
-      {/* No strips. The band above already dissolves espresso into night,
+      {/* No strips. The band above already dissolves bone into night,
           and the linen strip that used to sit at the bottom of this section
           was the worst seam on the site: it finished a near-black section in
           cream, directly above a light section that opened in near-black.

@@ -1,7 +1,7 @@
 import type { MetadataRoute } from "next";
 import { SITE } from "@/lib/site";
 import { FEATURES } from "@/config/features";
-import { GATED } from "@/lib/gate";
+import { isGated } from "@/lib/gate";
 
 // Required by `output: export`; a no-op for the server build, where
 // these are already generated at build time.
@@ -19,7 +19,7 @@ export const dynamic = "force-static";
  */
 export default function sitemap(): MetadataRoute.Sitemap {
   // GATED — an empty sitemap while the gate is up. See LAUNCH.md.
-  if (GATED) return [];
+  if (isGated()) return [];
 
   const now = new Date();
 

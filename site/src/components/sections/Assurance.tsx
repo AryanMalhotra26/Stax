@@ -1,4 +1,3 @@
-import Link from "next/link";
 import { SectionHead } from "@/components/ui";
 import { Reveal } from "@/components/motion/Reveal";
 import { Seam } from "@/components/ui/Edge";
@@ -42,7 +41,7 @@ const COMMITMENTS = [
     // can hand out a bus pass — but the promise a prospect holds us to is
     // that it costs them nothing, and that is a different word doing a
     // different job. Both are true; neither is used where the other belongs.
-    body: "Round-trip to Brock, in the rent. Not a discounted pass, not a partner service you pay separately — included.",
+    body: "Both directions to Brock, roughly every fifteen minutes, in the rent. Not a discounted pass, not a partner service you pay separately — included.",
     // The shuttle exists and there is a photograph of it, so the card shows
     // the photograph. It was illustrated with a wifi symbol — line art picked
     // from the set for its shape rather than its meaning, on the one card
@@ -199,15 +198,28 @@ export function Assurance() {
                   high-rise towers.
                 </p>
 
-                <Link
-                  href="/about"
+                {/* Out to Sphere, not in to /about (Pass 7).
+
+                    The client wants this pointing at the developer's own
+                    site, where the rest of the portfolio lives — Lot 16 and
+                    the other projects — because the question this link
+                    answers is "who are these people and what else have they
+                    built", and /about can only answer the first half.
+
+                    `target="_blank"` with `rel="noopener"`: it leaves the
+                    site, and a leasing page should not lose its own visitor
+                    to a portfolio browse. */}
+                <a
+                  href={SITE.developer.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className="group mt-3 inline-flex items-center gap-2 rounded-xs py-3 font-medium text-ink underline-offset-4 transition-colors duration-150 ease-[var(--ease-out-soft)] hover:text-brick"
                 >
                   Meet the team
                   <span className="inline-block transition-transform duration-300 group-hover:translate-x-1.5">
                     →
                   </span>
-                </Link>
+                </a>
               </div>
 
               <div className="relative flex shrink-0 items-center gap-6">

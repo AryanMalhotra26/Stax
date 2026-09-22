@@ -15,7 +15,7 @@ export const metadata: Metadata = FEATURES.floorPlans
   ? {
       title: "Floor plans & residences",
       description:
-        "Studio, 1, 2 and 3 bedroom suites at Stax — furnished, internet included, 15 minutes from Brock University by private shuttle. Opening September 2027.",
+        "Studio, 1, 2 and 3 bedroom suites at Stax — furnished, internet included, with a private shuttle to Brock University roughly every fifteen minutes. Opening September 2027.",
       alternates: { canonical: "/residences" },
     }
   : { robots: { index: false, follow: false } };
