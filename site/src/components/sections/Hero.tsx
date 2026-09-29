@@ -46,17 +46,20 @@ import { SITE } from "@/lib/site";
  *
  * This was "Your own front door. / Fifteen minutes from Brock." — two true
  * claims, stated flat, which was already a long way better than the
- * "Student living, / reimagined." it replaced. What *Live there. Shuttle
- * there.* adds is rhythm: four words, a parallel structure, and both halves
- * of the product in the smallest space it can be said in. Set in the
- * two-tone treatment the repetition does the work, and nothing has to be
- * explained.
+ * "Student living, / reimagined." it replaced. What this adds is rhythm:
+ * four words, a parallel structure, and both halves of the product in the
+ * smallest space it can be said in.
+ *
+ * *Here*, not *there*, on the first line — the client's own correction and a
+ * real improvement. "Live there. Shuttle there." points twice at the same
+ * place and the parallel collapses; *here* is Stax and *there* is Brock, so
+ * the two lines now name the two ends of the thing being sold. One word.
  *
  * The concrete differentiators move down into the annotation, which is where
  * this site puts things a person would say rather than things a brand would
  * claim — see below.
  */
-const LINE_1 = "Live there.";
+const LINE_1 = "Live here.";
 const LINE_2 = "Shuttle there.";
 
 export function Hero() {
@@ -278,14 +281,12 @@ export function Hero() {
             the strip and the section two screens below can never disagree —
             and so the full list, when it arrives, lands in one file.
 
-            `slice(0, 5)` because six wraps to a second line on a laptop and
-            the point of this strip is that it is taken in at a glance. The
-            sixth is not lost: the walkthrough is now the very next section.
-
-            TODO(client): swap in the full amenity list when supplied. */}
+            All six now, not five. The client's list is the list, and it is
+            short enough to hold a single line on a laptop and wrap to two on
+            a phone — which is what a banner is allowed to do. */}
         <div className="container-stax relative z-10 w-full pb-5 md:pb-6">
           <ul className="flex flex-wrap items-center gap-x-3 gap-y-2 border-t border-sand/15 pt-6">
-            {AMENITIES.slice(0, 5).map((a) => (
+            {AMENITIES.map((a) => (
               <li
                 key={a.id}
                 className="rounded-full border border-sand/20 bg-night/35 px-3.5 py-1.5 text-eyebrow uppercase text-grey/90 backdrop-blur-[2px]"
@@ -296,13 +297,20 @@ export function Hero() {
           </ul>
         </div>
 
-        {/* Where it is and who is building it — the two claims worth keeping
-            from the old band, at half the weight now that the amenities
-            carry the line above. */}
+        {/* The address, and who is building it.
+
+            455 Welland is set brighter and larger than an eyebrow at the
+            client's direction — it has to be clearly visible, and 11px of
+            grey/75 is the opposite of that. It also replaces "Minutes from
+            Brock University", which was saying in the vaguest possible terms
+            what the shuttle pill above now says precisely. A street address
+            is the more useful claim anyway: a prospective tenant can put it
+            into a map, and "minutes from" is what every listing near a campus
+            says about itself. */}
         <div className="container-stax relative z-10 w-full pb-8 md:pb-10">
           <div className="flex flex-wrap items-center justify-between gap-x-8 gap-y-2">
-            <span className="text-eyebrow text-grey/75 uppercase">
-              Minutes from Brock University
+            <span className="text-[0.9375rem] font-medium text-bone">
+              {SITE.address.street}, {SITE.address.city}
             </span>
             <span className="text-eyebrow text-grey/75 uppercase">
               A {SITE.developer.name} community
