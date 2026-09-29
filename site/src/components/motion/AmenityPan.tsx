@@ -11,9 +11,9 @@ import {
   ArtArrow,
   ArtBedLamp,
   ArtBus,
-  ArtCar,
+  ArtDoor,
   ArtDoorKey,
-  ArtRange,
+  ArtKey,
   ArtWifi,
 } from "@/components/ui/LineArt";
 import { AMENITIES } from "@/content/amenities";
@@ -47,11 +47,16 @@ gsap.registerPlugin(ScrollTrigger);
  * against `AMENITIES` and are the same length as it, so the three arrays have
  * to be edited together — see the note at the top of content/amenities.ts.
  *
- * `ArtShower` came out with "Two baths, mostly" and `ArtTreeBench` with
- * "Room outside"; `ArtCar` arrives with parking. Both retired drawings stay
- * in LineArt.tsx for when the bathrooms card returns with the plans.
+ * Re-paired for the client's list. A key for the cameras, because a lock is
+ * what a camera is for; keys again for the move-in date, since that is the
+ * day you are handed them; and a door for the ceilings, because it is the one
+ * drawing in the set whose subject is height.
+ *
+ * `ArtRange`, `ArtCar`, `ArtShower` and `ArtTreeBench` are unused now and
+ * stay in LineArt.tsx — kitchens, parking and the bathrooms card have all
+ * been on this list before and may be again.
  */
-const ART = [ArtBus, ArtBedLamp, ArtWifi, ArtRange, ArtDoorKey, ArtCar];
+const ART = [ArtBedLamp, ArtKey, ArtBus, ArtWifi, ArtDoorKey, ArtDoor];
 
 /**
  * Surfaces cycle so six cards read as a row with rhythm, not as tiles.
@@ -282,8 +287,8 @@ export function AmenityPan() {
               The parts that decide whether a year goes well.
             </h2>
             <p className="mt-6 max-w-sm leading-relaxed text-grey/75">
-              Not a feature list. These are the six things you will actually
-              notice, every week, for eight months.
+              Not a feature list. These are the six things worth knowing
+              before you choose where to spend the year.
             </p>
 
             {/* Pan furniture. In the vertical list there is nothing to walk

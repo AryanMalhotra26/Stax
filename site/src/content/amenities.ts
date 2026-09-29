@@ -5,20 +5,21 @@ import { media, type Media } from "./generated/media";
  * Image + one line each — a pan makes a list feel like a walk, but only if
  * each panel is a single idea.
  *
- * SIX, NOT SEVEN (Pass 6 §3.5). Two changes and both are consequences of the
- * floor plans coming down:
+ * THE CLIENT'S OWN LIST, replacing the one this file grew over passes 5 and 6.
  *
- * "Two baths, mostly" is removed rather than rewritten. It is the best-written
- * line on the site — *it matters more in February than it does in September* —
- * and it only means anything to a reader who can see that the 2- and
- * 3-bedroom plans exist. With the plans hidden it is a claim about layouts
- * nobody can look at. It comes back with them; the line is recorded in
- * `config/features.ts` so it does.
+ * Three things they previously asked for are not on it: full kitchens, your
+ * own front door, and the parking card added at their direction in Pass 6.
+ * None of them disappears from the site — the front door is the hero
+ * annotation and the whole thesis of the Idea section, the kitchen is in the
+ * "What comes with the suite?" answer, and parking is still in its own FAQ —
+ * but they are no longer in the list a visitor scans first. Worth confirming
+ * that is deliberate rather than an omission.
  *
- * "Room outside" becomes parking, at the client's direction. The courtyards
- * survive inside the new card, which is where the phrase *parking kept to the
- * perimeter* now lives — it used to appear here AND on the About site plan
- * caption, describing the same thing twice.
+ * "Up to 10 ft ceilings" is the client's figure and it does not match this
+ * repo's plan data, which records `ceilingFt: 9` on all four layouts from the
+ * developer's own schedule. "Up to" survives both readings if some units are
+ * taller; if the schedule is simply out of date, floorPlans.ts is what needs
+ * correcting. Flagged rather than silently reconciled.
  *
  * ORDER IS LOAD-BEARING. `AmenityPan` pairs each panel with a piece of line
  * art and a surface tone by index, so reordering this array reorders those
@@ -37,9 +38,8 @@ export type Amenity = {
    * furnished" is a good card heading and a poor label; "Furnished" is the
    * reverse.
    *
-   * TODO(client): the full amenity list is still to be supplied. When it
-   * arrives this array is the only place it needs to land — the hero strip,
-   * the walkthrough and the schema all read from here.
+   * The list below is the client's, supplied 30 Sept 2026, and it is the one
+   * place it lands: the hero strip and the walkthrough both read from here.
    */
   short: string;
   line: string;
@@ -48,45 +48,45 @@ export type Amenity = {
 
 export const AMENITIES: Amenity[] = [
   {
-    id: "shuttle",
-    title: "The shuttle",
-    short: "Private shuttle",
-    line: "A private service to Brock, both directions, roughly every fifteen minutes all day. Included in your rent — no fare, no transfer.",
-    media: media("exterior-street"),
-  },
-  {
     id: "furnished",
-    title: "Already furnished",
+    title: "Fully furnished, brand new",
     short: "Fully furnished",
-    line: "Bed, desk, seating, dining. Move in with what fits in a car and nothing else.",
+    line: "Bed, desk, seating and dining, all of it new and none of it yours to buy. Move in with what fits in a car.",
     media: media("bedroom"),
   },
   {
+    id: "security",
+    title: "24-hour security cameras",
+    short: "24-hour security",
+    line: "Cameras covering the entries, the courtyards and the parking, recording around the clock.",
+    media: media("exterior-evening"),
+  },
+  {
+    id: "shuttle",
+    title: "Free private shuttle to Brock",
+    short: "Free private shuttle",
+    line: "A private service straight to Brock University, both directions, roughly every fifteen minutes. Residents only, and free.",
+    media: media("shuttle"),
+  },
+  {
     id: "internet",
-    title: "Internet included",
-    short: "Internet included",
-    line: "In the rent, live on day one. No account to open, no installation window to wait through.",
+    title: "Free internet included",
+    short: "Free internet",
+    line: "In the rent and live on day one. No account to open, no installation window to wait through.",
     media: media("living-upgrade-dining"),
   },
   {
-    id: "kitchens",
-    title: "Full kitchens",
-    short: "Full kitchens",
-    line: "Full-size fridge, range and dishwasher in every suite — not a bar fridge and a microwave.",
-    media: media("kitchen-standard"),
+    id: "occupancy",
+    title: "Available September 2027",
+    short: "September 2027",
+    line: "Doors open for the 2027\u201328 academic year. Register and you will have floor plans and lease dates before they are public.",
+    media: media("exterior-street"),
   },
   {
-    id: "entries",
-    title: "Your own front door",
-    short: "Your own front door",
-    line: "Stacked-townhouse blocks with private entries and balconies. A corridor is not the first thing you walk into.",
-    media: media("exterior-garden"),
-  },
-  {
-    id: "parking",
-    title: "Lots of parking",
-    short: "Parking",
-    line: "Surface parking for residents and visitors, kept to the perimeter so the courtyards stay for people. No permit lottery, no circling the block.",
-    media: media("exterior-lawn"),
+    id: "ceilings",
+    title: "Up to 10 ft ceilings",
+    short: "Up to 10 ft ceilings",
+    line: "Room above your head as well as around you \u2014 the thing you notice walking in and stop noticing by October, in the best way.",
+    media: media("living-upgrade-island"),
   },
 ];
