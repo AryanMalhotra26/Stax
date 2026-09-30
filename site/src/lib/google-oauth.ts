@@ -1,4 +1,5 @@
 import { createRemoteJWKSet, jwtVerify } from "jose";
+import { type Identity, type PendingAuth, s256 } from "./oauth";
 
 /**
  * Google sign-in — the OAuth 2.0 authorization-code flow, with PKCE.
@@ -44,8 +45,6 @@ function googleJWKS() {
   return jwks;
 }
 
-export const OAUTH_STATE_COOKIE = "stax_admin_oauth";
-
 export function clientId(): string | null {
   return process.env.GOOGLE_CLIENT_ID || null;
 }
@@ -69,78 +68,6 @@ export function isConfigured(): boolean {
  */
 export function redirectUri(request: Request): string {
   return new URL("/api/admin/auth/callback", request.url).toString();
-}
-
-/* ------------------------------------------------------------------------ *
- * PKCE + state
- * ------------------------------------------------------------------------ */
-
-function randomUrlSafe(bytes = 32): string {
-  const buf = crypto.getRandomValues(new Uint8Array(bytes));
-  let s = "";
-  for (const b of buf) s += String.fromCharCode(b);
-  return btoa(s).replace(/\+/g, "-").replace(/\//g, "_").replace(/=+$/, "");
-}
-
-async function s256(input: string): Promise<string> {
-  const digest = await crypto.subtle.digest(
-    "SHA-256",
-    new TextEncoder().encode(input),
-  );
-  let s = "";
-  for (const b of new Uint8Array(digest)) s += String.fromCharCode(b);
-  return btoa(s).replace(/\+/g, "-").replace(/\//g, "_").replace(/=+$/, "");
-}
-
-export type PendingAuth = { state: string; verifier: string };
-
-export function newPendingAuth(): PendingAuth {
-  return { state: randomUrlSafe(), verifier: randomUrlSafe(64) };
-}
-
-/**
- * `state` and the PKCE verifier, carried across the redirect in one cookie.
- *
- * Ten minutes, because that is how long a person takes to pick an account and
- * type a password, and anything longer is just a wider window for a stale
- * value to be replayed. `SameSite=Lax` so it survives the return trip from
- * Google; `HttpOnly` so script cannot read the verifier out of it.
- */
-export function pendingAuthCookie(p: PendingAuth): string {
-  return [
-    `${OAUTH_STATE_COOKIE}=${p.state}.${p.verifier}`,
-    "Path=/api/admin/auth",
-    "HttpOnly",
-    "Secure",
-    "SameSite=Lax",
-    "Max-Age=600",
-  ].join("; ");
-}
-
-export function clearedPendingAuthCookie(): string {
-  return [
-    `${OAUTH_STATE_COOKIE}=`,
-    "Path=/api/admin/auth",
-    "HttpOnly",
-    "Secure",
-    "SameSite=Lax",
-    "Max-Age=0",
-  ].join("; ");
-}
-
-export function parsePendingAuth(value: string | null): PendingAuth | null {
-  if (!value) return null;
-  const i = value.indexOf(".");
-  if (i < 1) return null;
-  return { state: value.slice(0, i), verifier: value.slice(i + 1) };
-}
-
-/** Constant-time string compare, for the `state` check. */
-export function safeEqual(a: string, b: string): boolean {
-  if (a.length !== b.length) return false;
-  let diff = 0;
-  for (let i = 0; i < a.length; i++) diff |= a.charCodeAt(i) ^ b.charCodeAt(i);
-  return diff === 0;
 }
 
 /* ------------------------------------------------------------------------ *
@@ -175,8 +102,6 @@ export async function authorizeUrl(
   return `${GOOGLE_AUTH_URL}?${params}`;
 }
 
-export type GoogleIdentity = { email: string; name?: string };
-
 /**
  * Exchange the code, then verify the identity token it comes back with.
  *
@@ -187,7 +112,7 @@ export async function exchangeCodeForIdentity(
   request: Request,
   code: string,
   verifier: string,
-): Promise<GoogleIdentity | null> {
+): Promise<Identity | null> {
   const id = clientId();
   const secret = clientSecret();
   if (!id || !secret) return null;

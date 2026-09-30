@@ -1,6 +1,7 @@
 import {
   createSessionToken,
   isAllowed,
+  readCookie,
   sessionCookie,
 } from "@/lib/admin-auth";
 import {
@@ -12,28 +13,27 @@ import {
   safeEqual,
   safeNext,
 } from "@/lib/oauth";
-import { exchangeCodeForIdentity } from "@/lib/google-oauth";
-import { readCookie } from "@/lib/admin-auth";
+import { exchangeCodeForIdentity } from "@/lib/microsoft-oauth";
 
 /**
- * GET /api/admin/auth/callback — leg two, and the only place a session is
- * ever issued.
+ * GET /api/admin/auth/microsoft/callback — leg two.
  *
- * Four things have to be true before a cookie is set, in this order. The
- * order matters: each step is cheaper than the one after it, and the last one
- * is the only one that is about authorisation rather than authentication.
+ * Four things must be true before a cookie is set, in this order. Each is
+ * cheaper than the one after it, and the last is the only one about
+ * authorisation rather than authentication:
  *
- *   1. `state` matches the cookie      — this browser started this flow
- *   2. Google accepts the code + PKCE  — the code is genuine and unintercepted
- *   3. The id_token verifies           — the identity is signed, for this client
- *   4. The address is on the list      — this particular person is allowed in
+ *   1. `state` matches the cookie, AND the cookie says this flow was a
+ *      Microsoft one — a Google code must not be redeemable here
+ *   2. Entra accepts the code + PKCE verifier
+ *   3. The id_token verifies: signature, issuer, audience, and `tid` against
+ *      the pinned tenant
+ *   4. The address is on ADMIN_ALLOWED_EMAILS
  *
- * Step 4 is the one that does the real work. Steps 1–3 establish *who*
- * somebody is, and anyone on earth with a Google account can satisfy them.
+ * Step 4 does the real work. Steps 1–3 establish only who somebody is, and
+ * every employee in the tenant can satisfy them.
  */
 export const runtime = "nodejs";
 
-/** Everything that fails, fails the same way, at the same place. */
 function fail(request: Request, reason: string) {
   const url = new URL("/admin/login", request.url);
   url.searchParams.set("error", reason);
@@ -41,8 +41,8 @@ function fail(request: Request, reason: string) {
     location: url.toString(),
     "cache-control": "no-store",
   });
-  // The pending-auth cookie is single-use whatever happens. Leaving a spent
-  // state and verifier in the browser is the replay this design prevents.
+  // Single-use whatever happens. Leaving a spent state and verifier in the
+  // browser is the replay this design exists to prevent.
   headers.append("set-cookie", clearedPendingAuthCookie());
   headers.append("set-cookie", clearedNextCookie());
   return new Response(null, { status: 302, headers });
@@ -52,26 +52,22 @@ export async function GET(request: Request) {
   const url = new URL(request.url);
   const cookies = request.headers.get("cookie");
 
-  // Google reports a user who declined, or a misconfigured client, here.
+  // Entra reports a declined consent or a misconfigured app here.
   if (url.searchParams.get("error")) return fail(request, "denied");
 
   const code = url.searchParams.get("code");
   const state = url.searchParams.get("state");
   if (!code || !state) return fail(request, "invalid");
 
-  // 1. The round trip started in this browser, AND it was a Google one —
-  //    a Microsoft code must not be redeemable at Google's callback.
   const pending = parsePendingAuth(readCookie(cookies, OAUTH_STATE_COOKIE));
   if (
     !pending ||
-    pending.provider !== "google" ||
+    pending.provider !== "microsoft" ||
     !safeEqual(pending.state, state)
   ) {
     return fail(request, "expired");
   }
 
-  // 2 + 3. Google vouches for the code, and the identity token verifies
-  // against Google's published keys with this client as the audience.
   const identity = await exchangeCodeForIdentity(
     request,
     code,
@@ -79,7 +75,6 @@ export async function GET(request: Request) {
   );
   if (!identity) return fail(request, "invalid");
 
-  // 4. Authorisation. A proven Google identity is not an entitlement.
   if (!isAllowed(identity.email)) return fail(request, "forbidden");
 
   const token = await createSessionToken({

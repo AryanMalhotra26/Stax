@@ -4,15 +4,14 @@ import {
   pendingAuthCookie,
   safeNext,
 } from "@/lib/oauth";
-import { authorizeUrl, isConfigured } from "@/lib/google-oauth";
+import { authorizeUrl, isConfigured } from "@/lib/microsoft-oauth";
 
 /**
- * GET /api/admin/auth/google — leg one of the Google sign-in.
+ * GET /api/admin/auth/microsoft — leg one of the Entra ID sign-in.
  *
- * Mints a fresh `state` and PKCE verifier, parks them in a short-lived
- * HttpOnly cookie, and sends the browser to Google. Nothing is decided here;
- * the decision happens in the callback, which is the only place that can
- * prove the round trip started with this request.
+ * Mirrors the Google route exactly. Nothing is decided here; the decision
+ * happens in the callback, which is the only place that can prove the round
+ * trip started with this request.
  *
  * Public by design — it sits under ADMIN_PUBLIC_PATHS, because anyone who
  * cannot reach the sign-in route can never acquire the session the rest of
@@ -22,13 +21,16 @@ export const runtime = "nodejs";
 
 export async function GET(request: Request) {
   if (!isConfigured()) {
+    // Reachable only from the sign-in screen, so it says what is missing:
+    // "nothing happens when I click the button" is a worse afternoon than
+    // being told which variable has not been set.
     return new Response(
-      "Google sign-in is not configured. Set GOOGLE_CLIENT_ID and GOOGLE_CLIENT_SECRET.",
+      "Microsoft sign-in is not configured. Set MICROSOFT_TENANT_ID, MICROSOFT_CLIENT_ID and MICROSOFT_CLIENT_SECRET.",
       { status: 503, headers: { "cache-control": "no-store" } },
     );
   }
 
-  const pending = newPendingAuth("google");
+  const pending = newPendingAuth("microsoft");
   const url = await authorizeUrl(request, pending);
   if (!url) return new Response("Not configured", { status: 503 });
 

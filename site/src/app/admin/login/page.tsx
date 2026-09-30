@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
 import { Logo } from "@/components/brand/Logo";
+import { isConfigured as googleConfigured } from "@/lib/google-oauth";
+import { isConfigured as microsoftConfigured } from "@/lib/microsoft-oauth";
 
 export const metadata: Metadata = {
   title: "Sign in",
@@ -20,7 +22,15 @@ export const metadata: Metadata = {
  * arriving at something that looks like the home page has been given the
  * wrong signal about where they are.
  *
- * No form, no fields, nothing to type. One link out to Google and back.
+ * No form, no fields, nothing to type. One link out to an identity provider
+ * and back.
+ *
+ * TWO PROVIDERS, because one was not enough. Sphere's own addresses are
+ * Microsoft 365 accounts — the domain's MX points at Outlook — so Google
+ * refuses them outright, while the gmail addresses on the allow-list only
+ * work through Google. Each button renders only when its provider is
+ * actually configured, so a half-finished setup shows one working option
+ * rather than two and a dead end.
  */
 export default async function AdminLoginPage({
   searchParams,
@@ -29,9 +39,9 @@ export default async function AdminLoginPage({
 }) {
   const { error, next } = await searchParams;
 
-  const href = next
-    ? `/api/admin/auth/google?next=${encodeURIComponent(next)}`
-    : "/api/admin/auth/google";
+  const q = next ? `?next=${encodeURIComponent(next)}` : "";
+  const google = googleConfigured();
+  const microsoft = microsoftConfigured();
 
   return (
     <main className="grid min-h-dvh place-items-center bg-espresso px-5 py-16">
@@ -42,18 +52,48 @@ export default async function AdminLoginPage({
           Leasing admin
         </h1>
         <p className="mt-3 text-[0.9375rem] leading-relaxed text-grey/75">
-          Sign in with the Google account your address is registered under.
+          Use your Sphere Developments account. Personal Google addresses on
+          the list work too.
         </p>
 
         {error && <SignInError code={error} />}
 
-        <a
-          href={href}
-          className="mt-8 flex min-h-12 w-full items-center justify-center gap-3 rounded-full bg-bone px-6 text-[0.9375rem] font-medium text-ink transition-colors duration-150 ease-[var(--ease-out-soft)] hover:bg-sand"
-        >
-          <GoogleMark />
-          Continue with Google
-        </a>
+        <div className="mt-8 flex flex-col gap-3">
+          {microsoft && (
+            <a
+              href={`/api/admin/auth/microsoft${q}`}
+              className="flex min-h-12 w-full items-center justify-center gap-3 rounded-full bg-bone px-6 text-[0.9375rem] font-medium text-ink transition-colors duration-150 ease-[var(--ease-out-soft)] hover:bg-sand"
+            >
+              <MicrosoftMark />
+              Continue with Microsoft
+            </a>
+          )}
+          {google && (
+            /* Second, and outlined rather than filled. Most of the people
+               signing in have a Sphere address, so Microsoft is the primary
+               action; giving both the same weight would make everybody stop
+               and choose. */
+            <a
+              href={`/api/admin/auth/google${q}`}
+              className={`flex min-h-12 w-full items-center justify-center gap-3 rounded-full px-6 text-[0.9375rem] font-medium transition-colors duration-150 ease-[var(--ease-out-soft)] ${
+                microsoft
+                  ? "border border-sand/30 text-bone hover:border-sand/60"
+                  : "bg-bone text-ink hover:bg-sand"
+              }`}
+            >
+              <GoogleMark />
+              Continue with Google
+            </a>
+          )}
+          {!google && !microsoft && (
+            <p
+              role="alert"
+              className="rounded-sm border border-brick-light/40 bg-brick/15 px-4 py-3 text-[0.9375rem] leading-relaxed text-bone"
+            >
+              No sign-in provider is configured yet.
+            </p>
+          )}
+        </div>
 
         <p className="mt-8 text-sm leading-relaxed text-grey/60">
           Access is limited to addresses on the leasing team. If yours is not
@@ -91,6 +131,22 @@ function SignInError({ code }: { code: string }) {
     >
       {message}
     </p>
+  );
+}
+
+/** Microsoft's four squares. Inline for the same reason as Google's. */
+function MicrosoftMark() {
+  return (
+    <svg
+      viewBox="0 0 18 18"
+      aria-hidden="true"
+      className="h-[1.125rem] w-[1.125rem] shrink-0"
+    >
+      <path fill="#F25022" d="M0 0h8.5v8.5H0z" />
+      <path fill="#7FBA00" d="M9.5 0H18v8.5H9.5z" />
+      <path fill="#00A4EF" d="M0 9.5h8.5V18H0z" />
+      <path fill="#FFB900" d="M9.5 9.5H18V18H9.5z" />
+    </svg>
   );
 }
 
