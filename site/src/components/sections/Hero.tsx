@@ -309,7 +309,12 @@ export function Hero() {
             says about itself. */}
         <div className="container-stax relative z-10 w-full pb-8 md:pb-10">
           <div className="flex flex-wrap items-center justify-between gap-x-8 gap-y-2">
-            <span className="text-[0.9375rem] font-medium text-bone">
+            {/* Sized up again at the client's direction. It was 15px, which
+                was already brighter than the eyebrow beside it and still read
+                as a caption. At 18/22px it is the second-largest thing on the
+                fold after the headline — which is the right rank for the one
+                fact a prospective tenant will put into a map. */}
+            <span className="text-[1.125rem] font-medium text-bone md:text-[1.375rem]">
               {SITE.address.street}, {SITE.address.city}
             </span>
             <span className="text-eyebrow text-grey/75 uppercase">

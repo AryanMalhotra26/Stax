@@ -47,16 +47,17 @@ gsap.registerPlugin(ScrollTrigger);
  * against `AMENITIES` and are the same length as it, so the three arrays have
  * to be edited together — see the note at the top of content/amenities.ts.
  *
- * Re-paired for the client's list. A key for the cameras, because a lock is
- * what a camera is for; keys again for the move-in date, since that is the
- * day you are handed them; and a door for the ceilings, because it is the one
- * drawing in the set whose subject is height.
+ * Re-paired for the client's list, and re-ordered with it when the cameras
+ * moved to last. A key for the cameras, because a lock is what a camera is
+ * for; keys again for the move-in date, since that is the day you are handed
+ * them; and a door for the ceilings, because it is the one drawing in the set
+ * whose subject is height.
  *
  * `ArtRange`, `ArtCar`, `ArtShower` and `ArtTreeBench` are unused now and
  * stay in LineArt.tsx — kitchens, parking and the bathrooms card have all
  * been on this list before and may be again.
  */
-const ART = [ArtBedLamp, ArtKey, ArtBus, ArtWifi, ArtDoorKey, ArtDoor];
+const ART = [ArtBedLamp, ArtBus, ArtWifi, ArtDoorKey, ArtDoor, ArtKey];
 
 /**
  * Surfaces cycle so six cards read as a row with rhythm, not as tiles.

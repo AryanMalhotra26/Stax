@@ -88,17 +88,6 @@ export function Shuttle() {
                   It runs back as often as it runs out, so a late lecture is
                   not a walk home.
                 </Point>
-                {/*
-                  The bus pass, added at the client's direction, and phrased as
-                  a companion rather than a substitute. It also replaces the
-                  old "not a bus pass" line on concern card 02 — that framing
-                  dismissed the very thing now being offered, and the page
-                  cannot both disparage a transit pass and hand you one.
-                */}
-                <Point title="A transit pass as well">
-                  For the nights the shuttle has finished, and for everywhere
-                  in St. Catharines that is not campus.
-                </Point>
               </ul>
             </div>
           </Reveal>

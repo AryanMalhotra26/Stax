@@ -285,7 +285,7 @@ async function sendEmail(msg: { to: string; subject: string; text: string }) {
       "content-type": "application/json",
     },
     body: JSON.stringify({
-      from: process.env.RESEND_FROM ?? "Stax <leasing@staxliving.ca>",
+      from: process.env.RESEND_FROM ?? "Stax <info@staxliving.ca>",
       ...msg,
     }),
   });
