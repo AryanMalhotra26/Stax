@@ -265,6 +265,50 @@ export function Hero() {
           </div>
         </div>
 
+        {/* ---- The address -------------------------------------------
+            455 Welland, third time, and now at display scale.
+
+            It has been an 11px eyebrow, then 15px, then 18/22px, and each
+            time it still read as a caption because it was sharing a row with
+            the developer credit — a line with two things on it has no
+            emphasis, only balance. So it takes the whole measure, opens the
+            band with the rule that used to sit on the pills, and goes to
+            24/32px: large enough to be the second voice on the fold after
+            the headline, which is what "prominent" has to mean for the one
+            fact somebody will type into a map.
+
+            The marker is doing real work rather than decorating. At this
+            size a street name set in bone could read as a strapline; a pin
+            in front of it says "this is a place" before the words are
+            parsed. */}
+        <div className="container-stax relative z-10 w-full border-t border-sand/15 pt-5 pb-4 md:pt-6 md:pb-6">
+          {/* 20px on a phone, 32 from `md`. 24 everywhere was the first
+              attempt and it broke the line mid-address — "455 Welland Avenue,
+              St." with "Catharines" stranded below — and the extra row pushed
+              the register circle off the fold, which costs more than the four
+              points of size were buying.
+
+              Only the CITY is `nowrap`, and that distinction cost two
+              attempts. `text-balance` was the first and it severed the street
+              name — "455 Welland / Avenue, St. Catharines". Replacing it with
+              a non-breaking space after the comma was worse: that glued
+              "Avenue," to "St. Catharines" and left the break between
+              "Welland" and "Avenue" as the ONLY place the line could go.
+
+              An address is not a headline. It wants to fill the first line
+              and break at the comma, which is exactly what a normal space
+              does — so the only thing worth protecting is "St. Catharines",
+              a city split across two lines reading as a typo rather than as
+              typesetting. */}
+          <p className="flex items-center gap-2.5 text-[1.25rem] leading-tight font-medium text-bone md:gap-3 md:text-[2rem]">
+            <PinMark />
+            <span>
+              {SITE.address.street},{" "}
+              <span className="whitespace-nowrap">{SITE.address.city}</span>
+            </span>
+          </p>
+        </div>
+
         {/* ---- Amenity strip -----------------------------------------
             What you get, above the fold, without scrolling.
 
@@ -285,7 +329,7 @@ export function Hero() {
             short enough to hold a single line on a laptop and wrap to two on
             a phone — which is what a banner is allowed to do. */}
         <div className="container-stax relative z-10 w-full pb-5 md:pb-6">
-          <ul className="flex flex-wrap items-center gap-x-3 gap-y-2 border-t border-sand/15 pt-6">
+          <ul className="flex flex-wrap items-center gap-x-3 gap-y-2">
             {AMENITIES.map((a) => (
               <li
                 key={a.id}
@@ -297,30 +341,12 @@ export function Hero() {
           </ul>
         </div>
 
-        {/* The address, and who is building it.
-
-            455 Welland is set brighter and larger than an eyebrow at the
-            client's direction — it has to be clearly visible, and 11px of
-            grey/75 is the opposite of that. It also replaces "Minutes from
-            Brock University", which was saying in the vaguest possible terms
-            what the shuttle pill above now says precisely. A street address
-            is the more useful claim anyway: a prospective tenant can put it
-            into a map, and "minutes from" is what every listing near a campus
-            says about itself. */}
+        {/* Who is building it. Demoted to its own quiet line so the address
+            above can have the full measure — it is a credit, not a claim. */}
         <div className="container-stax relative z-10 w-full pb-8 md:pb-10">
-          <div className="flex flex-wrap items-center justify-between gap-x-8 gap-y-2">
-            {/* Sized up again at the client's direction. It was 15px, which
-                was already brighter than the eyebrow beside it and still read
-                as a caption. At 18/22px it is the second-largest thing on the
-                fold after the headline — which is the right rank for the one
-                fact a prospective tenant will put into a map. */}
-            <span className="text-[1.125rem] font-medium text-bone md:text-[1.375rem]">
-              {SITE.address.street}, {SITE.address.city}
-            </span>
-            <span className="text-eyebrow text-grey/75 uppercase">
-              A {SITE.developer.name} community
-            </span>
-          </div>
+          <span className="text-eyebrow text-grey/75 uppercase">
+            A {SITE.developer.name} community
+          </span>
         </div>
 
         {/* The sun-circle is the only CTA, so on a phone — where it is the
@@ -338,5 +364,27 @@ export function Hero() {
           rare — there is exactly one more, at the FAQ/Register join. */}
       <TornEdge color="bone" />
     </section>
+  );
+}
+
+/**
+ * A map pin, inline.
+ *
+ * `shrink-0` because it sits in a flex row beside text that wraps on a
+ * phone, and a squashed pin is worse than none.
+ */
+function PinMark() {
+  return (
+    <svg
+      viewBox="0 0 24 24"
+      aria-hidden="true"
+      className="h-[0.85em] w-[0.85em] shrink-0 fill-none stroke-brick-light"
+      strokeWidth={2}
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
+      <path d="M12 21s7-6.2 7-11a7 7 0 1 0-14 0c0 4.8 7 11 7 11Z" />
+      <circle cx="12" cy="10" r="2.5" />
+    </svg>
   );
 }
