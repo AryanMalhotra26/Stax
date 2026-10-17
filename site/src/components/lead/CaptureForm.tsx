@@ -92,7 +92,7 @@ export function CaptureForm({
 
     if (STATIC_DEMO) {
       setError(
-        "This is a static preview — registration isn't wired up here. Email leasing@staxliving.ca and we'll add you to the list.",
+        "This is a static preview — registration isn't wired up here. Email info@staxliving.ca and we'll add you to the list.",
       );
       return;
     }

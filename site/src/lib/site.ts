@@ -23,7 +23,7 @@ export const SITE = {
    * number that is not. Nothing here should grow a `phone` field back
    * without a real, staffed line behind it.
    */
-  email: "leasing@staxliving.ca",
+  email: "info@staxliving.ca",
 
   /**
    * TODO(client): CONFIRM. Sphere's own site lists 455 Welland Avenue,

@@ -15,6 +15,12 @@ import { media, type Media } from "./generated/media";
  * but they are no longer in the list a visitor scans first. Worth confirming
  * that is deliberate rather than an omission.
  *
+ * Security cameras sit LAST at the client's direction. They were second,
+ * which put the least aspirational item on the list in the position a reader
+ * reaches with the most attention left — a camera is reassurance, not a
+ * reason to choose somewhere, and it reads better as the thing you discover
+ * at the end than as the thing you are sold second.
+ *
  * "Up to 10 ft ceilings" is the client's figure and it does not match this
  * repo's plan data, which records `ceilingFt: 9` on all four layouts from the
  * developer's own schedule. "Up to" survives both readings if some units are
@@ -55,13 +61,6 @@ export const AMENITIES: Amenity[] = [
     media: media("bedroom"),
   },
   {
-    id: "security",
-    title: "24-hour security cameras",
-    short: "24-hour security",
-    line: "Cameras covering the entries, the courtyards and the parking, recording around the clock.",
-    media: media("exterior-evening"),
-  },
-  {
     id: "shuttle",
     title: "Free private shuttle to Brock",
     short: "Free private shuttle",
@@ -88,5 +87,12 @@ export const AMENITIES: Amenity[] = [
     short: "Up to 10 ft ceilings",
     line: "Room above your head as well as around you \u2014 the thing you notice walking in and stop noticing by October, in the best way.",
     media: media("living-upgrade-island"),
+  },
+  {
+    id: "security",
+    title: "24-hour security cameras",
+    short: "24-hour security",
+    line: "Cameras covering the entries, the courtyards and the parking, recording around the clock.",
+    media: media("exterior-evening"),
   },
 ];
