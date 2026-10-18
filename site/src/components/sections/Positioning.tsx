@@ -75,7 +75,7 @@ const CONCERNS = [
   {
     n: "02",
     title: "A home, and a way to campus",
-    body: "A purpose-built home with your own front door, rented by the unit — and a private shuttle to Brock roughly every fifteen minutes, both directions, included in your rent. A transit pass if you would rather take the bus.",
+    body: "A purpose-built home with your own front door, rented by the unit — and a private shuttle to Brock, both directions, included in your rent. A transit pass if you would rather take the bus.",
     surface: "bg-espresso text-bone",
     numeral: "text-brick-light",
     bodyTone: "text-bone/85",
@@ -314,20 +314,11 @@ export function Positioning() {
             that gets them to campus, and the one that says when. */}
         <dl className="mt-12 grid grid-cols-2 gap-x-6 gap-y-10 border-t border-line pt-10 md:mt-16 md:grid-cols-3">
           <Fact value={<CountUp to={SITE.facts.units} />} label="Suites" />
-          <Fact
-            value={
-              <>
-                <span className="mr-2 mb-[0.3em] self-end font-sans text-[0.26em] font-semibold tracking-[0.18em]">
-                  EVERY
-                </span>
-                <CountUp to={SITE.facts.shuttleEveryMinutes} />
-                <span className="ml-1.5 mb-[0.35em] self-end font-sans text-[0.28em] font-semibold tracking-[0.18em]">
-                  MIN
-                </span>
-              </>
-            }
-            label="Shuttle to Brock"
-          />
+          {/* A word, not a counter. This tile used to animate a numeral —
+              first a journey time, then a headway — and both were wrong. What
+              survives every correction is that the service is private, so
+              that is what the stat says. */}
+          <Fact value="Private" label="Shuttle to Brock" />
           <Fact value="Sept" label="2027 move-in" suffix="’27" />
         </dl>
       </div>

@@ -55,7 +55,7 @@ export const FAQS: Faq[] = [
     id: "faq-shuttle",
     question: "How does the Brock shuttle work?",
     answer:
-      "[DRAFT] A private shuttle between Stax and Brock University, for residents only. It runs both directions through the academic term with a vehicle roughly every fifteen minutes, and it is included in your rent — no fare, no pass to buy. A transit pass is available as well if you would rather take public transport, or need to get somewhere the shuttle does not go.",
+      "[DRAFT] A private shuttle between Stax and Brock University, for residents only — not a public route you share with the city. It runs both directions through the academic term and is included in your rent, so there is no fare to tap and no pass to buy. A transit pass is available as well if you would rather take public transport, or need to get somewhere the shuttle does not go. The timetable is published closer to opening.",
     sortOrder: 3,
     isPublished: true,
     landing: true,

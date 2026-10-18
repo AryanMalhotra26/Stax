@@ -68,7 +68,7 @@ export function Neighbourhood() {
                   </span>
                   <span className="shrink-0 text-sm tnum whitespace-nowrap text-grey/70 transition-colors duration-150 ease-[var(--ease-out-soft)] group-hover:text-brick-light">
                     {landmark.mode === "shuttle" ? (
-                      <>shuttle {landmark.time}</>
+                      <>private shuttle</>
                     ) : (
                       <>
                         {landmark.time}{" "}

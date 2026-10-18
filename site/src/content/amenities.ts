@@ -64,7 +64,7 @@ export const AMENITIES: Amenity[] = [
     id: "shuttle",
     title: "Free private shuttle to Brock",
     short: "Free private shuttle",
-    line: "A private service straight to Brock University, both directions, roughly every fifteen minutes. Residents only, and free.",
+    line: "A private service straight to Brock University, both directions, for residents only. Free — no fare, no pass, no transfer.",
     media: media("shuttle"),
   },
   {
