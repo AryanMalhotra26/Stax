@@ -41,7 +41,7 @@ const COMMITMENTS = [
     // can hand out a bus pass — but the promise a prospect holds us to is
     // that it costs them nothing, and that is a different word doing a
     // different job. Both are true; neither is used where the other belongs.
-    body: "Both directions to Brock, roughly every fifteen minutes, in the rent. Not a discounted pass, not a partner service you pay separately — included.",
+    body: "Both directions to Brock, in the rent. Not a discounted pass, not a partner service you pay separately — included.",
     // The shuttle exists and there is a photograph of it, so the card shows
     // the photograph. It was illustrated with a wifi symbol — line art picked
     // from the set for its shape rather than its meaning, on the one card

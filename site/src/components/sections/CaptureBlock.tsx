@@ -114,7 +114,7 @@ export function CaptureBlock({
 
           <dl className="mx-auto mt-10 flex flex-wrap items-end justify-center gap-x-14 gap-y-6">
             <Stat value={SITE.facts.units} label="Suites" />
-            <Stat value={`Every ${SITE.facts.shuttleEveryMinutes} min`} label="Shuttle" />
+            <Stat value="Private" label="Shuttle to Brock" />
             <Stat value={SITE.facts.occupancyShort} label="Move-in" />
           </dl>
         </div>

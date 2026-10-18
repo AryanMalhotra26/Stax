@@ -73,17 +73,23 @@ export const SITE = {
    * Suite count stays because it is what a renter is choosing between; the
    * bed total only answers a question an investor asks.
    *
-   * `shuttleEveryMinutes`, not `shuttleMinutes`, and the rename is the whole
-   * point. The old name was read as journey time and published as "fifteen
-   * minutes each way" in seven places; the client has confirmed 15 is the
-   * HEADWAY — a vehicle every fifteen minutes, both directions. The journey
-   * time is not currently a published figure, so nothing here should be
-   * quoted as one.
+   * NO SHUTTLE TIMING, of any kind. There is no journey time here and no
+   * headway either, and that is deliberate rather than an omission waiting
+   * to be filled.
+   *
+   * The site has now published two different fifteens — "fifteen minutes
+   * each way" as a journey, then "every fifteen minutes" as a frequency —
+   * and been corrected on both. An operating schedule for a building that
+   * opens in September 2027 is not a fact yet; it is an intention, and a
+   * leasing site is the wrong place to discover the difference. The claim is
+   * that the shuttle is private, direct and included, all three of which are
+   * true today and none of which depends on a timetable.
+   *
+   * Do not add a number back without an operator and a schedule behind it.
    */
   facts: {
     units: 248,
     blocks: 10,
-    shuttleEveryMinutes: 15,
     occupancy: "September 2027",
     occupancyShort: "Sept 2027",
   },

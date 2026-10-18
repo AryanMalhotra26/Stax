@@ -21,16 +21,16 @@ export type Landmark = {
 export const LANDMARKS: Landmark[] = [
   {
     /**
-     * The only row here that is not a walking time, and the only one whose
-     * number is a frequency. Everything else says how long it takes to get
-     * there; the shuttle says how long until the next one. Rendered
-     * mode-first — "shuttle every 15 min" — because "every 15 min shuttle"
-     * in a column of durations reads as a fifteen-minute journey, which is
-     * the exact misreading this pass exists to correct.
+     * The only row here with no number, and the only one that should not
+     * have one. Every other entry is a walking time this site can stand
+     * behind; the shuttle's schedule is not set, and a column of durations
+     * is the most misreadable place on the page to put a figure that turns
+     * out to be a frequency. It renders as "private shuttle" — `time` is
+     * empty and the row knows to skip it.
      */
     name: "Brock University",
     category: "campus",
-    time: "every 15 min",
+    time: "",
     mode: "shuttle",
     featured: true,
   },

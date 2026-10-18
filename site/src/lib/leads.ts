@@ -362,7 +362,7 @@ public — floor plans and lease dates for September 2027.
 
 In the meantime:
 - 248 purpose-built suites, each with its own front door
-- Private shuttle to Brock roughly every 15 minutes, included in your rent
+- Private shuttle to Brock, both directions, included in your rent
 - Fully furnished, internet included
 - Studio, 1, 2 and 3 bedroom options
 

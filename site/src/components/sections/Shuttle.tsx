@@ -5,10 +5,16 @@ import { Render } from "@/components/ui/Render";
 import { ArtBus } from "@/components/ui/LineArt";
 import { media } from "@/content/generated/media";
 import { sectionIndex } from "@/content/sections";
-import { SITE } from "@/lib/site";
 
 /**
  * The shuttle, on its own.
+ *
+ * NO TIMETABLE ANYWHERE IN IT. The site has published two different
+ * fifteens — a journey time, then a headway — and been corrected on both. A
+ * schedule for a building opening in September 2027 is an intention rather
+ * than a fact, and this is the wrong page to learn the difference on. What
+ * is claimed instead is true today and needs no operator to confirm it: the
+ * service is private, it is direct, and it is included.
  *
  * It had been a line in the walkthrough and a line on a commitment card —
  * true in both places and load-bearing in neither. It is the single thing
@@ -41,7 +47,7 @@ export function Shuttle() {
         <SectionHead
           index={sectionIndex("shuttle")}
           eyebrow="Getting to campus"
-          heading="A shuttle every fifteen minutes."
+          heading="A private shuttle to Brock."
           quiet="Both directions, included in your rent."
         />
 
@@ -70,13 +76,11 @@ export function Shuttle() {
               />
 
               <p className="relative z-2 text-lead text-ink-soft">
-                A private service between Stax and Brock, for residents only —
-                not a public route you share with the city, and nothing to buy.
-                A vehicle leaves roughly every{" "}
-                <span className="font-medium text-ink">
-                  {SITE.facts.shuttleEveryMinutes} minutes
-                </span>{" "}
-                in both directions through the academic term.
+                A private service between Stax and Brock, for{" "}
+                <span className="font-medium text-ink">residents only</span> —
+                not a public route you share with the city, nothing to buy, and
+                nothing to tap. It runs in both directions through the academic
+                term.
               </p>
 
               <ul className="relative z-2 mt-8 border-t border-line">
@@ -84,9 +88,9 @@ export function Shuttle() {
                   No fare, no pass to buy, no partner service billed
                   separately.
                 </Point>
-                <Point title="Both directions, all day">
-                  It runs back as often as it runs out, so a late lecture is
-                  not a walk home.
+                <Point title="Both directions">
+                  It brings you back as readily as it takes you, so getting
+                  home is never the part you have to plan around.
                 </Point>
               </ul>
             </div>
