@@ -57,7 +57,10 @@ export async function GET(request: Request) {
 
   const code = url.searchParams.get("code");
   const state = url.searchParams.get("state");
-  if (!code || !state) return fail(request, "invalid");
+  if (!code || !state) {
+    console.error("[ms-auth] callback missing code or state");
+    return fail(request, "invalid");
+  }
 
   const pending = parsePendingAuth(readCookie(cookies, OAUTH_STATE_COOKIE));
   if (
@@ -65,6 +68,9 @@ export async function GET(request: Request) {
     pending.provider !== "microsoft" ||
     !safeEqual(pending.state, state)
   ) {
+    console.error(
+      `[ms-auth] state check failed. cookiePresent=${Boolean(pending)} provider=${pending?.provider ?? "none"}`,
+    );
     return fail(request, "expired");
   }
 
@@ -75,7 +81,12 @@ export async function GET(request: Request) {
   );
   if (!identity) return fail(request, "invalid");
 
-  if (!isAllowed(identity.email)) return fail(request, "forbidden");
+  if (!isAllowed(identity.email)) {
+    // The one failure worth naming the address for: the whole fix is
+    // knowing which address Microsoft actually sent.
+    console.error(`[ms-auth] not on allow-list: ${identity.email}`);
+    return fail(request, "forbidden");
+  }
 
   const token = await createSessionToken({
     email: identity.email,

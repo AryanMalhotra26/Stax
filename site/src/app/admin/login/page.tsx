@@ -115,7 +115,7 @@ export default async function AdminLoginPage({
 function SignInError({ code }: { code: string }) {
   const message =
     code === "forbidden"
-      ? "That Google account is not on the leasing team's list. Try a different account, or ask to be added."
+      ? "That account is not on the leasing team's list. Try a different account, or ask to be added."
       : code === "expired"
         ? "That sign-in attempt timed out. Please try again."
         : code === "unconfigured"

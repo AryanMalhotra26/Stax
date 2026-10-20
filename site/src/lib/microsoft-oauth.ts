@@ -133,10 +133,36 @@ export async function exchangeCodeForIdentity(
     }),
   });
 
-  if (!res.ok) return null;
+  /**
+   * DIAGNOSTICS, and the reason they exist.
+   *
+   * Every failure below returns the same `null`, which becomes the same
+   * "sign-in could not be completed" for the visitor — correct, because a
+   * stranger is owed no diagnosis. But it is equally opaque to US, and the
+   * first real sign-in attempt failed here with no way to tell a bad client
+   * secret from a bad issuer from a missing claim.
+   *
+   * So the reason goes to the Worker log, which only the account can read.
+   * Microsoft's own `error_description` is the useful part: it carries the
+   * AADSTS code that names the problem exactly.
+   *
+   * NOTHING SECRET IS LOGGED. Not the client secret, not the authorization
+   * code, not the id_token. Only Microsoft's error text and which check
+   * failed.
+   */
+  if (!res.ok) {
+    const detail = await res.text().catch(() => "");
+    console.error(
+      `[ms-auth] token endpoint ${res.status}: ${detail.slice(0, 500)}`,
+    );
+    return null;
+  }
 
   const body = (await res.json()) as { id_token?: string };
-  if (!body.id_token) return null;
+  if (!body.id_token) {
+    console.error("[ms-auth] token response carried no id_token");
+    return null;
+  }
 
   try {
     const { payload } = await jwtVerify(body.id_token, tenantJWKS(t), {
@@ -152,7 +178,12 @@ export async function exchangeCodeForIdentity(
 
     // Belt and braces over the issuer check. They encode the same fact, and
     // an application that gets one of them wrong usually has both wrong.
-    if (typeof payload.tid === "string" && payload.tid !== t) return null;
+    if (typeof payload.tid === "string" && payload.tid !== t) {
+      console.error(
+        `[ms-auth] tenant mismatch: token tid=${payload.tid} expected=${t}`,
+      );
+      return null;
+    }
 
     /**
      * `email` when the directory has a mail attribute, `preferred_username`
@@ -168,11 +199,23 @@ export async function exchangeCodeForIdentity(
       (typeof payload.preferred_username === "string" &&
         payload.preferred_username) ||
       null;
-    if (!claimed) return null;
+    if (!claimed) {
+      // Which claims DID arrive, so the fix is "add an optional claim" or
+      // "the UPN is somewhere else" rather than a guess.
+      console.error(
+        `[ms-auth] no address claim. keys=${Object.keys(payload).join(",")}`,
+      );
+      return null;
+    }
 
     const name = typeof payload.name === "string" ? payload.name : undefined;
     return { email: claimed.toLowerCase(), name };
-  } catch {
+  } catch (err) {
+    // Signature, issuer, audience and expiry failures all land here, and
+    // jose's message names which.
+    console.error(
+      `[ms-auth] id_token verify failed: ${err instanceof Error ? err.message : String(err)}`,
+    );
     return null;
   }
 }
