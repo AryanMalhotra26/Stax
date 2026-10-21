@@ -24,9 +24,9 @@ export default function PrivacyPage() {
 
       <h2>What we collect</h2>
       <p>
-        When you register your interest we collect your email address and the
-        move-in term you select. If you choose to answer the follow-up
-        questions we also collect your name, phone number, bedroom preference
+        When you register your interest we collect your email address, your
+        phone number and the move-in term you select. If you choose to answer
+        the follow-up questions we also collect your name, bedroom preference
         and budget range. We record how you arrived at this site, including
         advertising parameters, so we understand which campaigns work.
       </p>

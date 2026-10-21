@@ -1,5 +1,6 @@
 import { after } from "next/server";
 import {
+  LeadCreateSchema,
   LeadSchema,
   dispatchLeadSideEffects,
   getLeadStore,
@@ -79,7 +80,10 @@ export async function POST(request: Request) {
     return Response.json({ ok: false, error: "Malformed request." }, { status: 400 });
   }
 
-  const parsed = LeadSchema.safeParse(body);
+  // `LeadCreateSchema`, not `LeadSchema`: a new registration must carry a
+  // phone number. This is the enforcement — the form's own check is a
+  // courtesy to the visitor, and this endpoint is public and takes JSON.
+  const parsed = LeadCreateSchema.safeParse(body);
   if (!parsed.success) {
     return Response.json(
       {

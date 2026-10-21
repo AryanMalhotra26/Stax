@@ -4,6 +4,7 @@ import { useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { MOVE_IN_OPTIONS } from "@/lib/site";
 import { captureAttribution, track } from "@/lib/attribution";
+import { PHONE_ERROR, PHONE_REQUIRED, isValidPhone } from "@/lib/phone";
 import { useReducedMotion } from "@/lib/useReducedMotion";
 
 /**
@@ -14,12 +15,20 @@ import { useReducedMotion } from "@/lib/useReducedMotion";
 const STATIC_DEMO = process.env.NEXT_PUBLIC_STATIC_DEMO === "1";
 
 /**
- * The two-field capture form (§7.1), poster treatment.
+ * The capture form (§7.1), poster treatment.
  *
- * Still two fields, because 1–3 consistently outperforms longer and every
- * field past three costs 10–25%. Phone is deliberately absent — it is the most
- * abandonment-prone field on a cold form, and it is asked for on the thank-you
- * page instead, from someone who has already said yes once.
+ * THREE FIELDS NOW, AND PHONE IS ONE OF THEM. It was deliberately absent: it
+ * is the most abandonment-prone field on a cold form, and it was asked for on
+ * the thank-you page instead, from somebody who had already said yes once.
+ * The client wants a number from every registration, which is a defensible
+ * trade — a list of 100 addresses the leasing team cannot ring is worth less
+ * than 80 they can — but it IS a trade, and the cost lands here. Three fields
+ * still sits inside the 1–3 band that outperforms longer forms; a fourth
+ * would not.
+ *
+ * It sits second rather than last so the two "how do we reach you" fields
+ * read as a single block, which leaves the move-in pills as the last thing
+ * touched before the submit — one tap into the button instead of a keyboard.
  *
  * The surface is architectural rather than boxed (§5.9): inputs are a single
  * bottom rule that lights on focus, choices are pills, and the submit is the
@@ -60,9 +69,11 @@ export function CaptureForm({
   const reduce = useReducedMotion();
 
   const [email, setEmail] = useState("");
+  const [phone, setPhone] = useState("");
   const [moveIn, setMoveIn] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [emailError, setEmailError] = useState<string | null>(null);
+  const [phoneError, setPhoneError] = useState<string | null>(null);
   const [state, setState] = useState<"idle" | "sending" | "done">("idle");
 
   const started = useRef(false);
@@ -80,15 +91,39 @@ export function CaptureForm({
     setEmailError(ok ? null : "That email doesn't look right");
   };
 
+  /**
+   * Blur, not keystroke. Telling somebody their number is wrong while they
+   * are three digits into typing it is the fastest way to make a required
+   * field feel broken.
+   *
+   * An empty field clears rather than complains — "we need a phone number"
+   * belongs on submit, when leaving it blank has actually become a problem.
+   */
+  const validatePhone = () => {
+    if (!phone.trim()) return setPhoneError(null);
+    setPhoneError(isValidPhone(phone) ? null : PHONE_ERROR);
+  };
+
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     setError(null);
 
-    if (!moveIn) return setError("Pick when you're looking to move in.");
+    // Top-down, so the error names the first field with a problem rather
+    // than the last. With two fields the order barely mattered; with three
+    // it is the difference between a pointer and a guess.
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
       setEmailError("That email doesn't look right");
       return;
     }
+    if (!phone.trim()) {
+      setPhoneError(PHONE_REQUIRED);
+      return;
+    }
+    if (!isValidPhone(phone)) {
+      setPhoneError(PHONE_ERROR);
+      return;
+    }
+    if (!moveIn) return setError("Pick when you're looking to move in.");
 
     if (STATIC_DEMO) {
       setError(
@@ -105,6 +140,7 @@ export function CaptureForm({
         headers: { "content-type": "application/json" },
         body: JSON.stringify({
           email,
+          phone,
           moveIn,
           floorPlanId,
           ...captureAttribution(),
@@ -153,11 +189,13 @@ export function CaptureForm({
     "outline-none transition-[border-color,box-shadow] duration-150 " +
     "ease-[var(--ease-out-soft)] focus:border-brick-light " +
     "focus:shadow-[var(--shadow-focus-rule)]";
-  const inputTone = emailError
-    ? "border-brick text-inherit placeholder:text-ink-faint/70"
-    : onDark
-      ? "border-sand/25 text-bone placeholder:text-grey/75"
-      : "border-ink/25 text-ink placeholder:text-ink-faint/60";
+  /** Per field, now that more than one of them can be wrong at a time. */
+  const inputTone = (invalid: boolean) =>
+    invalid
+      ? "border-brick text-inherit placeholder:text-ink-faint/70"
+      : onDark
+        ? "border-sand/25 text-bone placeholder:text-grey/75"
+        : "border-ink/25 text-ink placeholder:text-ink-faint/60";
 
   return (
     <div className={`grid ${className}`}>
@@ -217,7 +255,7 @@ export function CaptureForm({
               onBlur={validateEmail}
               aria-invalid={!!emailError}
               aria-describedby={emailError ? `email-error-${uid}` : undefined}
-              className={`${inputBase} ${inputTone}`}
+              className={`${inputBase} ${inputTone(!!emailError)}`}
             />
             {emailError && (
               <p
@@ -229,11 +267,55 @@ export function CaptureForm({
             )}
           </div>
 
-          {/* 02 — move-in term */}
+          {/* 02 — phone. Required, at the client's request. The `required`
+              attribute below is a courtesy to the browser; the check that
+              counts is in the route, because /api/lead is public and takes
+              JSON from anybody. */}
           <div>
             <div className={`mb-3 flex items-center gap-3 border-b pb-2 ${rule}`}>
               <span className={`text-eyebrow tnum uppercase ${stepIndex}`}>
                 02
+              </span>
+              <label
+                htmlFor={`phone-${uid}`}
+                className={`text-eyebrow uppercase ${stepText}`}
+              >
+                Phone
+              </label>
+            </div>
+            <input
+              id={`phone-${uid}`}
+              type="tel"
+              inputMode="tel"
+              autoComplete="tel"
+              required
+              placeholder="(905) 555-0142"
+              value={phone}
+              onFocus={handleStart}
+              onChange={(e) => {
+                setPhone(e.target.value);
+                if (phoneError) setPhoneError(null);
+              }}
+              onBlur={validatePhone}
+              aria-invalid={!!phoneError}
+              aria-describedby={phoneError ? `phone-error-${uid}` : undefined}
+              className={`${inputBase} ${inputTone(!!phoneError)}`}
+            />
+            {phoneError && (
+              <p
+                id={`phone-error-${uid}`}
+                className={`mt-2.5 text-sm font-medium ${onDark ? "text-brick-light" : "text-brick"}`}
+              >
+                {phoneError}
+              </p>
+            )}
+          </div>
+
+          {/* 03 — move-in term */}
+          <div>
+            <div className={`mb-3 flex items-center gap-3 border-b pb-2 ${rule}`}>
+              <span className={`text-eyebrow tnum uppercase ${stepIndex}`}>
+                03
               </span>
               <span className={`text-eyebrow uppercase ${stepText}`}>
                 When are you moving in?
