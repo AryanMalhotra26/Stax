@@ -36,7 +36,7 @@ export function Shuttle() {
   return (
     <section
       id="shuttle"
-      className="relative overflow-clip bg-linen pt-tight pb-normal"
+      className="relative overflow-clip bg-linen pt-seam-lg pb-normal"
     >
       {/* espresso → linen is the site's second-biggest tonal jump, so the
           longest ramp. Same treatment the Commitments section uses for the
@@ -62,7 +62,11 @@ export function Shuttle() {
                   imgClassName="h-full w-full object-cover"
                 />
               </div>
-              <figcaption className="mt-3 font-sans text-eyebrow text-ink-faint uppercase">
+              {/* `ink-soft`, not `ink-faint`. The faint tone measures 4.33:1
+                  on linen, and an 11px caption needs 4.5 — it clears the bar
+                  on bone, which is where the rest of the site uses it, and
+                  misses it here. Soft measures 6.81 on the same surface. */}
+              <figcaption className="mt-3 font-sans text-eyebrow text-ink-soft uppercase">
                 The Stax shuttle
               </figcaption>
             </figure>
