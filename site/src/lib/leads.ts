@@ -1,5 +1,6 @@
 import { z } from "zod";
 import { D1LeadStore, getD1 } from "@/lib/leadStore.d1";
+import { PHONE_ERROR, PHONE_REQUIRED, normalizePhone } from "@/lib/phone";
 
 /**
  * Lead schema + scoring + storage. Mirrors the `leads` table (§5).
@@ -17,13 +18,41 @@ export const MOVE_IN_VALUES = [
   "browsing",
 ] as const;
 
+/**
+ * The phone field, validated and normalised in one place.
+ *
+ * Required on create, optional everywhere else, and that split is deliberate:
+ *
+ *   - `LeadCreateSchema` requires it, because the client asked for a number
+ *     from every new registration and the server is the only place that can
+ *     actually enforce it. A client-side `required` attribute stops an honest
+ *     visitor and nobody else — the endpoint is public and takes JSON.
+ *   - `LeadSchema` leaves it optional, because the same schema describes rows
+ *     already in D1. Every lead captured before today has no number, the
+ *     column is nullable, and a required field here would make `Lead.phone`
+ *     claim a `string` that is sometimes absent.
+ *
+ * Validating on the base field rather than only on create means the
+ * enrichment PATCH gets the same check for free, so a corrected number cannot
+ * overwrite a good one with rubbish.
+ */
+const PhoneField = z
+  .string()
+  .trim()
+  .max(40)
+  .refine((v) => normalizePhone(v) !== null, { message: PHONE_ERROR })
+  // Safe to assert: the refine above has already rejected every null.
+  .transform((v) => normalizePhone(v) as string);
+
 export const LeadSchema = z.object({
   email: z.string().trim().toLowerCase().email("Enter a valid email address"),
   moveIn: z.enum(MOVE_IN_VALUES),
 
+  // Phone is required on create — see `LeadCreateSchema`.
+  phone: PhoneField.optional(),
+
   // Enrichment — all optional, all arriving after the first submit (§7.2)
   name: z.string().trim().max(120).optional(),
-  phone: z.string().trim().max(40).optional(),
   bedrooms: z.string().trim().max(16).optional(),
   budget: z.string().trim().max(24).optional(),
   renterType: z.string().trim().max(24).optional(),
@@ -44,6 +73,28 @@ export const LeadSchema = z.object({
 });
 
 export type LeadInput = z.infer<typeof LeadSchema>;
+
+/**
+ * What POST /api/lead accepts: the whole record shape, with a phone number
+ * that is not optional.
+ *
+ * `.min(1)` before the format check so an empty field is told it is empty
+ * rather than malformed — two different mistakes deserve two different
+ * messages, and "that doesn't look right" about a box you left blank reads
+ * like a bug.
+ */
+export const LeadCreateSchema = LeadSchema.extend({
+  // `error` catches the key being absent, `.min(1)` catches it being blank.
+  // Both say the same sentence, because to the person reading it they are the
+  // same mistake — without it, an omitted key surfaces zod's own "expected
+  // string, received undefined", which is a developer's message on a
+  // visitor's screen.
+  phone: z
+    .string({ error: PHONE_REQUIRED })
+    .trim()
+    .min(1, PHONE_REQUIRED)
+    .pipe(PhoneField),
+});
 
 export type Lead = Omit<LeadInput, "turnstileToken"> & {
   id: string;
@@ -72,6 +123,16 @@ export type LeadStatus =
  * convert a whole suite rather than a bed.
  *
  * Routing: >= 60 call within the hour, 30-59 nurture, < 30 newsletter (§0.3).
+ *
+ * THE PHONE BONUS IS NOW A BASELINE, and the bands were left alone anyway.
+ * Every new lead carries a number, so the +20 below no longer separates
+ * anybody — it shifts the whole population up by 20 and the move-in term
+ * becomes the only thing that sorts it: Sept 2027 lands at 60 and routes to
+ * "call within the hour", browsing lands at 25 and routes to the newsletter.
+ * That is the right answer rather than a lucky one. The term is, as above,
+ * the strongest signal available, and a Sept 2027 registrant who has handed
+ * over a phone number IS someone to call today. Leads captured before the
+ * field existed keep the score they were stored with.
  */
 export function scoreLead(lead: Partial<LeadInput>): number {
   let score = 0;

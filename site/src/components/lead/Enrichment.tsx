@@ -48,7 +48,16 @@ export function Enrichment() {
     e.preventDefault();
     if (!name.trim() && !phone.trim()) return;
     setHoldState("sending");
-    await patch({ name: name.trim(), phone: phone.trim() });
+
+    // Only fields that were actually filled. An empty string here used to be
+    // harmless — the stores dropped it on merge — but the phone field is now
+    // format-checked on PATCH too, and `""` is not a valid number, so sending
+    // it would 400 the whole request and lose the name alongside it.
+    const fields: Record<string, string> = {};
+    if (name.trim()) fields.name = name.trim();
+    if (phone.trim()) fields.phone = phone.trim();
+
+    await patch(fields);
     track("enrich_complete", { leadId, hasPhone: !!phone.trim() });
     setHoldState("done");
   }
@@ -123,10 +132,16 @@ export function Enrichment() {
         ) : (
           <form onSubmit={handleHold} className="space-y-5">
             <div>
+              {/* No longer "leave a number" — registration now requires one,
+                  so asking again as though it were new reads like the first
+                  form did not save. What is still missing is a name, and the
+                  number stays here as a correction for anyone who would
+                  rather be reached on a different one. */}
               <p className="text-h3">Want first access when suites are released?</p>
               <p className="text-ink-soft mt-1.5 max-w-md">
-                Leave a number and the leasing team will reach you before the
-                public release.
+                Add your name so the leasing team knows who they&rsquo;re
+                calling. We already have your number — put a different one
+                here if we should use that instead.
               </p>
             </div>
 
@@ -142,7 +157,7 @@ export function Enrichment() {
                 />
               </div>
               <div>
-                <Label htmlFor="enrich-phone">Phone</Label>
+                <Label htmlFor="enrich-phone">Phone (if different)</Label>
                 <Input
                   id="enrich-phone"
                   type="tel"
