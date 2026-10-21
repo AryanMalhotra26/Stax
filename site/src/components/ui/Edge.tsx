@@ -66,12 +66,28 @@ export type SeamColor = keyof typeof STOPS;
  */
 const RAMP = {
   /** Δ < 0.10 — linen↔bone, bone↔paper. */
-  sm: "10rem",
+  sm: "var(--seam-sm)",
   /** Δ 0.10–0.40. */
-  md: "15rem",
+  md: "var(--seam-md)",
   /** Δ > 0.40 — night↔linen, espresso↔bone. Anything less reads as an edge. */
-  lg: "24rem",
+  lg: "var(--seam-lg)",
 } as const;
+
+/**
+ * THE RAMP IS ALSO A PADDING, and that is the part this file used to get
+ * wrong on its own.
+ *
+ * A ramp is opaque at its first pixel. Any text inside it is sitting on the
+ * previous section's colour, not on this section's — so a light section that
+ * opens with a dark `lg` seam and `pt-tight` put its heading where the
+ * overlay was still 73% opaque. Measured 1.12:1 on the quiet half of the
+ * heading: the same luminance as its own background.
+ *
+ * The lengths therefore live in `--seam-*` in globals.css and are read from
+ * there by both this component and the `pt-seam-*` utilities. A section that
+ * opens with a seam pairs the two — `size="lg"` with `pt-seam-lg` — and the
+ * text begins where the gradient has finished.
+ */
 
 export function Seam({
   edge,

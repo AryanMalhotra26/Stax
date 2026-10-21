@@ -72,7 +72,7 @@ const FACES = ABOUT_TEAM.filter((m) => m.photo).slice(0, 2);
 export function Assurance() {
   return (
     <section
-      className="relative overflow-clip bg-linen pt-tight pb-normal"
+      className="relative overflow-clip bg-linen pt-seam-lg pb-normal"
     >
       {/* The single strip for the site's second-biggest jump, Δ 0.75 from
           night to linen. `lg` because at 14% of this section it was still a
@@ -133,12 +133,35 @@ export function Assurance() {
                     /* A real photograph beats a watermark. Bled off the
                        bottom-right the same way the line art was, and held
                        under the copy at low contrast so the card still reads
-                       as a card rather than as an image tile. */
+                       as a card rather than as an image tile.
+
+                       SMALLER AND FAINTER BELOW `md`, because the card
+                       changes shape there and the corner it was bleeding into
+                       stops existing. In three columns the card is tall and
+                       narrow, so a 78% image in the bottom-right lands under
+                       nothing. At one column it is wide and short — 339x243
+                       — and the same image covered 70% of the paragraph. The
+                       body copy was being read across a photograph of a bus,
+                       which is the "image tile" the note above says to avoid.
+
+                       25% failed on the desktop card too, which the first
+                       pass at this assumed it would not: the bus's wheel
+                       arches put near-black under the paragraph and the worst
+                       case measured 4.49:1 against the 4.5 body text needs.
+                       Failing by a hundredth is still failing, so three
+                       columns take 18% — measured 5.41:1 against the darkest
+                       pixel actually under the text.
+
+                       10% is a watermark; 25% was a picture. The developer
+                       block further down this file solves the same problem
+                       with a `bg-linen/55` scrim over its photo — this is
+                       that idea, applied where the geometry actually needs
+                       it and at no cost to the three-column layout. */
                     <Render
                       media={media(photo)}
                       sizes="(max-width: 767px) 90vw, 30vw"
-                      className="pointer-events-none absolute -right-10 -bottom-8 block w-[78%]"
-                      imgClassName="h-full w-full object-contain opacity-25"
+                      className="pointer-events-none absolute -right-10 -bottom-8 block w-[58%] md:w-[78%]"
+                      imgClassName="h-full w-full object-contain opacity-10 md:opacity-[0.18]"
                     />
                   ) : (
                     <Art className="pointer-events-none absolute -right-8 -bottom-10 h-[55%] w-auto text-ink opacity-7" />

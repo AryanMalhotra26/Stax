@@ -160,6 +160,20 @@
   --text-hero--letter-spacing: -0.028em;
   --text-hero--font-weight: 400;
 
+  /* Seam ramps. Read by BOTH `Seam` (as its height) and `pt-seam-*` (as
+     the padding that clears it) so the two cannot drift apart again.
+
+     `lg` was a flat 24rem. On a 375px phone that is 384px of gradient —
+     half the viewport — and it is the only one of the three that crosses
+     a large enough luminance gap to matter. It now scales: 176px on a
+     phone, 288px from roughly 1440px up. Shorter on small screens is
+     also the right call on its own terms, because the ramp is read
+     against the height of the screen it is on. `sm` and `md` keep their
+     values; they cross small gaps and were never the problem. */
+  --seam-sm: 10rem;
+  --seam-md: 15rem;
+  --seam-lg: clamp(11rem, 20vw, 18rem);
+
   /* Annotation — Caveat. Always rotated, always lowercase, always in a
      margin. See `.hand` in the components layer. */
   --text-hand: clamp(1.5rem, 2.6vw, 2.75rem);
@@ -471,6 +485,34 @@
 }
 
 /* --- single-edge, for when the two ends want different amounts --------- */
+
+/* Section top padding that CLEARS a seam ramp.
+   ------------------------------------------------------------------
+   These exist because the ramp length and the distance to the first
+   line of text are the same quantity, and they were being declared in
+   two unrelated files that did not agree.
+
+   `Seam` paints the previous section's colour over the top of this one,
+   opaque to transparent, for 24rem. The sections it was painted over
+   used `pt-tight` — 48px on a phone, 72px on a desktop. So the eyebrow
+   began where the overlay was still 82% opaque and the heading where it
+   was 73%: measured 1.25:1 on the eyebrow, 2.12:1 on the heading and
+   1.12:1 on the quiet half, against the 4.5 and 3.0 those need. The
+   quiet half was arithmetically invisible — the same luminance as the
+   thing behind it.
+
+   There is no trick that avoids this. A gradient's length and the point
+   at which text may start are one number, so it is now one number: the
+   ramp reads `--seam-*` and the padding reads `--seam-*`, and a section
+   that opens with a seam pairs `Seam size="lg"` with `pt-seam-lg`.
+
+   This does NOT add dark to the page — it moves the text out of the
+   dark that was already there. Before, a reader met ~190px of gradient,
+   then ~250px more of it with unreadable text inside. Now they meet the
+   ramp, it finishes, and the text begins on clean linen. */
+@utility pt-seam-sm { padding-top: var(--seam-sm); }
+@utility pt-seam-md { padding-top: var(--seam-md); }
+@utility pt-seam-lg { padding-top: var(--seam-lg); }
 
 @utility pt-tight  { padding-top: clamp(3rem, 5vw, 6rem); }
 @utility pb-tight  { padding-bottom: clamp(3rem, 5vw, 6rem); }
