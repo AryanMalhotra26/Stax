@@ -140,7 +140,22 @@
      elements IS the poster effect; the reference sets its hero line at
      230px. 8.5rem lands at ~136px here, which is as far as twenty-seven
      characters will go on one line in this column. */
-  --text-hero: clamp(2.5rem, 8.5vw, 8.5rem);
+  /* The floor is 3.75rem, not 2.5rem, and that one number is the whole
+     mobile hero.
+
+     8.5vw only reaches 2.5rem at 470px wide, so every phone on earth got the
+     floor — and the floor was set as a safe minimum rather than measured.
+     "Shuttle there." came out 167px wide inside a 335px column: a display
+     headline using half its measure, which is why the chip strip and the CTA
+     circle both out-weighed it and the fold read as a pile of widgets with a
+     caption on top.
+
+     60px puts the longest line at ~250px of a 335px column on a 375px phone,
+     and still clears the 280px column on a 320px one. It is also CONTINUOUS
+     with the desktop curve rather than a breakpoint override: 8.5vw passes
+     60px at 706px wide, so the floor hands off to the slope before the md
+     breakpoint and nothing above it moves by a pixel. */
+  --text-hero: clamp(3.75rem, 8.5vw, 8.5rem);
   --text-hero--line-height: 0.92;
   --text-hero--letter-spacing: -0.028em;
   --text-hero--font-weight: 400;

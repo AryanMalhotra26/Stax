@@ -193,7 +193,15 @@ export function Hero() {
             starts. At `pb-8` the H1 began at 39% of the viewport; this lands
             it near 36%, which is as high as it goes before the sun-circle
             starts crowding the proof band underneath it. */}
-        <div className="container-stax flex w-full flex-1 flex-col justify-end pt-[clamp(7rem,14vw,11rem)] pb-14">
+        {/* `pb-8` on a phone, `pb-14` from md.
+
+            The copy block is `flex-1` under `justify-end`, so every pixel the
+            stack below it saves turns into space ABOVE the headline and this
+            padding is the only thing setting the distance to the address
+            band. At 56px that gap measured 77px — the one genuinely empty
+            band on the fold, sitting between the poster and the facts. 32px
+            closes it to about 50 and costs the sky above almost nothing. */}
+        <div className="container-stax flex w-full flex-1 flex-col justify-end pt-[clamp(7rem,14vw,11rem)] pb-8 md:pb-14">
           <h1
             data-px="headline"
             data-px-fade
@@ -325,20 +333,52 @@ export function Hero() {
             the strip and the section two screens below can never disagree —
             and so the full list, when it arrives, lands in one file.
 
-            All six now, not five. The client's list is the list, and it is
-            short enough to hold a single line on a laptop and wrap to two on
-            a phone — which is what a banner is allowed to do. */}
+            All six now, not five. The client's list is the list.
+
+            IT DOES NOT WRAP TO TWO ON A PHONE, which is what this said and
+            what it was sized for. At the eyebrow's 11px with 14px of side
+            padding the six chips came out over FIVE rows — 157px, a fifth of
+            the fold, and ragged: one row carried two chips and the other four
+            carried one each. A list that uneven reads as a layout fault
+            rather than as a list.
+
+            10px and 10px of padding is the smallest change that packs them
+            two to a row at 375px, which makes the block even-edged as well as
+            short. The size comes back at `md`, where there was never a
+            problem — one line, as designed. */}
         <div className="container-stax relative z-10 w-full pb-5 md:pb-6">
-          <ul className="flex flex-wrap items-center gap-x-3 gap-y-2">
+          <ul className="flex flex-wrap items-center gap-x-2 gap-y-2 md:gap-x-3">
             {AMENITIES.map((a) => (
               <li
                 key={a.id}
-                className="rounded-full border border-sand/20 bg-night/35 px-3.5 py-1.5 text-eyebrow uppercase text-grey/90 backdrop-blur-[2px]"
+                /* Tracking, weight and leading are stated rather than left to
+                   `text-eyebrow`, because only the SIZE changes between the
+                   two breakpoints and the token would otherwise fight the
+                   override for the same property. The values are the token's
+                   own, so `md:text-eyebrow` lands on exactly what is already
+                   there. */
+                className="rounded-full border border-sand/20 bg-night/35 px-2.5 py-1 text-[0.625rem] leading-none font-semibold tracking-[0.18em] text-grey/90 uppercase backdrop-blur-[2px] md:px-3.5 md:py-1.5 md:text-eyebrow"
               >
                 {a.short}
               </li>
             ))}
           </ul>
+        </div>
+
+        {/* The sun-circle is the only CTA, so on a phone — where it is the
+            only one there has ever been — it has to be present rather than
+            hidden. Sits at a smaller diameter.
+
+            ABOVE the developer credit, which is where it had quietly ended up
+            below. The one action on the fold was sitting under the one piece
+            of small print on it, and anything placed after a credit line
+            stops reading as the thing to do next and starts reading as
+            footer. Desktop is unaffected: this block is `lg:hidden` and the
+            credit stays last there. */}
+        <div className="container-stax w-full pb-7 lg:hidden">
+          <Link href="/register" className="sun-circle sun-circle-sm">
+            Register your interest
+          </Link>
         </div>
 
         {/* Who is building it. Demoted to its own quiet line so the address
@@ -347,15 +387,6 @@ export function Hero() {
           <span className="text-eyebrow text-grey/75 uppercase">
             A {SITE.developer.name} community
           </span>
-        </div>
-
-        {/* The sun-circle is the only CTA, so on a phone — where it is the
-            only one there has ever been — it has to be present rather than
-            hidden. Sits below the annotation at a smaller diameter. */}
-        <div className="container-stax w-full pb-10 lg:hidden">
-          <Link href="/register" className="sun-circle sun-circle-sm">
-            Register your interest
-          </Link>
         </div>
       </div>
 
