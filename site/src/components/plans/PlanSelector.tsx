@@ -6,7 +6,6 @@ import { Render } from "@/components/ui/Render";
 import { Button } from "@/components/ui";
 import { FloorPlanDiagram } from "@/components/plans/FloorPlanDiagram";
 import { FLOOR_PLANS, sqftRange, type FloorPlan } from "@/content/floorPlans";
-import { SITE } from "@/lib/site";
 
 /**
  * Plan selector + cards (§3.2 §2–3).
@@ -121,8 +120,7 @@ function PlanCard({
         <figure className="mt-4 rounded-md border border-line bg-paper p-6 md:p-8">
           <FloorPlanDiagram slug={plan.slug} />
           <figcaption className="mt-4 text-xs text-ink-faint leading-relaxed">
-            Illustrative layout. Dimensioned plans are released with pricing in
-            {" "}{SITE.dates.pricingReleased}.
+            Illustrative layout. Dimensioned plans are released with pricing.
           </figcaption>
         </figure>
       </div>
@@ -134,7 +132,7 @@ function PlanCard({
           <p className="text-sm font-semibold text-brick whitespace-nowrap">
             {plan.startingRent
               ? `From $${plan.startingRent.toLocaleString()}/mo`
-              : `Pricing ${SITE.dates.pricingReleased}`}
+              : "Pricing to come"}
           </p>
         </div>
 

@@ -71,7 +71,47 @@ export function SmoothScroll() {
       gsap.ticker.add(tick);
       gsap.ticker.lagSmoothing(0);
 
+      /**
+       * In-page anchors, routed through Lenis.
+       *
+       * REQUIRED THE MOMENT THE NAV GAINED SECTION LINKS. Lenis owns the
+       * scroll position while it is running, so a native hash jump sets
+       * `scrollTop` underneath it and Lenis immediately animates back to
+       * where it thought it was — the page lurches and returns. The symptom
+       * reads as "the menu does not work", and it only appears on desktop,
+       * because Lenis is not created below 1024px or under reduced motion.
+       * Native anchors are correct everywhere Lenis is absent, which is why
+       * this lives inside the matchMedia branch rather than in the Nav.
+       *
+       * Delegated at the document so every anchor on the page is covered,
+       * not only the ones in the menu.
+       *
+       * The modifier checks keep the browser's own behaviour intact:
+       * cmd-click still opens a new tab, and a handler that has already
+       * called preventDefault still wins.
+       */
+      const onAnchorClick = (e: MouseEvent) => {
+        if (e.defaultPrevented || e.button !== 0) return;
+        if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+
+        const anchor = (e.target as Element | null)?.closest?.("a");
+        const href = anchor?.getAttribute("href");
+        if (!href || href === "#" || !href.startsWith("#")) return;
+
+        const target = document.querySelector(href);
+        if (!target) return;
+
+        e.preventDefault();
+        // The nav is fixed and ~88px tall, so a heading scrolled to 0 lands
+        // underneath it.
+        lenis.scrollTo(target as HTMLElement, { offset: -96 });
+        history.pushState(null, "", href);
+      };
+
+      document.addEventListener("click", onAnchorClick);
+
       return () => {
+        document.removeEventListener("click", onAnchorClick);
         gsap.ticker.remove(tick);
         lenis.destroy();
       };

@@ -124,7 +124,7 @@ export function Hero() {
             sizes="100vw"
             priority
             className="absolute inset-0 block h-full w-full"
-            imgClassName="h-full w-full object-cover object-[38%_70%] [filter:saturate(1.12)_contrast(1.08)] md:object-[50%_70%]"
+            imgClassName="h-full w-full object-cover object-[38%_70%] [filter:saturate(1.12)_contrast(1.06)_brightness(1.1)] md:object-[50%_70%]"
           />
         </div>
 
@@ -132,11 +132,18 @@ export function Hero() {
             competes with the headline for the same pixels and the headline
             loses — which is what a hero must never do.
 
-            22%, not 35%. This wash and the scrim below it were each set in
-            isolation and multiply in practice; the headline's contrast is
-            carried by the scrim, which is where it belongs, and this layer
-            only has to take the edge off the sky. */}
-        <div className="absolute inset-0 bg-night/22" />
+            10%, down from 22%, at the client's direction: "main rendering at
+            the top is too dim. Should be more of a highlight/hero image that
+            sticks out."
+
+            This layer is the right one to spend, because it is the only one
+            that dims the WHOLE frame including the sky and the lit windows —
+            the two things that make the render worth looking at. The scrim
+            below still carries the headline's contrast, which is where it
+            belongs, and it is anchored at the bottom where the type actually
+            sits rather than spread evenly over the picture. Measured after
+            the change rather than guessed at: see the commit. */}
+        <div className="absolute inset-0 bg-night/10" />
 
         {/* L4 — foreground planting, thrown out of focus. Travels furthest,
             so it reads as the metre of ground between you and the block. */}
@@ -167,7 +174,7 @@ export function Hero() {
         className="pointer-events-none absolute inset-x-0 bottom-0 z-7 h-[72vh]"
         style={{
           background:
-            "linear-gradient(to top, #171210 4%, rgb(23 18 16 / 0.55) 55%, rgb(23 18 16 / 0.22) 78%, transparent 100%)",
+            "linear-gradient(to top, #171210 4%, rgb(23 18 16 / 0.42) 55%, rgb(23 18 16 / 0.12) 78%, transparent 100%)",
         }}
       />
 

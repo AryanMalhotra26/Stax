@@ -1,302 +1,96 @@
-import { SectionHead } from "@/components/ui";
 import { Reveal } from "@/components/motion/Reveal";
 import { Seam } from "@/components/ui/Edge";
-import {
-  ArtArrow,
-  ArtDoorKey,
-  ArtKey,
-  ArtTopography,
-  ArtWifi,
-} from "@/components/ui/LineArt";
 import { Render } from "@/components/ui/Render";
-import { TrailSegment } from "@/components/ui/Trail";
-import { ABOUT_TEAM } from "@/content/about";
-import { sectionIndex } from "@/content/sections";
-import { headshotBySlug, media } from "@/content/generated/media";
-import { asset } from "@/lib/asset";
+import { media } from "@/content/generated/media";
 import { SITE } from "@/lib/site";
 
 /**
- * "05 — What you can hold us to" (§5.7).
+ * Who is building it. One band, and nothing else.
  *
- * Occupies the social-proof slot — but not with testimonials. Nobody has
- * lived here yet. Resident quotes for an unbuilt building would be
- * fabricated, and a leasing site is exactly the wrong place for that. The
- * honest substitute is commitments a prospect can hold us to, plus the
- * developer's real track record, which is the strongest trust asset that
- * exists pre-construction.
+ * WHAT WAS HERE. A numbered "Three commitments" section — the shuttle is
+ * included, furnished means furnished, rents publish when they are set — and
+ * a pair of headshots of the principals. Both are gone at the client's
+ * direction: the commitments "seem like it is just repeating same info
+ * again", which they were (every one of the three is now a line in the
+ * Inside list or an answer in the FAQ), and the team photographs were asked
+ * for by name.
  *
- * The Sphere block borrows the reference's best human device directly:
- * circular portrait cutouts with hand-written names beside them and a small
- * drawn arrow pointing at one. Two headshots is the difference between a
- * legal disclaimer and a moment where somebody is accountable for the thing
- * you are about to sign.
+ * WHAT IS LEFT, AND WHY IT STAYED. The developer paragraph was not part of
+ * either request and it is the only place on the home page that answers "who
+ * are these people". A build-to-rent lease signed two years before move-in is
+ * a bet on the builder, so the one line naming them earns its place even
+ * after everything around it has gone.
+ *
+ * It is a band now rather than a section: no eyebrow, no number, no heading.
+ * A credit is not a chapter, and `commitments` has been removed from the
+ * section registry, so the numbering closes up behind it — Inside is 04 and
+ * the gallery is 05.
+ *
+ * The third commitment is the one worth noting as deleted rather than moved.
+ * It said rents publish in Sept 2026, which did not happen; it would have
+ * contradicted the rent answer on the same page had it survived this pass.
  */
-
-const COMMITMENTS = [
-  {
-    title: "The shuttle is included",
-    // "Included" is the word this card keeps. The hero and the walkthrough
-    // lead with *private* because that is the differentiating claim — anyone
-    // can hand out a bus pass — but the promise a prospect holds us to is
-    // that it costs them nothing, and that is a different word doing a
-    // different job. Both are true; neither is used where the other belongs.
-    body: "Both directions to Brock, in the rent. Not a discounted pass, not a partner service you pay separately — included.",
-    // The shuttle exists and there is a photograph of it, so the card shows
-    // the photograph. It was illustrated with a wifi symbol — line art picked
-    // from the set for its shape rather than its meaning, on the one card
-    // that could be proved rather than asserted.
-    photo: "shuttle",
-    Art: ArtWifi,
-    tilt: "-1deg",
-  },
-  {
-    title: "Furnished means furnished",
-    body: "Bed, desk, seating and dining are in the suite on day one, along with a full-size kitchen. You are not buying a couch in August.",
-    photo: undefined,
-    Art: ArtKey,
-    tilt: "0.8deg",
-  },
-  {
-    title: "Pricing when it's real",
-    body: `We publish rents in ${SITE.dates.pricingReleased}, when they are set. You will not find a number on this site today that changes before you can sign.`,
-    photo: undefined,
-    Art: ArtDoorKey,
-    tilt: "-0.6deg",
-  },
-] as const;
-
-/** The two principals with supplied headshots. Real photos or none (§3.3). */
-const FACES = ABOUT_TEAM.filter((m) => m.photo).slice(0, 2);
-
 export function Assurance() {
   return (
-    <section
-      className="relative overflow-clip bg-linen pt-seam-lg pb-normal"
-    >
+    <section className="relative overflow-clip bg-linen pt-seam-lg pb-normal">
       {/* The single strip for the site's second-biggest jump, Δ 0.75 from
-          night to linen. `lg` because at 14% of this section it was still a
-          visible edge — the eye needs distance in proportion to the tonal
-          gap, and 24rem is the shortest ramp that absorbs this one.
+          night to linen. `lg` because at anything shorter it is still a
+          visible edge, and `pt-seam-lg` above so the ramp finishes before
+          the first line of text rather than printing on top of it.
 
           No bottom strip: the FAQ paints its own top edge in linen. */}
       <Seam edge="top" color="night" size="lg" />
 
-      {/* The ground the route is drawn on (§ map vocabulary).
-      
-          Used once on the whole site, and this is the section that needs it:
-          Commitments → FAQ → Register runs about 2,400px of light surface
-          with almost no tonal change, and a flat run that long stops reading
-          as a page and starts reading as a background.
-
-          At 4% it is below the threshold of anything you would call a
-          pattern. That is the intent — you should not be able to say what is
-          different about this section, only that the page is printed on
-          something. Anything louder and the topography competes with the
-          trail it exists to explain. */}
-      <ArtTopography
-        className="pointer-events-none absolute inset-0 z-0 h-full w-full text-ink opacity-4"
-        id="topo-commitments"
-      />
-
       <div className="container-stax relative z-2">
-        <SectionHead
-          index={sectionIndex("commitments")}
-          eyebrow="What you can hold us to"
-          heading="Three commitments,"
-          quiet="in writing, before you give us anything."
-        />
-
-        {/* ---- Segment C ------------------------------------------------
-            Quiet connective tissue, and the segment nobody should
-            consciously notice. It exists because the run from the Gallery to
-            the FAQ is about two thousand pixels with no route on it, and a
-            map that simply stops for a third of the page stops being a map.
-
-            Behind everything: the three cards are opaque bone, so the arc
-            passes under all of them and shows only in the gaps. */}
-        <div className="relative mt-10 md:mt-12">
-          <TrailSegment
-            id="c"
-            tone="ink"
-            className="-top-[22%] -left-[12%] z-0 w-[124%]"
-          />
-
-          <div className="relative z-2 grid gap-6 md:grid-cols-3">
-            {COMMITMENTS.map(({ title, body, Art, tilt, photo }, i) => (
-              <Reveal key={title} delay={i * 0.08} as="article">
-                <div
-                  className="card block-pad h-full bg-bone"
-                  style={{ ["--tilt" as string]: tilt }}
-                >
-                    {photo ? (
-                    /* A real photograph beats a watermark. Bled off the
-                       bottom-right the same way the line art was, and held
-                       under the copy at low contrast so the card still reads
-                       as a card rather than as an image tile.
-
-                       SMALLER AND FAINTER BELOW `md`, because the card
-                       changes shape there and the corner it was bleeding into
-                       stops existing. In three columns the card is tall and
-                       narrow, so a 78% image in the bottom-right lands under
-                       nothing. At one column it is wide and short — 339x243
-                       — and the same image covered 70% of the paragraph. The
-                       body copy was being read across a photograph of a bus,
-                       which is the "image tile" the note above says to avoid.
-
-                       25% failed on the desktop card too, which the first
-                       pass at this assumed it would not: the bus's wheel
-                       arches put near-black under the paragraph and the worst
-                       case measured 4.49:1 against the 4.5 body text needs.
-                       Failing by a hundredth is still failing, so three
-                       columns take 18% — measured 5.41:1 against the darkest
-                       pixel actually under the text.
-
-                       10% is a watermark; 25% was a picture. The developer
-                       block further down this file solves the same problem
-                       with a `bg-linen/55` scrim over its photo — this is
-                       that idea, applied where the geometry actually needs
-                       it and at no cost to the three-column layout. */
-                    <Render
-                      media={media(photo)}
-                      sizes="(max-width: 767px) 90vw, 30vw"
-                      className="pointer-events-none absolute -right-10 -bottom-8 block w-[58%] md:w-[78%]"
-                      imgClassName="h-full w-full object-contain opacity-10 md:opacity-[0.18]"
-                    />
-                  ) : (
-                    <Art className="pointer-events-none absolute -right-8 -bottom-10 h-[55%] w-auto text-ink opacity-7" />
-                  )}
-
-                  {/* Sits inside the card, not bled off it.
-                
-                      The ghost numerals at section level are cropped on
-                      purpose — that is what makes them read as texture. At card
-                      level the same move just looks broken: the card clips its
-                      own overflow, so a numeral hung off the corner loses its
-                      top half and reads as a rendering fault rather than a
-                      device. Small type earns its crop only when there is
-                      enough of it left to name. */}
-                  <span
-                    aria-hidden="true"
-                    className="pointer-events-none absolute top-0 left-0 font-display text-[4.5rem] leading-[0.9] text-brick/35 select-none"
-                  >
-                    {String(i + 1).padStart(2, "0")}
-                  </span>
-
-                  <div className="relative z-2 pt-16">
-                    <h3 className="text-h3">{title}</h3>
-                    <p className="mt-3.5 leading-relaxed text-ink-soft">{body}</p>
-                  </div>
-                </div>
-              </Reveal>
-            ))}
-          </div>
-        </div>
-
-        {/* ---- The developer ------------------------------------------- */}
-        <Reveal delay={0.1}>
-          <div className="relative mt-12 overflow-clip rounded-md bg-sand/35 md:mt-16">
-            {/* A completed Sphere project behind the whole block at low
-                contrast — evidence, not decoration. */}
+        <Reveal>
+          <div className="relative overflow-clip rounded-md bg-sand/35">
+            {/* A completed Sphere project behind the block at low contrast —
+                evidence, not decoration. */}
             <Render
               media={media("exterior-garden")}
               sizes="(max-width: 1439px) 100vw, 1312px"
               className="absolute inset-0 block h-full w-full"
               imgClassName="h-full w-full object-cover opacity-25"
             />
-            <div
-              aria-hidden="true"
-              className="absolute inset-0 bg-linen/55"
-            />
+            <div aria-hidden="true" className="absolute inset-0 bg-linen/55" />
 
-            <div className="relative z-2 flex flex-col gap-8 p-7 md:flex-row md:items-center md:justify-between md:gap-12 md:p-10">
-              <div className="max-w-2xl">
-                <p className="text-lead text-ink-soft text-balance">
-                  Stax is built by{" "}
-                  <span className="font-medium text-ink">
-                    {SITE.developer.name}
-                  </span>
-                  , whose leadership team has decades of combined experience
-                  across purpose-built rental communities, stacked townhomes and
-                  high-rise towers.
-                </p>
+            <div className="relative z-2 p-7 md:p-10">
+              <p className="max-w-2xl text-lead text-balance text-ink-soft">
+                Stax is built by{" "}
+                <span className="font-medium text-ink">
+                  {SITE.developer.name}
+                </span>
+                , whose leadership team has decades of combined experience
+                across purpose-built rental communities, stacked townhomes and
+                high-rise towers.
+              </p>
 
-                {/* Out to Sphere, not in to /about (Pass 7).
+              {/* Out to Sphere, not in to /about.
 
-                    The client wants this pointing at the developer's own
-                    site, where the rest of the portfolio lives — Lot 16 and
-                    the other projects — because the question this link
-                    answers is "who are these people and what else have they
-                    built", and /about can only answer the first half.
+                  The client wants this pointing at the developer's own site,
+                  where the rest of the portfolio lives, because the question
+                  it answers is "who are these people and what else have they
+                  built" — and /about can only answer the first half.
 
-                    `target="_blank"` with `rel="noopener"`: it leaves the
-                    site, and a leasing page should not lose its own visitor
-                    to a portfolio browse. */}
-                <a
-                  href={SITE.developer.url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="group mt-3 inline-flex items-center gap-2 rounded-xs py-3 font-medium text-ink underline-offset-4 transition-colors duration-150 ease-[var(--ease-out-soft)] hover:text-brick"
-                >
-                  Meet the team
-                  <span className="inline-block transition-transform duration-300 group-hover:translate-x-1.5">
-                    →
-                  </span>
-                </a>
-              </div>
+                  The label was "Meet the team", which was written to sit
+                  under two faces. With the faces gone it promised a page of
+                  people and delivers a portfolio, so it now says what is on
+                  the other end of it.
 
-              <div className="relative flex shrink-0 items-center gap-6">
-                {FACES.map((member, i) => {
-                  const shot = member.photo
-                    ? headshotBySlug[member.photo]
-                    : undefined;
-                  if (!shot) return null;
-                  return (
-                    <figure key={member.name} className="relative">
-                      <div
-                        className="h-28 w-28 overflow-clip rounded-full border border-bone/60 shadow-card md:h-36 md:w-36"
-                        style={{
-                          transform: `rotate(${i % 2 ? 2 : -2}deg)`,
-                        }}
-                      >
-                        <picture>
-                          <source
-                            type="image/avif"
-                            srcSet={`${asset(shot.variants.avif["400"])} 400w, ${asset(shot.variants.avif["800"])} 800w`}
-                            sizes="144px"
-                          />
-                          <img
-                            src={asset(shot.variants.webp["400"])}
-                            alt={`${member.name}, ${member.role}`}
-                            width={400}
-                            height={500}
-                            loading="lazy"
-                            decoding="async"
-                            className="h-full w-full object-cover"
-                            style={{
-                              backgroundImage: `url(${shot.placeholder})`,
-                              backgroundSize: "cover",
-                            }}
-                          />
-                        </picture>
-                      </div>
-                      <figcaption
-                        className="hand mt-2 text-center text-hand-sm text-brick-dark"
-                        style={{
-                          ["--hand-tilt" as string]: i % 2 ? "3deg" : "-4deg",
-                        }}
-                      >
-                        {member.name.split(" ")[0]}
-                      </figcaption>
-                    </figure>
-                  );
-                })}
-
-                <ArtArrow
-                  className="absolute -top-8 -left-10 hidden h-10 w-14 rotate-12 text-brick/45 lg:block"
-                  aria-hidden="true"
-                />
-              </div>
+                  `target="_blank"` with `rel="noopener"`: it leaves the site,
+                  and a leasing page should not lose its visitor to a
+                  portfolio browse. */}
+              <a
+                href={SITE.developer.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="group mt-3 inline-flex items-center gap-2 rounded-xs py-3 font-medium text-ink underline-offset-4 transition-colors duration-150 ease-[var(--ease-out-soft)] hover:text-brick"
+              >
+                More from {SITE.developer.name}
+                <span className="inline-block transition-transform duration-300 group-hover:translate-x-1.5">
+                  →
+                </span>
+              </a>
             </div>
           </div>
         </Reveal>

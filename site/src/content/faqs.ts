@@ -37,7 +37,7 @@ export const FAQS: Faq[] = [
     id: "faq-when",
     question: "When can I actually move in?",
     answer:
-      "September 2027. Stax is under development now, and registering puts you on the list that gets floor plans and lease dates before anyone else — in that order, as each is released.",
+      "September 2027, in time for the 2027–28 academic year. Registering puts you on the list that gets floor plans and lease dates before anyone else — in that order, as each is released.",
     sortOrder: 1,
     isPublished: true,
     landing: true,
@@ -46,7 +46,7 @@ export const FAQS: Faq[] = [
     id: "faq-price",
     question: "How much is rent?",
     answer:
-      "Pricing is released in Sept 2026. We are not publishing a number before it is real, because the one you would read today would be wrong by the time you could sign. Register and you will get the rent card the day it is set.",
+      "Pricing is not public yet. We are not publishing a number before it is real, because the one you would read today would be wrong by the time you could sign. Register and you will get the rent card the day it is set — before it goes anywhere else.",
     sortOrder: 2,
     isPublished: true,
     landing: true,
@@ -55,7 +55,7 @@ export const FAQS: Faq[] = [
     id: "faq-shuttle",
     question: "How does the Brock shuttle work?",
     answer:
-      "[DRAFT] A private shuttle between Stax and Brock University, for residents only — not a public route you share with the city. It runs both directions through the academic term and is included in your rent, so there is no fare to tap and no pass to buy. A transit pass is available as well if you would rather take public transport, or need to get somewhere the shuttle does not go. The timetable is published closer to opening.",
+      "A private shuttle between Stax and Brock University, for residents only — not a public route you share with the city. It runs both directions through the academic term and is included in your rent, so there is no fare to tap and no pass to buy.",
     sortOrder: 3,
     isPublished: true,
     landing: true,
@@ -71,7 +71,7 @@ export const FAQS: Faq[] = [
      */
     question: "What comes with the suite?",
     answer:
-      "[DRAFT] Every suite is fully furnished and internet is included in the rent. That covers the bed, desk and seating, plus a full-size kitchen with fridge, range and dishwasher. You bring bedding, kitchenware and yourself. Which of the remaining utilities are bundled and which are metered per suite is confirmed with the pricing release in Sept 2026.",
+      "Furniture, laundry, internet and air conditioning — all of it in the suite, none of it yours to buy. Every suite comes fully furnished with bed, desk, seating and dining; a washer and dryer of your own, so there is no quarter hunting and no laundry-room queue; air conditioning for warm months and exam season; and free high-speed internet in the rent. The kitchen has quartz counters and stainless steel appliances, and the bathroom a quartz vanity and a standing shower. You bring bedding, kitchenware and yourself.",
     sortOrder: 4,
     isPublished: true,
   },

@@ -31,6 +31,7 @@ export function Neighbourhood() {
 
   return (
     <section
+      id="neighbourhood"
       className="relative overflow-clip bg-espresso text-grey pt-tight pb-normal"
     >
       {/* Neither end needs one. Above is the walkthrough, also espresso —
@@ -45,27 +46,87 @@ export function Neighbourhood() {
           tone="dark"
         />
 
-        <div className="mt-12 grid items-start gap-12 lg:grid-cols-[1fr_1.15fr] lg:gap-16">
+        {/* ---- The map ------------------------------------------------
+            THE CLIENT'S OWN ARTWORK, lifted from page 2 of the A5 flyer at
+            600dpi, in place of the drone photograph that was here.
+
+            The photograph was defensible and it was still wrong for this
+            section. An aerial proves a neighbourhood exists and shows what it
+            looks like; it cannot show you that Starbucks is two minutes away
+            and the Walmart is nine. This section's entire argument is where
+            things are, and the client asked for the map they already print
+            for exactly that reason — so a prospect holding the flyer and a
+            prospect on the phone are looking at the same picture.
+
+            FULL WIDTH, AND ABOVE THE LIST. It used to sit in the right-hand
+            column at roughly half the measure, which is survivable for a
+            photograph and not for a map: every label on this one is set at
+            about 9pt in the original. It now takes the whole column and the
+            copy runs underneath it.
+
+            On a phone it is put in a scroller at a 46rem minimum rather than
+            squeezed to 335px, where the pin labels stop being readable at
+            all. A map you can push around with a thumb is worth more than a
+            map that fits. */}
+        <Reveal delay={0.05}>
+          <figure className="mt-10 md:mt-14">
+            <div className="-mx-5 overflow-x-auto px-5 md:mx-0 md:overflow-visible md:px-0">
+              <div className="min-w-[46rem] overflow-clip rounded-md md:min-w-0">
+                <Render
+                  media={media("neighbourhood-map")}
+                  sizes="(max-width: 767px) 736px, 92vw"
+                  className="block w-full"
+                  imgClassName="h-full w-full object-cover"
+                />
+              </div>
+            </div>
+            <figcaption className="mt-3 font-sans text-xs tracking-wide text-grey/75 uppercase">
+              455 Welland Avenue, and what is within a walk of it
+            </figcaption>
+          </figure>
+        </Reveal>
+
+        {/* Copy left, the walk times right.
+
+            With the map lifted out of this row it had one child in a
+            two-column grid, so the list ran at half the measure beside an
+            empty column. The intro and the annotation are prose and the
+            table is data: splitting them along that line fills the row and
+            puts the numbers beside the picture they describe. */}
+        <div className="mt-12 grid items-start gap-10 lg:grid-cols-[0.9fr_1.1fr] lg:gap-16">
           <Reveal>
             <p className="max-w-lg text-lead text-grey/75">
               {NEIGHBOURHOOD_COPY.body}
             </p>
 
-            <ul className="mt-8 border-t border-sand/12">
+            {/* The section's one annotation — and the only line on the page
+                that admits what the neighbourhood is actually for. */}
+            <p
+              className="hand mt-9 max-w-[24ch] text-hand text-brick"
+              style={{ ["--hand-tilt" as string]: "-7deg" }}
+            >
+              you will use the Starbucks more than the library
+            </p>
+          </Reveal>
+
+          <Reveal delay={0.1}>
+            <ul className="border-t border-sand/12">
               {LANDMARKS.map((landmark) => (
                 <li
                   key={landmark.name}
                   className="group flex items-baseline justify-between gap-4 border-b border-sand/12 px-3 py-2.5 transition-colors duration-150 ease-[var(--ease-out-soft)] hover:bg-brick/10"
                 >
-                  <span
-                    className={
-                      landmark.featured
-                        ? "font-medium text-bone"
-                        : "text-grey/75"
-                    }
-                  >
-                    {landmark.name}
-                  </span>
+                  {/* Every name in bone, none of them bolder than another.
+
+                      `featured` used to make four of the eight medium-weight
+                      bone and leave the rest grey, which the client read —
+                      correctly — as an inconsistency rather than as a
+                      hierarchy. It was never carrying real meaning: Walmart
+                      was featured and Canadian Tire, nine minutes from the
+                      same door, was not. A list of places near a building is
+                      a list, not a ranking, and the walk time beside each one
+                      is the only thing that distinguishes them. */}
+                  <span className="text-bone">{landmark.name}</span>
                   <span className="shrink-0 text-sm tnum whitespace-nowrap text-grey/70 transition-colors duration-150 ease-[var(--ease-out-soft)] group-hover:text-brick-light">
                     {landmark.mode === "shuttle" ? (
                       <>private shuttle</>
@@ -87,47 +148,6 @@ export function Neighbourhood() {
             <p className="mt-3 text-xs text-grey/75">
               Times are approximate and provided for guidance only.
             </p>
-
-            {/* The section's one annotation — and the only line on the page
-                that admits what the neighbourhood is actually for. */}
-            <p
-              className="hand mt-9 max-w-[24ch] text-hand text-brick"
-              style={{ ["--hand-tilt" as string]: "-7deg" }}
-            >
-              you will use the Starbucks more than the library
-            </p>
-
-          </Reveal>
-
-          {/* A photograph, where a schematic used to be.
-
-              The schematic was a grey grid with a rounded red chip labelled
-              STAX and four dots on it, and it was the weakest thing on the
-              page: hard rectangle, even grid lines, a UI component standing
-              in for a place. It read as a wireframe placeholder rather than
-              as a map, in the one section whose whole argument is what the
-              surroundings are like — and it contained no evidence the
-              neighbourhood exists at all.
-
-              This is Welland Avenue from the air, June 2024: the plazas, the
-              strip, the streets behind it. The walk times live in the table
-              beside it, which is where the actual data always was. A drawn
-              map showed where things are; the photograph shows what it is
-              like, and that is the thing a student is deciding on. */}
-          <Reveal delay={0.1}>
-            <figure>
-              <div className="overflow-clip rounded-md">
-                <Render
-                  media={media("neighbourhood-aerial")}
-                  sizes="(max-width: 1023px) 100vw, 52vw"
-                  className="sd-drift block w-full"
-                  imgClassName="h-full w-full object-cover"
-                />
-              </div>
-              <figcaption className="mt-3 font-sans text-xs tracking-wide text-grey/75 uppercase">
-                Welland Avenue, looking east
-              </figcaption>
-            </figure>
           </Reveal>
         </div>
       </div>

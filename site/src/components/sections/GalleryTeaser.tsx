@@ -76,17 +76,32 @@ function Frame({
   );
 }
 
+/**
+ * The four below the lead, and the lead itself, are the four interiors on
+ * page 3 of the A5 flyer plus the dusk exterior.
+ *
+ * That is the whole of the client's "not consistent with the interior
+ * renderings we are using in other creatives" note. The teaser was showing
+ * `living-upgrade-island` and `exterior-garden`, neither of which appears in
+ * any printed piece, and leading on an exterior. Both are gone; what is left
+ * is the set a prospect has already seen.
+ *
+ * Two columns, not five. At `md:grid-cols-5` these were 18vw tiles held at
+ * 55% opacity — "the interior images are too small", and they were also
+ * deliberately dimmed, which is a strange thing to do to the images the
+ * client says people buy on.
+ */
 const THUMBS = [
-  "living-upgrade-island",
   "bedroom",
   "kitchen-standard",
   "bathroom",
-  "exterior-garden",
+  "exterior-evening",
 ] as const;
 
 export function GalleryTeaser() {
   return (
     <section
+      id="gallery"
       className="relative overflow-clip bg-night text-grey pt-tight pb-tight"
     >
       {/* No strips. The band above already dissolves bone into night,
@@ -106,8 +121,14 @@ export function GalleryTeaser() {
                 <span className="text-bone">
                   <SplitWords text="What it looks like" />
                 </span>{" "}
+                {/* "when the lights come on" was written for a dusk
+                    exterior lead and the lead is now a daylight interior, so
+                    it described a picture that is no longer the first one.
+                    The furniture is the better half of the sentence anyway —
+                    it is the thing in every one of these renders and the
+                    thing the suite is actually sold on. */}
                 <span className="text-stone">
-                  <SplitWords text="when the lights come on." />
+                  <SplitWords text="with the furniture already in." />
                 </span>
               </h2>
             </div>
@@ -122,31 +143,22 @@ export function GalleryTeaser() {
               pointer across the render, saying nothing. An affordance that
               lies is worse than none, so the whole wrapper goes. */}
           <Wrap>
-            <Frame className="sd-mask group relative block aspect-4/3 overflow-clip rounded-md bg-bark md:aspect-21/9">
+            <Frame className="sd-mask group relative block aspect-4/3 overflow-clip rounded-md bg-bark md:aspect-16/9">
+              {/* THE LEAD IS AN INTERIOR NOW, at the client's direction:
+                  "people will be buying into the interior renderings more
+                  than the exterior renderings". This section opened on a dusk
+                  exterior at 21:9 and put every interior in a 18vw thumbnail
+                  underneath it, which is the ranking inverted.
+
+                  The dusk exterior has not been dropped — it is the last of
+                  the four below, where an establishing shot belongs once the
+                  rooms have been seen. */}
               <Render
-                media={media("exterior-evening")}
+                media={media("living-upgrade-dining")}
                 sizes="(max-width: 1439px) 100vw, 1312px"
                 className="sd-zoom absolute inset-0 block h-full w-full"
                 imgClassName="h-full w-full object-cover"
               />
-
-              {/* Enough scrim for the annotation to read, and no more — the
-                  lit windows are the point of this image. */}
-              <div
-                aria-hidden="true"
-                className="absolute inset-0"
-                style={{
-                  background:
-                    "linear-gradient(to top, rgb(23 18 16 / 0.6), transparent 45%)",
-                }}
-              />
-
-              <p
-                className="hand absolute bottom-5 left-6 text-hand text-brick-light md:bottom-8 md:left-10"
-                style={{ ["--hand-tilt" as string]: "-5deg" }}
-              >
-                september, about 7pm
-              </p>
             </Frame>
           </Wrap>
 
@@ -173,16 +185,16 @@ export function GalleryTeaser() {
 
         {/* ---- The rest ------------------------------------------------ */}
         <Reveal delay={0.12}>
-          <div className="mt-4 grid grid-cols-2 gap-3 md:mt-5 md:grid-cols-5 md:gap-4">
+          <div className="mt-4 grid grid-cols-1 gap-4 sm:grid-cols-2 md:mt-5">
             {THUMBS.map((slug) => (
               <Frame
                 key={slug}
-                className="group relative aspect-4/3 overflow-clip rounded-sm bg-bark"
+                className="group relative aspect-4/3 overflow-clip rounded-md bg-bark"
               >
                 <Render
                   media={media(slug)}
-                  sizes="(max-width: 767px) 50vw, 18vw"
-                  className="block h-full w-full opacity-55 transition-opacity duration-600 group-hover:opacity-100"
+                  sizes="(max-width: 639px) 100vw, 46vw"
+                  className="block h-full w-full"
                   imgClassName="h-full w-full object-cover transition-transform duration-600 group-hover:scale-104"
                 />
               </Frame>
@@ -196,9 +208,14 @@ export function GalleryTeaser() {
               href={FEATURES.floorPlans ? "/residences#gallery" : "/register"}
               className="group -my-3 inline-flex items-center gap-2 rounded-xs py-3 font-medium text-grey transition-colors duration-150 ease-[var(--ease-out-soft)] hover:text-brick-light"
             >
+              {/* "The rest of the gallery goes to the list" was internal
+                  shorthand — the remaining renders are released to the
+                  registration list — and the client's note was simply that
+                  it does not parse. It is a link to /register, so it now says
+                  what clicking it does. */}
               {FEATURES.floorPlans
                 ? "See all 10 renders"
-                : "The rest of the gallery goes to the list"}
+                : "Register to see the full gallery"}
               <span className="inline-block transition-transform duration-300 group-hover:translate-x-1.5">
                 →
               </span>

@@ -154,7 +154,7 @@ export default function RegisterPage() {
               <Step
                 n="02"
                 title="We tell you when pricing lands"
-                body={`${SITE.dates.pricingReleased}. It goes public that day and you'll hear it from us first.`}
+                body="Rents are not public yet. The day they are set, this list gets them — before they go anywhere else."
               />
               <Step
                 n="03"

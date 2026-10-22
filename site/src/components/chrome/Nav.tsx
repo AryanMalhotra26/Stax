@@ -12,12 +12,39 @@ import { FEATURES } from "@/config/features";
  * Residences comes out with the floor plans: linking to a page that
  * redirects is a worse experience than not offering it.
  */
-const LINKS = [
+/**
+ * Pages. Register is excluded on purpose — it is the button on the right.
+ */
+const PAGES = [
   ...(FEATURES.floorPlans
     ? [{ href: "/residences", label: "Residences" }]
     : []),
   { href: "/about", label: "About" },
-  { href: "/register", label: "Register" },
+] as const;
+
+/**
+ * Sections of the home page, which is what the client asked for: "shouldn't
+ * the top bar be a menu bar to go to other pages of the website or other
+ * sections of the main page?". It carried two links and a button, so on a
+ * page this long the only way to reach anything was to scroll past it.
+ *
+ * SHORT LABELS, NOT THE REGISTRY'S. `HOME_SECTIONS` labels are written to sit
+ * above a heading — "What you can hold us to" — and six of those do not fit a
+ * pill. These are the same destinations named for a menu.
+ *
+ * Five, not six. The walkthrough is the first thing below the fold and needs
+ * no link; everything a reader might jump to is here.
+ *
+ * `#id` on the home page so Lenis can intercept it and animate — see
+ * SmoothScroll, where a native hash jump fights the smooth scroller and the
+ * page lurches back. `/#id` anywhere else, where it is a real navigation.
+ */
+const SECTIONS = [
+  { id: "neighbourhood", label: "Neighbourhood" },
+  { id: "shuttle", label: "Shuttle" },
+  { id: "inside", label: "What's inside" },
+  { id: "gallery", label: "Gallery" },
+  { id: "faq", label: "FAQ" },
 ] as const;
 
 /**
@@ -50,6 +77,8 @@ export function Nav() {
   const [open, setOpen] = useState(false);
   const lastY = useRef(0);
   const pathname = usePathname();
+  const onHome = pathname === "/";
+  const sectionHref = (id: string) => (onHome ? `#${id}` : `/#${id}`);
 
   useEffect(() => {
     const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -95,8 +124,24 @@ export function Nav() {
             <Logo className="h-6 w-auto text-bone transition-colors hover:text-brick-light md:h-7" />
           </Link>
 
+          {/* Sections only from `lg`. Five section links, a page link and a
+              button do not fit a pill at 1024px, and a menu that wraps is
+              worse than one that waits — below `lg` the full list is in the
+              sheet behind the hamburger. */}
+          <div className="hidden items-center gap-0.5 lg:flex">
+            {SECTIONS.map((section) => (
+              <a
+                key={section.id}
+                href={sectionHref(section.id)}
+                className="rounded-full px-3 py-2 text-[0.9375rem] font-medium text-grey transition-colors duration-300 hover:text-brick-light"
+              >
+                {section.label}
+              </a>
+            ))}
+          </div>
+
           <div className="hidden items-center gap-1 md:flex">
-            {LINKS.map((link) => {
+            {PAGES.map((link) => {
               const active = pathname === link.href;
               return (
                 <Link
@@ -186,7 +231,22 @@ export function Nav() {
         >
           <div className="min-h-0">
             <div className="flex flex-col px-5 pt-1 pb-6">
-              {LINKS.map((link) => (
+              {/* Sections first. On a phone this sheet IS the menu bar, and
+                  the thing a reader wants from it is a way down a very long
+                  page — not a list of two other pages. Set a step smaller
+                  than the page links so the two groups read apart without a
+                  heading between them. */}
+              {SECTIONS.map((section) => (
+                <a
+                  key={section.id}
+                  href={sectionHref(section.id)}
+                  onClick={() => setOpen(false)}
+                  className="border-b border-sand/12 py-3 text-[1.0625rem] font-medium text-grey"
+                >
+                  {section.label}
+                </a>
+              ))}
+              {PAGES.map((link) => (
                 <Link
                   key={link.href}
                   href={link.href}

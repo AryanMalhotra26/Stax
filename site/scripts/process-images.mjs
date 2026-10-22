@@ -32,7 +32,11 @@ const TEAM_WIDTHS = [400, 800];
  */
 const CATALOG = [
   {
-    file: "EXT 1 2.jpg",
+    // Updated Oct 2026: the client's accurate front elevation. The previous
+    // render showed a roofline and facade that were not what is being built,
+    // and this is the image the printed flyer uses. Same view, so every crop
+    // that pointed at this slug still frames the same thing.
+    file: "NewHero.jpg",
     slug: "exterior-street",
     category: "exterior",
     alt: "Two Stax residential blocks facing the street at dusk, with ground-floor commercial units and young trees along the sidewalk.",
@@ -68,13 +72,17 @@ const CATALOG = [
     alt: "Upgraded open-plan living space with a marble waterfall island, bar seating and a living area beyond.",
   },
   {
-    file: "3 - UPGRADE LIVING.jpg",
+    // Updated Oct 2026. Same camera position as the render it replaces —
+    // living on the left, dining centre, kitchen along the back — which is
+    // the angle the client asked to keep.
+    file: "NewLivingRoom.jpg",
     slug: "living-upgrade-dining",
     category: "interior",
     alt: "Upgraded living and dining area with a linear pendant light, sectional sofa and windows on three sides.",
   },
   {
-    file: "4. BEDROOM.jpg",
+    // Updated Oct 2026 — matches the bedroom on page 3 of the flyer.
+    file: "NewBedroom.jpg",
     slug: "bedroom",
     category: "interior",
     alt: "Bedroom with an upholstered bed, floating nightstands and a tall window looking out over trees.",
@@ -118,6 +126,18 @@ const CATALOG = [
     slug: "neighbourhood-aerial",
     category: "neighbourhood",
     alt: "Aerial photograph looking along Welland Avenue in St. Catharines, with the commercial strip, plazas and residential streets that surround the Stax site.",
+  },
+  {
+    /* The neighbourhood map, lifted from page 2 of the A5 flyer at 400dpi.
+       It replaces the drone photograph, at the client's direction: an aerial
+       shows that a neighbourhood exists, a map shows where things are in it,
+       and only the second one answers the question the section asks.
+       Rendered from the PDF rather than re-drawn, so it is the same artwork
+       that is in print. */
+    file: "NEIGHBOURHOOD MAP.png",
+    slug: "neighbourhood-map",
+    category: "neighbourhood",
+    alt: "Map of the streets around 455 Welland Avenue, St. Catharines, marking Stax and the walking distance to Starbucks, No Frills, FreshCo, Walmart, Canadian Tire, Shoppers Drug Mart, Pet Valu, McDonald's, Arby's, Subway and Burger King.",
   },
   {
     // The shuttle exists and here it is. Three sections of the site promise

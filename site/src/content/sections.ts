@@ -25,8 +25,8 @@ export const HOME_SECTIONS = [
   { id: "neighbourhood", label: "The neighbourhood" },
   { id: "shuttle", label: "Getting to campus" },
   ...(FEATURES.floorPlans ? [{ id: "plans", label: "Floor plans" }] : []),
+  { id: "inside", label: "Inside every suite" },
   { id: "gallery", label: "Gallery" },
-  { id: "commitments", label: "What you can hold us to" },
   { id: "faq", label: "FAQ" },
 ] as const;
 

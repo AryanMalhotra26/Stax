@@ -34,13 +34,17 @@ export const LANDMARKS: Landmark[] = [
     mode: "shuttle",
     featured: true,
   },
+  /* Times are the printed flyer's, confirmed by the client Oct 2026. Four of
+     them had drifted from print — No Frills 6→9, Walmart 8→9, Shoppers 5→10,
+     Pet Valu 6→10 — and a walk time that disagrees with the brochure in the
+     reader's other hand is the kind of error that costs trust cheaply. */
   { name: "Starbucks", category: "coffee", time: "2 min", mode: "walk", featured: true },
-  { name: "No Frills", category: "grocery", time: "6 min", mode: "walk", featured: true },
+  { name: "No Frills", category: "grocery", time: "9 min", mode: "walk", featured: true },
   { name: "FreshCo", category: "grocery", time: "9 min", mode: "walk" },
-  { name: "Walmart", category: "essentials", time: "8 min", mode: "walk", featured: true },
+  { name: "Walmart", category: "essentials", time: "9 min", mode: "walk", featured: true },
   { name: "Canadian Tire", category: "essentials", time: "9 min", mode: "walk" },
-  { name: "Shoppers Drug Mart", category: "essentials", time: "5 min", mode: "walk" },
-  { name: "Pet Valu", category: "essentials", time: "6 min", mode: "walk" },
+  { name: "Shoppers Drug Mart", category: "essentials", time: "10 min", mode: "walk" },
+  { name: "Pet Valu", category: "essentials", time: "10 min", mode: "walk" },
 ];
 
 /** Rendered as a plain list under the map — no pin, no coordinates needed. */

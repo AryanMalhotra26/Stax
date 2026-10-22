@@ -5,9 +5,9 @@ import { Curtain } from "@/components/motion/Curtain";
 import { Bridge } from "@/components/motion/Bridge";
 import { Footer } from "@/components/chrome/Footer";
 import { Hero } from "@/components/sections/Hero";
-import { Positioning } from "@/components/sections/Positioning";
 import { PlanPreview } from "@/components/sections/PlanPreview";
 import { Neighbourhood } from "@/components/sections/Neighbourhood";
+import { Inside } from "@/components/sections/Inside";
 import { Shuttle } from "@/components/sections/Shuttle";
 import { GalleryTeaser } from "@/components/sections/GalleryTeaser";
 import { Assurance } from "@/components/sections/Assurance";
@@ -71,7 +71,18 @@ export default function HomePage() {
         <AmenityPan />
         <Neighbourhood />
         <Shuttle />
-        <Positioning />
+        {/* The two Positioning cards went at the client's direction — "A room
+            that was never a home" and "A home, and a way to campus". The
+            first asked the reader to agree that a house share is grim before
+            telling them anything, and the client's note was that they could
+            not tell what it was saying. With both cards gone the section had
+            nothing left in it, so the section went too.
+
+            `Inside` takes the slot rather than leaving a gap: same bone
+            surface, same linen seam, and it answers the question the cards
+            were circling — what do I actually get — with an inventory
+            instead of an argument. */}
+        <Inside />
         {FEATURES.floorPlans && <PlanPreview />}
 
         {/* bone → night is the biggest jump left on the page, so it keeps the

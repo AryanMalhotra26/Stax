@@ -6,7 +6,6 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useReducedMotion } from "motion/react";
 import { Render } from "@/components/ui/Render";
 import { Eyebrow } from "@/components/ui";
-import { MagneticLabel } from "@/components/motion/MagneticLabel";
 import {
   ArtArrow,
   ArtBedLamp,
@@ -246,6 +245,7 @@ export function AmenityPan() {
   return (
     <section
       ref={wrap}
+      id="included"
       aria-labelledby="amenities-heading"
       // Ships as `list` and is upgraded to `pan` by the effect above, only
       // once the pan is genuinely running. See the .walk block in globals.css
@@ -267,7 +267,22 @@ export function AmenityPan() {
         backgroundRepeat: "no-repeat, no-repeat, no-repeat, repeat",
       }}
     >
-      <MagneticLabel label="Walk through" className="h-full">
+      {/* The "Walk through" magnetic follower is gone, at the client's
+          direction — "I am not a fan of the mouse changing icons when we get
+          to this second section of the homepage".
+
+          It was defensible and it was still wrong here. The device exists to
+          label an affordance the eye cannot see, and it reads as a label on a
+          thing you can click. Nothing in this pan IS clickable: it is a
+          pinned horizontal scroll, driven by the wheel the reader is already
+          using, so the follower was announcing an interaction that did not
+          exist and taking over the pointer to do it. The progress rail below
+          already says what this section wants to say — how much of it is
+          left — without touching the cursor.
+
+          `MagneticLabel` itself stays; the gallery still uses it, on a tile
+          that is a genuine link, which is the case it was written for. */}
+      <div className="h-full">
         <div
           ref={track}
           className="walk-track"
@@ -342,7 +357,7 @@ export function AmenityPan() {
           {/* Trailing spacer so the last card clears the right edge */}
           <div className="walk-tail" aria-hidden="true" />
         </div>
-      </MagneticLabel>
+      </div>
 
       {/* ---- Progress rail --------------------------------------------
           The one piece of information a pinned section owes the reader: how
