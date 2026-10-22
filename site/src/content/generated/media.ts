@@ -30,23 +30,21 @@ export const MEDIA = [
     "slug": "exterior-street",
     "category": "exterior",
     "alt": "Two Stax residential blocks facing the street at dusk, with ground-floor commercial units and young trees along the sidewalk.",
-    "width": 10000,
-    "height": 4952,
+    "width": 1600,
+    "height": 791,
     "variants": {
       "avif": {
         "640": "/renders/exterior-street-640.avif",
         "1024": "/renders/exterior-street-1024.avif",
-        "1600": "/renders/exterior-street-1600.avif",
-        "2400": "/renders/exterior-street-2400.avif"
+        "1600": "/renders/exterior-street-1600.avif"
       },
       "webp": {
         "640": "/renders/exterior-street-640.webp",
         "1024": "/renders/exterior-street-1024.webp",
-        "1600": "/renders/exterior-street-1600.webp",
-        "2400": "/renders/exterior-street-2400.webp"
+        "1600": "/renders/exterior-street-1600.webp"
       }
     },
-    "placeholder": "data:image/webp;base64,UklGRloAAABXRUJQVlA4IE4AAACwAwCdASoUAAoAPzmMu1SvKaYjMAgB4CcJQBdgBDuRauTFqpqDgAD+kXL5DayWPkD1qxjpNg5Ipsxk/dsn5J8tn40IIWAOqN0taZAAAAA="
+    "placeholder": "data:image/webp;base64,UklGRloAAABXRUJQVlA4IE4AAACwAwCdASoUAAoAPzmGvFQvKSYjMAgB4CcJZgCdACHuemFI0VvGPAD+kCHucwgR7Rlbikgq6aN0/l//1wBMJD+VifkAXqmBKl+wLFpQAAA="
   },
   {
     "id": "exterior-lawn",
@@ -168,46 +166,42 @@ export const MEDIA = [
     "slug": "living-upgrade-dining",
     "category": "interior",
     "alt": "Upgraded living and dining area with a linear pendant light, sectional sofa and windows on three sides.",
-    "width": 8000,
-    "height": 4500,
+    "width": 1600,
+    "height": 900,
     "variants": {
       "avif": {
         "640": "/renders/living-upgrade-dining-640.avif",
         "1024": "/renders/living-upgrade-dining-1024.avif",
-        "1600": "/renders/living-upgrade-dining-1600.avif",
-        "2400": "/renders/living-upgrade-dining-2400.avif"
+        "1600": "/renders/living-upgrade-dining-1600.avif"
       },
       "webp": {
         "640": "/renders/living-upgrade-dining-640.webp",
         "1024": "/renders/living-upgrade-dining-1024.webp",
-        "1600": "/renders/living-upgrade-dining-1600.webp",
-        "2400": "/renders/living-upgrade-dining-2400.webp"
+        "1600": "/renders/living-upgrade-dining-1600.webp"
       }
     },
-    "placeholder": "data:image/webp;base64,UklGRmQAAABXRUJQVlA4IFgAAACwAwCdASoUAAsAPzmGuVOvKSWisAgB4CcJZwDA3A+bjZ+U3q6gAAD3BIIktGZLp8nz+dw4MtkT5NX96/eNT0686IofHOCWsNGJXoU+UmBn1xYGMjypoBQA"
+    "placeholder": "data:image/webp;base64,UklGRmoAAABXRUJQVlA4IF4AAACQAwCdASoUAAsAPzmEuVOvKKWisAgB4CcJYzuAHWAG/1f0zTkAAP7D0mY4gi/Gs/dOLd15dcIe0xlkw3PgSPgRhYk4YS87KLi4KHMh9CCc4PY8m3Bi+FA6fe3c8AAA"
   },
   {
     "id": "bedroom",
     "slug": "bedroom",
     "category": "interior",
     "alt": "Bedroom with an upholstered bed, floating nightstands and a tall window looking out over trees.",
-    "width": 8000,
-    "height": 4500,
+    "width": 1600,
+    "height": 900,
     "variants": {
       "avif": {
         "640": "/renders/bedroom-640.avif",
         "1024": "/renders/bedroom-1024.avif",
-        "1600": "/renders/bedroom-1600.avif",
-        "2400": "/renders/bedroom-2400.avif"
+        "1600": "/renders/bedroom-1600.avif"
       },
       "webp": {
         "640": "/renders/bedroom-640.webp",
         "1024": "/renders/bedroom-1024.webp",
-        "1600": "/renders/bedroom-1600.webp",
-        "2400": "/renders/bedroom-2400.webp"
+        "1600": "/renders/bedroom-1600.webp"
       }
     },
-    "placeholder": "data:image/webp;base64,UklGRmgAAABXRUJQVlA4IFwAAADQAwCdASoUAAsAPzmGuVOvKSWisAgB4CcJZwC7ACEmsvmuQ66gMAAA/O5WCTh08Pkf/lBO/pflc1dU/zOQMPRCKlg+4jKkM5Xhl2D2tyECNZWmUNhUMcNqg3wAAA=="
+    "placeholder": "data:image/webp;base64,UklGRmoAAABXRUJQVlA4IF4AAACwAwCdASoUAAsAPzmGuVOvKSWisAgB4CcJYwCw7BZg6CMyHailwADOFMOYnr6w+4V3RGLuyvNeJT5KLU4Q4RJ1BSiMN8glGRigNREySh0MCqrf6Owvnt+x7QT54gAA"
   },
   {
     "id": "bathroom",
@@ -300,6 +294,29 @@ export const MEDIA = [
       }
     },
     "placeholder": "data:image/webp;base64,UklGRmwAAABXRUJQVlA4IGAAAADQAwCdASoUAA8APzmGuVOvKSWisAgB4CcJYwCsACHettgQi3RdxQAA/eJO2BEMOAKSMmUoS79yXbt163Wd9D9fJBwBy0JKKc7p+y5DHLmrMzgRy7dpfUHP82yvGiUBZAA="
+  },
+  {
+    "id": "neighbourhood-map",
+    "slug": "neighbourhood-map",
+    "category": "neighbourhood",
+    "alt": "Map of the streets around 455 Welland Avenue, St. Catharines, marking Stax and the walking distance to Starbucks, No Frills, FreshCo, Walmart, Canadian Tire, Shoppers Drug Mart, Pet Valu, McDonald's, Arby's, Subway and Burger King.",
+    "width": 3264,
+    "height": 2220,
+    "variants": {
+      "avif": {
+        "640": "/renders/neighbourhood-map-640.avif",
+        "1024": "/renders/neighbourhood-map-1024.avif",
+        "1600": "/renders/neighbourhood-map-1600.avif",
+        "2400": "/renders/neighbourhood-map-2400.avif"
+      },
+      "webp": {
+        "640": "/renders/neighbourhood-map-640.webp",
+        "1024": "/renders/neighbourhood-map-1024.webp",
+        "1600": "/renders/neighbourhood-map-1600.webp",
+        "2400": "/renders/neighbourhood-map-2400.webp"
+      }
+    },
+    "placeholder": "data:image/webp;base64,UklGRkAAAABXRUJQVlA4IDQAAADwAgCdASoUAA4APzmGuVOvKSWisAgB4CcJZwAAg+9qAAD+7blgvOoKpKbR1lAaNU6FAAAA"
   },
   {
     "id": "shuttle",

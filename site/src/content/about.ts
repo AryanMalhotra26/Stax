@@ -143,23 +143,20 @@ export const ABOUT_TIMELINE = [
     body: "Approval secured through creative collaboration with the City of St. Catharines, expanding the plan from 223 units to 248.",
     state: "done" as const,
   },
+  /* Three entries left here in Oct 2026, and all three had to go.
+     "Construction underway" at the client's direction — they do not want
+     attention drawn to the building not being finished. The other two were
+     simply out of date: "Pricing released Sept 2026" and "Registration opens
+     Fall 2026" are both in the past, and the first of them contradicts the
+     rent answer, which says pricing is not public. A timeline is the one
+     piece of copy where a stale row is not a small error — it is the page
+     claiming something happened that did not. What replaces them is the
+     thing that IS true now: the list is open. */
   {
-    date: "2026",
-    title: "Construction underway",
-    body: "Ten residential blocks with commercial units integrated at grade.",
+    date: "Now",
+    title: "Registration open",
+    body: "The interest list is open. Floor plans and lease dates go to it first, ahead of any public release.",
     state: "current" as const,
-  },
-  {
-    date: "Sept 2026",
-    title: "Pricing released",
-    body: "Rents and lease terms published.",
-    state: "upcoming" as const,
-  },
-  {
-    date: "Fall 2026",
-    title: "Registration opens",
-    body: "The interest list opens. Floor plans and lease dates are released to it first.",
-    state: "upcoming" as const,
   },
   {
     date: "Jan 2027",

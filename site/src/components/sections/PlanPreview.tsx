@@ -8,7 +8,6 @@ import { TrailSegment } from "@/components/ui/Trail";
 import { FLOOR_PLANS, sqftRange } from "@/content/floorPlans";
 import { FloorPlanDiagram } from "@/components/plans/FloorPlanDiagram";
 import { sectionIndex } from "@/content/sections";
-import { SITE } from "@/lib/site";
 
 /**
  * "02 — Floor Plans" — the threshold (§5.3).
@@ -164,7 +163,7 @@ export function PlanPreview() {
                     <p data-card-chrome className="text-eyebrow uppercase opacity-70">
                       {plan.startingRent
                         ? `From $${plan.startingRent.toLocaleString()}/mo`
-                        : `Pricing ${SITE.dates.pricingReleased}`}
+                        : "Pricing to come"}
                     </p>
 
                     <Link

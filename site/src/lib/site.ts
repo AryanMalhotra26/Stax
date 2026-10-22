@@ -107,17 +107,35 @@ export const SITE = {
    * intentional and it is why the Register copy promises plans and lease
    * dates ahead of the public listing, not pricing.
    */
+  /* `pricingReleased` and `registrationOpens` are gone, not updated.
+     Both were in the past by Oct 2026 — the site was promising a pricing
+     release that had already not happened, and advertising that the list
+     "opens" in Fall 2026 while the form at the bottom of the page had been
+     taking registrations for months. A date that has passed is worse than no
+     date: it is the page telling a reader something they can check.
+
+     Nothing replaced the pricing one, because there is no new date to give.
+     The copy that quoted it now says pricing is not public yet, which is both
+     true and the thing the client asked the rent answer to say. */
   dates: {
-    pricingReleased: "Sept 2026",
-    registrationOpens: "Fall 2026",
     leasingOpens: "Jan 2027",
   },
 } as const;
 
 /** Move-in intent options. Drives lead scoring — see `scoreLead`. */
+/**
+ * What the form offers. NOT the same list as `MOVE_IN_VALUES` in lib/leads.ts,
+ * and the difference is deliberate.
+ *
+ * `jan_2028` is gone at the client's direction — there is no January lease
+ * start, so offering one collects a preference that cannot be honoured. It
+ * stays a valid value in the schema because leads captured before today
+ * chose it, and a stored row has to keep validating and keep filtering in the
+ * admin panel. Removing it here removes the button; removing it there would
+ * orphan real people.
+ */
 export const MOVE_IN_OPTIONS = [
   { value: "sept_2027", label: "Sept 2027" },
-  { value: "jan_2028", label: "Jan 2028" },
   { value: "sept_2028", label: "Sept 2028" },
   { value: "browsing", label: "Just looking" },
 ] as const;
