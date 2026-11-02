@@ -39,3 +39,7 @@ out/
 # the generated variants under site/public/renders/ ship. Re-run
 # `npm run images` after adding anything here.
 STAX Living/
+
+# Client render drops. Sources only — the pipeline writes the variants
+# that actually ship into site/public/renders.
+/Stax Renderings*/
