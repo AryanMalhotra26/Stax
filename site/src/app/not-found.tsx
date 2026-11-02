@@ -47,7 +47,7 @@ export default function NotFound() {
 
       <div className="relative hidden lg:block bg-espresso">
         <Render
-          media={media("exterior-garden")}
+          media={media("exterior-evening")}
           sizes="50vw"
           className="absolute inset-0 block"
           imgClassName="w-full h-full object-cover"

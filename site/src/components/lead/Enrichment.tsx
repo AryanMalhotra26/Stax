@@ -2,9 +2,8 @@
 
 import { useState } from "react";
 import { useSearchParams } from "next/navigation";
-import { Button, Input, Label, PillGroup } from "@/components/ui";
+import { Label, PillGroup } from "@/components/ui";
 import { BEDROOM_OPTIONS, BUDGET_OPTIONS, RENTER_TYPE_OPTIONS } from "@/lib/site";
-import { track } from "@/lib/attribution";
 import { useReducedMotion } from "@/lib/useReducedMotion";
 
 /**
@@ -26,9 +25,14 @@ export function Enrichment() {
   const [budget, setBudget] = useState<string | null>(null);
   const [renterType, setRenterType] = useState<string | null>(null);
 
-  const [name, setName] = useState("");
-  const [phone, setPhone] = useState("");
-  const [holdState, setHoldState] = useState<"idle" | "sending" | "done">("idle");
+  /* The name/phone hold form is gone from this page. Both fields are
+     required on the registration form now, so by the time anybody reaches
+     the thank-you page we already have them — and a second ask for data we
+     hold reads as the first form having failed. The three questions above
+     are the only things still worth collecting here, and they patch on
+     click, which is the whole point of progressive enrichment.
+
+     `patch` stays exactly as it was: those three still use it. */
 
   async function patch(fields: Record<string, string>) {
     if (!leadId) return;
@@ -42,24 +46,6 @@ export function Enrichment() {
       // Enrichment is best-effort by design. A failed PATCH must never
       // block the visitor or surface an error — the lead is already saved.
     }
-  }
-
-  async function handleHold(e: React.FormEvent) {
-    e.preventDefault();
-    if (!name.trim() && !phone.trim()) return;
-    setHoldState("sending");
-
-    // Only fields that were actually filled. An empty string here used to be
-    // harmless — the stores dropped it on merge — but the phone field is now
-    // format-checked on PATCH too, and `""` is not a valid number, so sending
-    // it would 400 the whole request and lose the name alongside it.
-    const fields: Record<string, string> = {};
-    if (name.trim()) fields.name = name.trim();
-    if (phone.trim()) fields.phone = phone.trim();
-
-    await patch(fields);
-    track("enrich_complete", { leadId, hasPhone: !!phone.trim() });
-    setHoldState("done");
   }
 
   const block = "border-t border-line pt-8";
@@ -109,72 +95,27 @@ export function Enrichment() {
       </div>
 
       <div className={`${block} bg-paper -mx-5 px-5 py-8 md:-mx-8 md:px-8`}>
-        {holdState === "done" ? (
-          <div
-            className={`flex items-start gap-3 ${reduce ? "" : "animate-rise"}`}
+        <div className={`flex items-start gap-3 ${reduce ? "" : "animate-rise"}`}>
+          <span
+            className="mt-0.5 flex h-9 w-9 shrink-0 items-center justify-center bg-brick"
+            aria-hidden="true"
           >
-            <span
-              className="shrink-0 w-9 h-9 bg-brick flex items-center justify-center mt-0.5"
-              aria-hidden="true"
+            <svg
+              viewBox="0 0 20 20"
+              className="h-4 w-4 fill-none stroke-white"
+              strokeWidth={2.5}
             >
-              <svg viewBox="0 0 20 20" className="w-4 h-4 fill-none stroke-white" strokeWidth={2.5}>
-                <path d="M4 10.5 L8 14.5 L16 6" strokeLinecap="square" />
-              </svg>
-            </span>
-            <div>
-              <p className="text-h3">You&rsquo;re first in line.</p>
-              <p className="text-ink-soft mt-1.5 max-w-md">
-                Someone from leasing will be in touch. Suites are released to
-                this list before they go public.
-              </p>
-            </div>
+              <path d="M4 10.5 L8 14.5 L16 6" strokeLinecap="square" />
+            </svg>
+          </span>
+          <div>
+            <p className="text-h3">You&rsquo;re first in line.</p>
+            <p className="mt-1.5 max-w-md text-ink-soft">
+              Someone from leasing will be in touch. Suites are released to
+              this list before they go public.
+            </p>
           </div>
-        ) : (
-          <form onSubmit={handleHold} className="space-y-5">
-            <div>
-              {/* No longer "leave a number" — registration now requires one,
-                  so asking again as though it were new reads like the first
-                  form did not save. What is still missing is a name, and the
-                  number stays here as a correction for anyone who would
-                  rather be reached on a different one. */}
-              <p className="text-h3">Want first access when suites are released?</p>
-              <p className="text-ink-soft mt-1.5 max-w-md">
-                Add your name so the leasing team knows who they&rsquo;re
-                calling. We already have your number — put a different one
-                here if we should use that instead.
-              </p>
-            </div>
-
-            <div className="grid sm:grid-cols-2 gap-4">
-              <div>
-                <Label htmlFor="enrich-name">Name</Label>
-                <Input
-                  id="enrich-name"
-                  autoComplete="name"
-                  value={name}
-                  onChange={(e) => setName(e.target.value)}
-                  placeholder="Alex Chen"
-                />
-              </div>
-              <div>
-                <Label htmlFor="enrich-phone">Phone (if different)</Label>
-                <Input
-                  id="enrich-phone"
-                  type="tel"
-                  inputMode="tel"
-                  autoComplete="tel"
-                  value={phone}
-                  onChange={(e) => setPhone(e.target.value)}
-                  placeholder="(905) 555-0142"
-                />
-              </div>
-            </div>
-
-            <Button type="submit" size="lg" disabled={holdState === "sending"}>
-              {holdState === "sending" ? "Saving…" : "Put me first in line"}
-            </Button>
-          </form>
-        )}
+        </div>
       </div>
     </div>
   );

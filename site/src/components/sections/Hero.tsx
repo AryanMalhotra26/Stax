@@ -4,7 +4,6 @@ import { SplitLetters } from "@/components/motion/SplitWords";
 import { TornEdge } from "@/components/ui/Edge";
 import { AMENITIES } from "@/content/amenities";
 import { media } from "@/content/generated/media";
-import { asset } from "@/lib/asset";
 import { SITE } from "@/lib/site";
 
 /**
@@ -124,7 +123,7 @@ export function Hero() {
             sizes="100vw"
             priority
             className="absolute inset-0 block h-full w-full"
-            imgClassName="h-full w-full object-cover object-[38%_70%] [filter:saturate(1.12)_contrast(1.06)_brightness(1.1)] md:object-[50%_70%]"
+            imgClassName="h-full w-full object-cover object-[38%_70%] [filter:saturate(1.08)_contrast(1.08)] md:object-[50%_70%]"
           />
         </div>
 
@@ -136,6 +135,15 @@ export function Hero() {
             the top is too dim. Should be more of a highlight/hero image that
             sticks out."
 
+            The `brightness(1.1)` that went on the plate in the same pass has
+            since come off. It was compensating in CSS for a render that was
+            too dark, and the client has now supplied one lit the way they
+            want it — "Updated color palette lighter". Two fixes for one
+            problem is one too many: stacked, they flattened the facades to a
+            pale wash and threw away the contrast between the cladding and
+            the glass. The wash and the scrim stay reduced; the picture is
+            left as it was delivered.
+
             This layer is the right one to spend, because it is the only one
             that dims the WHOLE frame including the sky and the lit windows —
             the two things that make the render worth looking at. The scrim
@@ -145,24 +153,14 @@ export function Hero() {
             the change rather than guessed at: see the commit. */}
         <div className="absolute inset-0 bg-night/10" />
 
-        {/* L4 — foreground planting, thrown out of focus. Travels furthest,
-            so it reads as the metre of ground between you and the block. */}
-        <div data-px="near" className="absolute inset-x-0 -bottom-[6%] h-[26%]">
-          <picture>
-            <source
-              type="image/avif"
-              srcSet={`${asset("/renders/hero-near-1024.avif")} 1024w, ${asset("/renders/hero-near-1600.avif")} 1600w`}
-              sizes="100vw"
-            />
-            <img
-              src={asset("/renders/hero-near-1600.webp")}
-              alt=""
-              width={1600}
-              height={296}
-              className="h-full w-full object-cover"
-            />
-          </picture>
-        </div>
+        {/* L4 — the blurred foreground plate — is gone with the render it
+            was cut from. It took the bottom 26% of the garden exterior,
+            which the client's approved folder does not contain, and every
+            exterior that IS approved is shot across a road: a blurred strip
+            of asphalt is a grey gradient, not a metre of ground. The sky,
+            the sun and the blocks still travel at their own speeds, so the
+            hero keeps three depths rather than four. See HERO_LAYERS in
+            scripts/process-images.mjs. */}
       </div>
 
       {/* ---- Scrim ----------------------------------------------------

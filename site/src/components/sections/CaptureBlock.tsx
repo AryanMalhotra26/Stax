@@ -14,11 +14,11 @@ import { SITE } from "@/lib/site";
  * the site is here rather than in the hero. Same structural move — a decisive
  * luminance flip that says "you have arrived" — in the opposite direction.
  *
- * Three fields. It was two, and the restraint was the point — the reference's
- * form is four with two required and that is why it converts. Phone has since
- * been made mandatory at the client's request, which spends the margin but
- * stays inside it; name and program still belong on the thank-you page, asked
- * of somebody who has already said yes once.
+ * Four fields. It was two, and the restraint was the point — the reference's
+ * form is four with two required and that is why it converts. Phone and then
+ * name have since been made mandatory at the client's request, which spends
+ * the margin the restraint was buying. Program is the one thing still left to
+ * the thank-you page, asked of somebody who has already said yes once.
  */
 export function CaptureBlock({
   heading = "Get the plans.",

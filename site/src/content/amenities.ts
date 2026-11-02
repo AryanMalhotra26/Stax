@@ -86,7 +86,7 @@ export const AMENITIES: Amenity[] = [
     title: "Up to 10 ft ceilings",
     short: "Up to 10 ft ceilings",
     line: "Room above your head as well as around you \u2014 the thing you notice walking in and stop noticing by October, in the best way.",
-    media: media("living-upgrade-island"),
+    media: media("kitchen-standard"),
   },
   {
     id: "security",

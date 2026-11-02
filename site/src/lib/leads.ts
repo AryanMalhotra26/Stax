@@ -2,6 +2,9 @@ import { z } from "zod";
 import { D1LeadStore, getD1 } from "@/lib/leadStore.d1";
 import { PHONE_ERROR, PHONE_REQUIRED, normalizePhone } from "@/lib/phone";
 
+/** Shown by the form and the route, so the wording cannot drift. */
+export const NAME_REQUIRED = "We need a name for the lease.";
+
 /**
  * Lead schema + scoring + storage. Mirrors the `leads` table (§5).
  *
@@ -94,6 +97,22 @@ export const LeadCreateSchema = LeadSchema.extend({
     .trim()
     .min(1, PHONE_REQUIRED)
     .pipe(PhoneField),
+
+  /**
+   * Required on create for the same reason as the phone, and optional on
+   * `LeadSchema` for the same reason too: every lead captured before today
+   * has no name, because the field only ever existed on the thank-you page.
+   *
+   * No format check beyond "not empty". A name is whatever the person says
+   * it is — no minimum length that rejects a two-letter name, no character
+   * class that rejects an apostrophe, a hyphen or a script this validator
+   * was not written for.
+   */
+  name: z
+    .string({ error: NAME_REQUIRED })
+    .trim()
+    .min(1, NAME_REQUIRED)
+    .max(120),
 });
 
 export type Lead = Omit<LeadInput, "turnstileToken"> & {

@@ -124,7 +124,7 @@ export const FLOOR_PLANS: FloorPlan[] = [
       "Internet included",
       "Private balcony on select units",
     ],
-    heroMedia: media("living-upgrade-island"),
+    heroMedia: media("living-upgrade-dining"),
     sortOrder: 2,
     isPublished: true,
   },

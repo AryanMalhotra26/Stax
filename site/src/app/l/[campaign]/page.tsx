@@ -128,7 +128,7 @@ export default async function LandingPage(props: PageProps<"/l/[campaign]">) {
         {/* 4. Three images. Interior, amenity, neighbourhood. No carousel. */}
         <section className="container-stax section-y-sm">
           <div className="grid sm:grid-cols-3 gap-3.5">
-            {["living-upgrade-island", "bedroom", "exterior-garden"].map((slug) => (
+            {["kitchen-standard", "bedroom", "exterior-evening"].map((slug) => (
               <div key={slug} className="relative aspect-4/5 overflow-clip rounded-md bg-grey">
                 <Render
                   media={media(slug)}

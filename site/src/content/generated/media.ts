@@ -30,67 +30,23 @@ export const MEDIA = [
     "slug": "exterior-street",
     "category": "exterior",
     "alt": "Two Stax residential blocks facing the street at dusk, with ground-floor commercial units and young trees along the sidewalk.",
-    "width": 1600,
-    "height": 791,
+    "width": 8000,
+    "height": 4500,
     "variants": {
       "avif": {
         "640": "/renders/exterior-street-640.avif",
         "1024": "/renders/exterior-street-1024.avif",
-        "1600": "/renders/exterior-street-1600.avif"
+        "1600": "/renders/exterior-street-1600.avif",
+        "2400": "/renders/exterior-street-2400.avif"
       },
       "webp": {
         "640": "/renders/exterior-street-640.webp",
         "1024": "/renders/exterior-street-1024.webp",
-        "1600": "/renders/exterior-street-1600.webp"
+        "1600": "/renders/exterior-street-1600.webp",
+        "2400": "/renders/exterior-street-2400.webp"
       }
     },
-    "placeholder": "data:image/webp;base64,UklGRloAAABXRUJQVlA4IE4AAACwAwCdASoUAAoAPzmGvFQvKSYjMAgB4CcJZgCdACHuemFI0VvGPAD+kCHucwgR7Rlbikgq6aN0/l//1wBMJD+VifkAXqmBKl+wLFpQAAA="
-  },
-  {
-    "id": "exterior-lawn",
-    "slug": "exterior-lawn",
-    "category": "exterior",
-    "alt": "A three-storey Stax block in white panel and cedar cladding, seen across an open lawn on a clear afternoon.",
-    "width": 8000,
-    "height": 4500,
-    "variants": {
-      "avif": {
-        "640": "/renders/exterior-lawn-640.avif",
-        "1024": "/renders/exterior-lawn-1024.avif",
-        "1600": "/renders/exterior-lawn-1600.avif",
-        "2400": "/renders/exterior-lawn-2400.avif"
-      },
-      "webp": {
-        "640": "/renders/exterior-lawn-640.webp",
-        "1024": "/renders/exterior-lawn-1024.webp",
-        "1600": "/renders/exterior-lawn-1600.webp",
-        "2400": "/renders/exterior-lawn-2400.webp"
-      }
-    },
-    "placeholder": "data:image/webp;base64,UklGRnAAAABXRUJQVlA4IGQAAADQAwCdASoUAAsAPzmIulQvKSWjMAgB4CcJQAAIn/WtoRA1pyGDEIAA/tSwReN5JQpsq0ipwzShpWW2sVkrVdv06UuJn82lQOel6wC0e+7rhx7ZUn8xjeeYz/LqLbirhyb/QAAA"
-  },
-  {
-    "id": "exterior-garden",
-    "slug": "exterior-garden",
-    "category": "exterior",
-    "alt": "Stax townhouse block with private entry stairs and landscaped planting beds in the foreground.",
-    "width": 8000,
-    "height": 4500,
-    "variants": {
-      "avif": {
-        "640": "/renders/exterior-garden-640.avif",
-        "1024": "/renders/exterior-garden-1024.avif",
-        "1600": "/renders/exterior-garden-1600.avif",
-        "2400": "/renders/exterior-garden-2400.avif"
-      },
-      "webp": {
-        "640": "/renders/exterior-garden-640.webp",
-        "1024": "/renders/exterior-garden-1024.webp",
-        "1600": "/renders/exterior-garden-1600.webp",
-        "2400": "/renders/exterior-garden-2400.webp"
-      }
-    },
-    "placeholder": "data:image/webp;base64,UklGRmwAAABXRUJQVlA4IGAAAADQAwCdASoUAAsAPzmGulQvKSWjMAgB4CcJYwC7ACFlCt4PeRbtgfQA/sb2Qoy6B16n3cHjkGYcVQhOIPpu0xTBkCimTLdoF0MSENb8GCOzZANNdSFp0C5riXSg03riQAA="
+    "placeholder": "data:image/webp;base64,UklGRlwAAABXRUJQVlA4IFAAAADQAwCdASoUAAsAPzmEuVOvKKWisAgB4CcJZACdACES94D9t6X6pAAA/lmKrb51p+XKMMJjDunoUhMM9x9vPKxdIGq0TY4f1J63TCER20qAAA=="
   },
   {
     "id": "exterior-evening",
@@ -139,29 +95,6 @@ export const MEDIA = [
     "placeholder": "data:image/webp;base64,UklGRmgAAABXRUJQVlA4IFwAAADQAwCdASoUAAsAPzmGulOvKKWisAgB4CcJYwC06A8dZXd8YPtvDIAA959wB7OpOZT8jMGzj5Kp/y86IllqWvHu20EqejatWR+6MB6B4VqJIpB+bHFAeeNWLcAAAA=="
   },
   {
-    "id": "living-upgrade-island",
-    "slug": "living-upgrade-island",
-    "category": "interior",
-    "alt": "Upgraded open-plan living space with a marble waterfall island, bar seating and a living area beyond.",
-    "width": 8000,
-    "height": 4500,
-    "variants": {
-      "avif": {
-        "640": "/renders/living-upgrade-island-640.avif",
-        "1024": "/renders/living-upgrade-island-1024.avif",
-        "1600": "/renders/living-upgrade-island-1600.avif",
-        "2400": "/renders/living-upgrade-island-2400.avif"
-      },
-      "webp": {
-        "640": "/renders/living-upgrade-island-640.webp",
-        "1024": "/renders/living-upgrade-island-1024.webp",
-        "1600": "/renders/living-upgrade-island-1600.webp",
-        "2400": "/renders/living-upgrade-island-2400.webp"
-      }
-    },
-    "placeholder": "data:image/webp;base64,UklGRmIAAABXRUJQVlA4IFYAAACwAwCdASoUAAsAPzmGuVQvKSWjMAgB4CcJZQC2yArwSwkAtOjYAADdiPSasAWmuFJxftW6QgNRMcHpSsdbuWaMOMcXgjyPwNUwJz6Hu3M3LvTO5Y4QAA=="
-  },
-  {
     "id": "living-upgrade-dining",
     "slug": "living-upgrade-dining",
     "category": "interior",
@@ -180,7 +113,7 @@ export const MEDIA = [
         "1600": "/renders/living-upgrade-dining-1600.webp"
       }
     },
-    "placeholder": "data:image/webp;base64,UklGRmoAAABXRUJQVlA4IF4AAACQAwCdASoUAAsAPzmEuVOvKKWisAgB4CcJYzuAHWAG/1f0zTkAAP7D0mY4gi/Gs/dOLd15dcIe0xlkw3PgSPgRhYk4YS87KLi4KHMh9CCc4PY8m3Bi+FA6fe3c8AAA"
+    "placeholder": "data:image/webp;base64,UklGRmQAAABXRUJQVlA4IFgAAABQAwCdASoUAAsAPzmEuVOvKKWisAgB4CcJYwC7AAprDCQqAAD9zq0Dzu/Rjmh3kSYsRbx3zcWN9WUBPPEylGdmeBGzLkhNWyaEreqSLvCOiBjlAxt7IAAA"
   },
   {
     "id": "bedroom",
@@ -201,53 +134,26 @@ export const MEDIA = [
         "1600": "/renders/bedroom-1600.webp"
       }
     },
-    "placeholder": "data:image/webp;base64,UklGRmoAAABXRUJQVlA4IF4AAACwAwCdASoUAAsAPzmGuVOvKSWisAgB4CcJYwCw7BZg6CMyHailwADOFMOYnr6w+4V3RGLuyvNeJT5KLU4Q4RJ1BSiMN8glGRigNREySh0MCqrf6Owvnt+x7QT54gAA"
+    "placeholder": "data:image/webp;base64,UklGRmoAAABXRUJQVlA4IF4AAADQAwCdASoUAAsAPzmGuVOvKSWisAgB4CcJYwCo9BZhOXvyHYve4gAAzhTDmJ6+sPuFhfYxnIj0uJBjV3KQOFOwV2Mb4agX4jNzwf9lXjAwUHhoCQyZu2W9rW7lZAAA"
   },
   {
     "id": "bathroom",
     "slug": "bathroom",
     "category": "interior",
-    "alt": "Bathroom with stone-look tile, a walk-in glass shower, matte black fixtures and a wood-grain floating vanity.",
-    "width": 6400,
-    "height": 8000,
+    "alt": "Bathroom with stone-look tile, a glass sliding shower, a quartz vanity with a wood-grain base and matte black fixtures.",
+    "width": 1121,
+    "height": 1403,
     "variants": {
       "avif": {
         "640": "/renders/bathroom-640.avif",
-        "1024": "/renders/bathroom-1024.avif",
-        "1600": "/renders/bathroom-1600.avif",
-        "2400": "/renders/bathroom-2400.avif"
+        "1024": "/renders/bathroom-1024.avif"
       },
       "webp": {
         "640": "/renders/bathroom-640.webp",
-        "1024": "/renders/bathroom-1024.webp",
-        "1600": "/renders/bathroom-1600.webp",
-        "2400": "/renders/bathroom-2400.webp"
+        "1024": "/renders/bathroom-1024.webp"
       }
     },
-    "placeholder": "data:image/webp;base64,UklGRoAAAABXRUJQVlA4IHQAAADQBACdASoUABkAPzmOv1cvKaajqAqp4CcJZwDO7Apz47ijDFM55hKbNJIkaw0IAAD4GFRYHRd8KKgCiVxKALkvUepohmrp198zAHeKtSOqw0OlqMMh68b9JSL71ShyQ38berHkRdlTiqWHrL8psvxENUYAAA=="
-  },
-  {
-    "id": "site-plan",
-    "slug": "site-plan",
-    "category": "neighbourhood",
-    "alt": "Aerial site plan showing the Stax residential blocks arranged around landscaped courtyards and surface parking.",
-    "width": 4527,
-    "height": 3350,
-    "variants": {
-      "avif": {
-        "640": "/renders/site-plan-640.avif",
-        "1024": "/renders/site-plan-1024.avif",
-        "1600": "/renders/site-plan-1600.avif",
-        "2400": "/renders/site-plan-2400.avif"
-      },
-      "webp": {
-        "640": "/renders/site-plan-640.webp",
-        "1024": "/renders/site-plan-1024.webp",
-        "1600": "/renders/site-plan-1600.webp",
-        "2400": "/renders/site-plan-2400.webp"
-      }
-    },
-    "placeholder": "data:image/webp;base64,UklGRnIAAABXRUJQVlA4IGYAAADwAwCdASoUAA8APzmEuVOvKKWisAgB4CcJQBOmUABYOzliUx5pFcxgAP6EWrkzbQ6gUrCcjYOtKzzbgziFt/86jXoVRcy188EBj02khR40gKDOPxxx27y8dmzbJtQaTugY9bsAAAA="
+    "placeholder": "data:image/webp;base64,UklGRoQAAABXRUJQVlA4IHgAAABwBACdASoUABkAPzmEvFcvJ6WjsBgIAeAnCWcAyrQF/MFeXXqgpsWRtTiQAAD4GbNnD6ApT16PUNcMXC3Xv7n2vU5Z26czDYK1RqUxlEsQTHYQdnMaZxSg2dDs/ZBo2g9kHGAGiMCx917nszEIdyazQiDHmH6V7AA="
   },
   {
     "id": "cutaway",
@@ -271,29 +177,6 @@ export const MEDIA = [
       }
     },
     "placeholder": "data:image/webp;base64,UklGRnIAAABXRUJQVlA4IGYAAADQAwCdASoUAAsAPzmGuVOvKSWisAgB4CcJQAAKMJSpNMCit4rrYcAA/o4Zx+8AVKCat7yBSgOHzmXuSpu+J/4XCLXavaewIHO8/viAr555OSRJeMeXXhOQILMHrQYyh4N/kyFAAAA="
-  },
-  {
-    "id": "neighbourhood-aerial",
-    "slug": "neighbourhood-aerial",
-    "category": "neighbourhood",
-    "alt": "Aerial photograph looking along Welland Avenue in St. Catharines, with the commercial strip, plazas and residential streets that surround the Stax site.",
-    "width": 5272,
-    "height": 3948,
-    "variants": {
-      "avif": {
-        "640": "/renders/neighbourhood-aerial-640.avif",
-        "1024": "/renders/neighbourhood-aerial-1024.avif",
-        "1600": "/renders/neighbourhood-aerial-1600.avif",
-        "2400": "/renders/neighbourhood-aerial-2400.avif"
-      },
-      "webp": {
-        "640": "/renders/neighbourhood-aerial-640.webp",
-        "1024": "/renders/neighbourhood-aerial-1024.webp",
-        "1600": "/renders/neighbourhood-aerial-1600.webp",
-        "2400": "/renders/neighbourhood-aerial-2400.webp"
-      }
-    },
-    "placeholder": "data:image/webp;base64,UklGRmwAAABXRUJQVlA4IGAAAADQAwCdASoUAA8APzmGuVOvKSWisAgB4CcJYwCsACHettgQi3RdxQAA/eJO2BEMOAKSMmUoS79yXbt163Wd9D9fJBwBy0JKKc7p+y5DHLmrMzgRy7dpfUHP82yvGiUBZAA="
   },
   {
     "id": "neighbourhood-map",

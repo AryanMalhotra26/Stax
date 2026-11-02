@@ -54,6 +54,10 @@ const LAYERS: { attr: string; factor: number }[] = [
   { attr: "sky", factor: 0 },
   { attr: "sun", factor: 0.04 },
   { attr: "blocks", factor: 0.13 },
+  /* `near` stays declared so the plate can come straight back: the loop
+     skips a layer whose element is absent, and the hero no longer renders
+     one. It was cut from a render the client has not approved — see the note
+     in Hero.tsx. */
   { attr: "near", factor: 0.3 },
   { attr: "scrim", factor: 0.05 },
 

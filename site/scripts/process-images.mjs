@@ -36,22 +36,10 @@ const CATALOG = [
     // render showed a roofline and facade that were not what is being built,
     // and this is the image the printed flyer uses. Same view, so every crop
     // that pointed at this slug still frames the same thing.
-    file: "NewHero.jpg",
+    file: "APPROVED Hero.jpg",
     slug: "exterior-street",
     category: "exterior",
     alt: "Two Stax residential blocks facing the street at dusk, with ground-floor commercial units and young trees along the sidewalk.",
-  },
-  {
-    file: "EXT 2 2.jpg",
-    slug: "exterior-lawn",
-    category: "exterior",
-    alt: "A three-storey Stax block in white panel and cedar cladding, seen across an open lawn on a clear afternoon.",
-  },
-  {
-    file: "EXT 3 2.jpg",
-    slug: "exterior-garden",
-    category: "exterior",
-    alt: "Stax townhouse block with private entry stairs and landscaped planting beds in the foreground.",
   },
   {
     file: "EXT 4 2.jpg",
@@ -66,38 +54,30 @@ const CATALOG = [
     alt: "Standard Stax kitchen with pale cabinetry, stainless appliances and a dining table beside a large window overlooking treetops.",
   },
   {
-    file: "2 - UPGRADE LIVING.jpg",
-    slug: "living-upgrade-island",
-    category: "interior",
-    alt: "Upgraded open-plan living space with a marble waterfall island, bar seating and a living area beyond.",
-  },
-  {
     // Updated Oct 2026. Same camera position as the render it replaces —
     // living on the left, dining centre, kitchen along the back — which is
     // the angle the client asked to keep.
-    file: "NewLivingRoom.jpg",
+    file: "APPROVED Living.jpg",
     slug: "living-upgrade-dining",
     category: "interior",
     alt: "Upgraded living and dining area with a linear pendant light, sectional sofa and windows on three sides.",
   },
   {
     // Updated Oct 2026 — matches the bedroom on page 3 of the flyer.
-    file: "NewBedroom.jpg",
+    file: "APPROVED Bedroom.jpg",
     slug: "bedroom",
     category: "interior",
     alt: "Bedroom with an upholstered bed, floating nightstands and a tall window looking out over trees.",
   },
   {
-    file: "5. BATHROOM.jpg",
+    // The one genuinely new room in the Nov 2026 drop, and portrait rather
+    // than 16:9 like every other render — it is framed for a bathroom, which
+    // is a tall narrow space. Anything cropping it to a landscape tile loses
+    // either the shower or the vanity.
+    file: "APPROVED Bathroom.jpg",
     slug: "bathroom",
     category: "interior",
-    alt: "Bathroom with stone-look tile, a walk-in glass shower, matte black fixtures and a wood-grain floating vanity.",
-  },
-  {
-    file: "PÓS_SITE PLAN.jpg",
-    slug: "site-plan",
-    category: "neighbourhood",
-    alt: "Aerial site plan showing the Stax residential blocks arranged around landscaped courtyards and surface parking.",
+    alt: "Bathroom with stone-look tile, a glass sliding shower, a quartz vanity with a wood-grain base and matte black fixtures.",
   },
 
   /* ---- Added from the developer's asset drop, Aug 2026 ----------------- */
@@ -118,15 +98,6 @@ const CATALOG = [
      image is 1.5MB of upload nothing ever requests. Re-enable it with the
      Section 03 rebuild, where the plan is for the map to go full-bleed and
      become the section background — this is the image for that. */
-  {
-    // A real photograph, not a render — drone, 19 June 2024. The
-    // neighbourhood section argues that everything is close by and until now
-    // contained no evidence the neighbourhood exists.
-    file: "NEIGHBOURHOOD AERIAL.jpg",
-    slug: "neighbourhood-aerial",
-    category: "neighbourhood",
-    alt: "Aerial photograph looking along Welland Avenue in St. Catharines, with the commercial strip, plazas and residential streets that surround the Stax site.",
-  },
   {
     /* The neighbourhood map, lifted from page 2 of the A5 flyer at 400dpi.
        It replaces the drone photograph, at the client's direction: an aerial
@@ -164,19 +135,24 @@ const CATALOG = [
  * no detail left to preserve, so it stays tiny at 1600px — the whole layer is
  * a few tens of KB against a 900KB budget for the environment.
  */
-const HERO_LAYERS = [
-  {
-    // The garden view, not the street view: its bottom edge is lawn and
-    // flowering planting beds, which is what a foreground plate wants. The
-    // street view's is asphalt, and blurred asphalt is a grey gradient.
-    file: "EXT 3 2.jpg",
-    slug: "hero-near",
-    /** Fraction of the source height to keep, measured from the bottom. */
-    crop: 0.26,
-    blur: 11,
-    widths: [1024, 1600],
-  },
-];
+/**
+ * EMPTY, AND THAT IS THE APPROVED-RENDER RULE BITING.
+ *
+ * `hero-near` was the blurred foreground plate in the hero's parallax stack,
+ * cut from the bottom 26% of the garden exterior — chosen, per the note that
+ * used to live here, because its bottom edge is lawn and planting, where
+ * "the street view's is asphalt, and blurred asphalt is a grey gradient".
+ *
+ * The garden exterior is not in the client's approved folder. Every exterior
+ * that IS in it — the hero elevation and EXT 4 — is photographed across a
+ * road, so every available source for this plate is the grey gradient the
+ * original note warned against. A depth layer that reads as a grey smear is
+ * worse than no depth layer, so there is no depth layer.
+ *
+ * Put it back the moment a render with planting in the foreground is
+ * approved: restore the entry and the `data-px="near"` block in Hero.tsx.
+ */
+const HERO_LAYERS = [];
 
 /**
  * The oak-floor substrate (§5.4, §8.2).

@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { MOVE_IN_OPTIONS } from "@/lib/site";
 import { captureAttribution, track } from "@/lib/attribution";
 import { PHONE_ERROR, PHONE_REQUIRED, isValidPhone } from "@/lib/phone";
+import { NAME_REQUIRED } from "@/lib/leads";
 import { useReducedMotion } from "@/lib/useReducedMotion";
 
 /**
@@ -17,14 +18,17 @@ const STATIC_DEMO = process.env.NEXT_PUBLIC_STATIC_DEMO === "1";
 /**
  * The capture form (§7.1), poster treatment.
  *
- * THREE FIELDS NOW, AND PHONE IS ONE OF THEM. It was deliberately absent: it
- * is the most abandonment-prone field on a cold form, and it was asked for on
- * the thank-you page instead, from somebody who had already said yes once.
- * The client wants a number from every registration, which is a defensible
- * trade — a list of 100 addresses the leasing team cannot ring is worth less
- * than 80 they can — but it IS a trade, and the cost lands here. Three fields
- * still sits inside the 1–3 band that outperforms longer forms; a fourth
- * would not.
+ * FOUR FIELDS NOW. It was two — email and term — and both of the additions
+ * were asked for directly: a phone number, then a name.
+ *
+ * Both were deliberately absent, and the reasoning has not stopped being
+ * true: they are the most abandonment-prone fields on a cold form, and they
+ * were asked for on the thank-you page instead, from somebody who had already
+ * said yes once. The trade is defensible — a list of 100 addresses the
+ * leasing team cannot ring or address is worth less than 70 they can — but it
+ * IS a trade, and the whole cost lands here. Four is past the 1–3 band that
+ * outperforms longer forms, so expect fewer registrations and better ones.
+ * There is no fifth field to give.
  *
  * It sits second rather than last so the two "how do we reach you" fields
  * read as a single block, which leaves the move-in pills as the last thing
@@ -68,10 +72,12 @@ export function CaptureForm({
   const router = useRouter();
   const reduce = useReducedMotion();
 
+  const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
   const [moveIn, setMoveIn] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const [nameError, setNameError] = useState<string | null>(null);
   const [emailError, setEmailError] = useState<string | null>(null);
   const [phoneError, setPhoneError] = useState<string | null>(null);
   const [state, setState] = useState<"idle" | "sending" | "done">("idle");
@@ -109,8 +115,12 @@ export function CaptureForm({
     setError(null);
 
     // Top-down, so the error names the first field with a problem rather
-    // than the last. With two fields the order barely mattered; with three
+    // than the last. With two fields the order barely mattered; with four
     // it is the difference between a pointer and a guess.
+    if (!name.trim()) {
+      setNameError(NAME_REQUIRED);
+      return;
+    }
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
       setEmailError("That email doesn't look right");
       return;
@@ -139,6 +149,7 @@ export function CaptureForm({
         method: "POST",
         headers: { "content-type": "application/json" },
         body: JSON.stringify({
+          name,
           email,
           phone,
           moveIn,
@@ -226,11 +237,52 @@ export function CaptureForm({
           noValidate
           className={`col-start-1 row-start-1 ${compact ? "space-y-6" : "space-y-8"}`}
         >
-          {/* 01 — email */}
+          {/* 01 — name. Required at the client's direction. A lease needs a
+              name on it, and the leasing team calling a number they cannot
+              put a name to is a worse first contact than no call. */}
           <div>
             <div className={`mb-3 flex items-center gap-3 border-b pb-2 ${rule}`}>
               <span className={`text-eyebrow tnum uppercase ${stepIndex}`}>
                 01
+              </span>
+              <label
+                htmlFor={`name-${uid}`}
+                className={`text-eyebrow uppercase ${stepText}`}
+              >
+                Name
+              </label>
+            </div>
+            <input
+              id={`name-${uid}`}
+              type="text"
+              autoComplete="name"
+              required
+              placeholder="Alex Chen"
+              value={name}
+              onFocus={handleStart}
+              onChange={(e) => {
+                setName(e.target.value);
+                if (nameError) setNameError(null);
+              }}
+              aria-invalid={!!nameError}
+              aria-describedby={nameError ? `name-error-${uid}` : undefined}
+              className={`${inputBase} ${inputTone(!!nameError)}`}
+            />
+            {nameError && (
+              <p
+                id={`name-error-${uid}`}
+                className={`mt-2.5 text-sm font-medium ${onDark ? "text-brick-light" : "text-brick"}`}
+              >
+                {nameError}
+              </p>
+            )}
+          </div>
+
+          {/* 02 — email */}
+          <div>
+            <div className={`mb-3 flex items-center gap-3 border-b pb-2 ${rule}`}>
+              <span className={`text-eyebrow tnum uppercase ${stepIndex}`}>
+                02
               </span>
               <label
                 htmlFor={`email-${uid}`}
@@ -267,14 +319,14 @@ export function CaptureForm({
             )}
           </div>
 
-          {/* 02 — phone. Required, at the client's request. The `required`
+          {/* 03 — phone. Required, at the client's request. The `required`
               attribute below is a courtesy to the browser; the check that
               counts is in the route, because /api/lead is public and takes
               JSON from anybody. */}
           <div>
             <div className={`mb-3 flex items-center gap-3 border-b pb-2 ${rule}`}>
               <span className={`text-eyebrow tnum uppercase ${stepIndex}`}>
-                02
+                03
               </span>
               <label
                 htmlFor={`phone-${uid}`}
@@ -311,11 +363,11 @@ export function CaptureForm({
             )}
           </div>
 
-          {/* 03 — move-in term */}
+          {/* 04 — move-in term */}
           <div>
             <div className={`mb-3 flex items-center gap-3 border-b pb-2 ${rule}`}>
               <span className={`text-eyebrow tnum uppercase ${stepIndex}`}>
-                03
+                04
               </span>
               <span className={`text-eyebrow uppercase ${stepText}`}>
                 When are you moving in?

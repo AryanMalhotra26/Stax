@@ -92,7 +92,7 @@ export const CAMPAIGNS: Campaign[] = [
       "Private round-trip shuttle to campus, included",
       "Furnished suites with internet included — nothing to buy",
     ],
-    heroMedia: media("exterior-lawn"),
+    heroMedia: media("exterior-evening"),
     ctaLabel: "Get the floor plans",
     trustLine: "We'll email you the plan pack. No calls unless you ask for one.",
     isActive: true,
