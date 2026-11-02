@@ -45,7 +45,7 @@ export default function ResidencesPage() {
       <main id="main" className="relative">
         <section className="relative h-[46vh] min-h-[22rem] flex items-end overflow-clip bg-espresso">
           <Render
-            media={media("exterior-lawn")}
+            media={media("exterior-evening")}
             sizes="100vw"
             priority
             className="absolute inset-0 block"

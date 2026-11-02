@@ -71,15 +71,20 @@ export default function AboutPage() {
             <Reveal>
               <div className="relative aspect-21/9 overflow-clip rounded-md bg-grey">
                 <Render
-                  media={media("site-plan")}
+                  media={media("cutaway")}
                   sizes="100vw"
                   className="block w-full h-full"
                   imgClassName="w-full h-full object-cover"
                 />
               </div>
+              {/* The site plan drawing is not in the approved image folder,
+                  so the caption had to change with the picture rather than
+                  describe one that is no longer there. The cutaway makes the
+                  same point about the form better than a plan did — you can
+                  see the stacked suites rather than read about them. */}
               <p className="mt-4 text-sm text-ink-faint">
-                Site plan — {SITE.facts.blocks} blocks around landscaped
-                courtyards, with parking kept to the perimeter.
+                A cut through one of the {SITE.facts.blocks} blocks — suites
+                stacked over a walkout level, each with its own entrance.
               </p>
             </Reveal>
           </div>

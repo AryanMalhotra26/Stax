@@ -46,7 +46,9 @@ export const FAQS: Faq[] = [
     id: "faq-price",
     question: "How much is rent?",
     answer:
-      "Pricing is not public yet. We are not publishing a number before it is real, because the one you would read today would be wrong by the time you could sign. Register and you will get the rent card the day it is set — before it goes anywhere else.",
+      // The client's own wording, supplied Nov 2026. One article added —
+      // "receive the price list" — and nothing else touched.
+      "Register now to be on our list to receive the price list and floor plans as soon as they are out.",
     sortOrder: 2,
     isPublished: true,
     landing: true,
@@ -71,7 +73,15 @@ export const FAQS: Faq[] = [
      */
     question: "What comes with the suite?",
     answer:
-      "Furniture, laundry, internet and air conditioning — all of it in the suite, none of it yours to buy. Every suite comes fully furnished with bed, desk, seating and dining; a washer and dryer of your own, so there is no quarter hunting and no laundry-room queue; air conditioning for warm months and exam season; and free high-speed internet in the rent. The kitchen has quartz counters and stainless steel appliances, and the bathroom a quartz vanity and a standing shower. You bring bedding, kitchenware and yourself.",
+      /* The client's own wording, supplied Nov 2026, with a missing space
+         after "in the rent." restored and nothing else changed.
+
+         They dropped the opening summary line and the air-conditioning
+         clause from the version this replaces. A/C stays in the Inside
+         section, because their own flyer leads with "A/C in Every Unit" —
+         this reads as trimming an answer that had grown long rather than as
+         withdrawing the feature. Worth confirming. */
+      "Every suite comes fully furnished with bed, desk, seating and dining; a washer and dryer of your own, so there is no quarter hunting and no laundry-room queue; and free high-speed internet in the rent. The kitchen has quartz counters and stainless steel appliances, and the bathroom a quartz vanity and a standing shower. You bring bedding, kitchenware and yourself.",
     sortOrder: 4,
     isPublished: true,
   },

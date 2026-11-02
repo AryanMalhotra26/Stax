@@ -44,10 +44,18 @@ export function Assurance() {
       <div className="container-stax relative z-2">
         <Reveal>
           <div className="relative overflow-clip rounded-md bg-sand/35">
-            {/* A completed Sphere project behind the block at low contrast —
-                evidence, not decoration. */}
+            {/* A Stax render behind the block at low contrast — texture
+                under the credit rather than decoration.
+
+                It was `exterior-garden`, a completed Sphere project, which
+                was the better argument: evidence that they have built before.
+                That render is not in the client's approved folder, and the
+                approved set contains no other Sphere project — only Stax. So
+                this is now a Stax exterior, and the claim it sits behind is
+                carried by the words alone. Worth restoring the moment a
+                completed-project render is approved. */}
             <Render
-              media={media("exterior-garden")}
+              media={media("exterior-evening")}
               sizes="(max-width: 1439px) 100vw, 1312px"
               className="absolute inset-0 block h-full w-full"
               imgClassName="h-full w-full object-cover opacity-25"
