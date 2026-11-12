@@ -1,4 +1,5 @@
 import { NextResponse, type NextRequest } from "next/server";
+import { isGated } from "@/lib/gate";
 import {
   SESSION_COOKIE,
   VERIFIED_USER_HEADER,
@@ -112,6 +113,29 @@ export async function middleware(request: NextRequest) {
     res.headers.set("x-content-type-options", "nosniff");
     return res;
   }
+
+  /**
+   * ---- Is the gate even up? ---------------------------------------------
+   *
+   * THIS CHECK WAS MISSING, and its absence made the documented launch
+   * procedure wrong. `src/lib/gate.ts` describes itself as "one flag, read
+   * by the proxy, robots, the sitemap and the root layout, so launch day is
+   * a single change rather than four files to remember" — and LAUNCH.md told
+   * you that with the flag off "the proxy still runs but lets everyone
+   * through". The proxy never read the flag. Three of the four consumers
+   * were wired; this one gated unconditionally.
+   *
+   * So setting PREVIEW_GATE would have lifted the indexing block, restored
+   * robots.txt and republished the sitemap — telling every crawler the site
+   * was open — while the password wall stayed up and served them a 401. The
+   * worst of both: indexed as live, unreachable in fact.
+   *
+   * AFTER the admin block above, never before it. The admin panel carries
+   * its own session and must stay shut whether or not the public site is
+   * open; returning early here for admin paths would hand the lead database
+   * to anybody who asked for it.
+   */
+  if (!isGated()) return NextResponse.next();
 
   // `?lock` — drop the cookie so the gate can be tested from your own browser.
   if (searchParams.has("lock")) {

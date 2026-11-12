@@ -23,10 +23,25 @@
  * of problem — the same reasoning `admin-auth.ts` already applies to the
  * session secret.
  *
- * Fails CLOSED. Anything other than the literal string `off` means gated: the
- * failure mode of a mis-set variable should be "nobody can see it yet", never
- * "the unfinished site is public and in Google".
+ * OPT-IN SINCE NOV 2026, and that is a reversal of the original rule.
+ *
+ * This used to read `process.env.PREVIEW_GATE !== "off"` — anything but the
+ * literal string `off` meant gated — because the risk being managed was an
+ * unfinished site leaking into Google. The client has now asked for the lock
+ * off, and that risk has expired: the site is the public one.
+ *
+ * What has not expired is the other direction. With the old default, a
+ * secret that goes missing in a rotation, a new environment created without
+ * it, or a typo takes the entire public marketing site to a 401 — and
+ * nothing in the logs says why. Failing closed protects an unlaunched site
+ * and attacks a launched one, so the default follows the state of the site.
+ *
+ * The gate is now explicitly opt-in: it is up only while PREVIEW_GATE is the
+ * literal string `on`. Nothing has been deleted to achieve that — the gate
+ * page, the unlock endpoint, the password secret and every line of the
+ * middleware are intact. Setting the variable to `on` puts the wall straight
+ * back. See LAUNCH.md.
  */
 export function isGated(): boolean {
-  return process.env.PREVIEW_GATE !== "off";
+  return process.env.PREVIEW_GATE === "on";
 }
