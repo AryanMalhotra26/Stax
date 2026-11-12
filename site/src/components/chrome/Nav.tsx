@@ -128,19 +128,34 @@ export function Nav() {
               button do not fit a pill at 1024px, and a menu that wraps is
               worse than one that waits — below `lg` the full list is in the
               sheet behind the hamburger. */}
-          <div className="hidden items-center gap-0.5 lg:flex">
+          {/* ONE GROUP, holding the section links and the page links.
+
+              They were two sibling divs, and the <nav> is `justify-between`,
+              which distributes its free space BETWEEN children rather than
+              around them. With four children — logo, sections, pages, actions
+              — a share of that space landed between "FAQ" and "About", so
+              About floated out on its own halfway to the Register button and
+              read as though it belonged to neither side.
+
+              Merged, the menu is a single child and the only gaps left are
+              the ones between the logo, the menu and the actions, which is
+              what `justify-between` is for.
+
+              The breakpoints had to move inside. The wrapper shows from `md`,
+              because the page links always did; each SECTION link carries its
+              own `lg:block`, because five section links plus a page link and
+              a button do not fit a pill at 1024px. Below `lg` the group is
+              just "About", and the full list is in the sheet. */}
+          <div className="hidden items-center gap-0.5 md:flex">
             {SECTIONS.map((section) => (
               <a
                 key={section.id}
                 href={sectionHref(section.id)}
-                className="rounded-full px-3 py-2 text-[0.9375rem] font-medium text-grey transition-colors duration-300 hover:text-brick-light"
+                className="hidden rounded-full px-3 py-2 text-[0.9375rem] font-medium text-grey transition-colors duration-300 hover:text-brick-light lg:block"
               >
                 {section.label}
               </a>
             ))}
-          </div>
-
-          <div className="hidden items-center gap-1 md:flex">
             {PAGES.map((link) => {
               const active = pathname === link.href;
               return (
